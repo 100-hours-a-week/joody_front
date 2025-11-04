@@ -21,6 +21,7 @@ body {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  font-family: "Gamja Flower";
   font-size: 32px;
   font-weight: 500;
   margin: 0;
