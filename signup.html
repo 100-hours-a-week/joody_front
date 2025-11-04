@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>signup</title>
+    <link rel="stylesheet" href="./css/signup.css" />
+  </head>
+  <body>
+    <header id="main_header">
+      <a href="javascript:history.back()" id="back_link" aria-label="뒤로가기">
+        <img id="back_button" src="./img/back_1.png" alt="뒤로가기" />
+      </a>
+      <p id="header_title">아무 말 대잔치</p>
+    </header>
+    <h2 id="signup_title">회원가입</h2>
+    <div id="signup_container">
+      <form id="signup_form" enctype="multipart/form-data" method="post">
+        <p class="profile_image">프로필 사진</p>
+        <div class="avatar-container">
+          <label
+            for="avatar_input"
+            style="cursor: pointer; display: inline-block"
+          >
+            <img
+              id="avatar_preview"
+              src="./images/avatar-placeholder.png"
+              alt="프로필 미리보기"
+            />
+          </label>
+          <input
+            type="file"
+            id="avatar_input"
+            name="avatar"
+            accept="image/*"
+            style="display: none"
+          />
+        </div>
+
+        <p class="email_label">이메일*</p>
+        <input
+          type="email"
+          id="username"
+          name="username"
+          placeholder="이메일을 입력하세요."
+          required
+          aria-label="이메일"
+        />
+
+        <p class="password_label">비밀번호*</p>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="비밀번호를 입력하세요."
+          required
+          aria-label="비밀번호"
+        />
+        <p class="passwordCheck_label">비밀번호 확인*</p>
+        <input
+          type="password"
+          id="password_check"
+          name="password_check"
+          placeholder="비밀번호를 한번 더 입력하세요."
+          required
+          aria-label="비밀번호_확인"
+        />
+        <p class="nickname_label">닉네임*</p>
+        <input
+          type="nickname"
+          id="nickname"
+          name="nickname"
+          placeholder="닉네임을 입력하세요."
+          required
+          aria-label="닉네임"
+        />
+
+        <button type="submit" id="signup_button">회원가입</button>
+      </form>
+
+      <a href="로그인" id="login_link">로그인하러 가기</a>
+    </div>
+  </body>
+  <script src="./js/signup.js"></script>
+</html>

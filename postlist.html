@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>게시글 목록</title>
+    <link rel="stylesheet" href="./css/postlist.css" />
+  </head>
+  <body>
+    <header id="main_header">
+      <!-- <a href="javascript:history.back()" id="back_link" aria-label="뒤로가기">
+        <img id="back_button" src="./img/back_1.png" alt="뒤로가기" />
+      </a> -->
+      <p id="header_title">아무 말 대잔치</p>
+      <img id="profile_img" src="./img/profile.png" alt="프로필 이미지" />
+    </header>
+
+    <main id="post_container">
+      <div id="explain_wrap">
+        <p id="explain">안녕하세요,</p>
+        <p id="explain">아무 말 대잔치 <b>게시판</b> 입니다.</p>
+        <button id="write_post_button">게시글 작성</button>
+    </div>
+
+      <div id="post_list">
+        <!-- 반복되는 게시글 카드 예시 -->
+         <div id="post_list">
+        <!-- example post -->
+        <article class="post-card">
+          <div class="post-content">
+            <h3 class="post-title">게시글 제목 1</h3>
+
+            <!-- 추가: 통계 + 날짜 -->
+            <div class="post-stats">
+              <div class="stats-left">
+                <span class="likes">좋아요 <strong>12</strong></span>
+                <span class="comments">댓글 <strong>5</strong></span>
+                <span class="views">조회수 <strong>120</strong></span>
+              </div>
+              <div class="post-date">2025-11-04 00:00:00 </div>
+            </div>
+
+            <!-- 추가: 작성자 정보 (프로필 + 닉네임) -->
+            <div class="post-author">
+              <img class="author-avatar" src="./img/profile.png" alt="작성자" />
+              <span class="author-name">작성자닉네임</span>
+            </div>
+          </div>
+        </article>
+        <article class="post-card">
+          <div class="post-content">
+            <h3 class="post-title">게시글 제목 1</h3>
+
+            <!-- 추가: 통계 + 날짜 -->
+            <div class="post-stats">
+              <div class="stats-left">
+                <span class="likes">좋아요 <strong>12</strong></span>
+                <span class="comments">댓글 <strong>5</strong></span>
+                <span class="views">조회수 <strong>120</strong></span>
+              </div>
+              <div class="post-date">2025-11-04 00:00:00</div>
+            </div>
+
+            <!-- 추가: 작성자 정보 (프로필 + 닉네임) -->
+            <div class="post-author">
+              <img class="author-avatar" src="./img/profile.png" alt="작성자" />
+              <span class="author-name">작성자닉네임</span>
+            </div>
+        </article>
+        <article class="post-card">
+          <div class="post-content">
+            <h3 class="post-title">게시글 제목 1</h3>
+
+            <!-- 추가: 통계 + 날짜 -->
+            <div class="post-stats">
+              <div class="stats-left">
+                <span class="likes">좋아요 <strong>12</strong></span>
+                <span class="comments">댓글 <strong>5</strong></span>
+                <span class="views">조회수 <strong>120</strong></span>
+              </div>
+              <div class="post-date">2025-11-04 00:00:00</div>
+            </div>
+
+            <!-- 추가: 작성자 정보 (프로필 + 닉네임) -->
+            <div class="post-author">
+              <img class="author-avatar" src="./img/profile.png" alt="작성자" />
+              <span class="author-name">작성자닉네임</span>
+            </div>
+        </article>
+        <article class="post-card">
+          <div class="post-content">
+            <h3 class="post-title">게시글 제목 1</h3>
+
+            <!-- 추가: 통계 + 날짜 -->
+            <div class="post-stats">
+              <div class="stats-left">
+                <span class="likes">좋아요 <strong>12</strong></span>
+                <span class="comments">댓글 <strong>5</strong></span>
+                <span class="views">조회수 <strong>120</strong></span>
+              </div>
+              <div class="post-date">2025-11-04 00:00:00</div>
+            </div>
+
+            <!-- 추가: 작성자 정보 (프로필 + 닉네임) -->
+            <div class="post-author">
+              <img class="author-avatar" src="./img/profile.png" alt="작성자" />
+              <span class="author-name">작성자닉네임</span>
+            </div>
+        </article>
+
+        <!-- 실제 데이터가 있으면 서버/JS로 반복 렌더링 -->
+      </div>
+    </main>
+  </body>
+</html>
