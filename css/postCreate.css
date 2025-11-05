@@ -1,0 +1,143 @@
+body {
+  margin: 0;
+  background-color: #f4f5f7;
+  font-family: "Pretendard", sans-serif;
+}
+
+#main_header {
+  width: 100%;
+  height: 104px;
+  background-color: #f4f5f7;
+  border-bottom: 1px solid #121212;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+#back_link {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  object-fit: cover;
+  transition: transform 0.2s;
+  position: relative;
+  z-index: 2;
+  right: 200px;
+}
+#back_button {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  cursor: pointer;
+}
+
+#header_title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "Gamja Flower";
+  font-size: 32px;
+  font-weight: 500;
+  margin: 0;
+}
+#profile_img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: transform 0.2s;
+  position: absolute;
+  z-index: 2;
+  right: calc(50% - 220px);
+  transform: translateY(-50%);
+  top: 47%;
+}
+
+/* ===== 메인 컨테이너 ===== */
+#edit_container {
+  width: 592px;
+  margin: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+#edit_title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 80px;
+}
+
+/* ===== 폼 그룹 ===== */
+.form_group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 50px;
+}
+
+label {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: #222;
+}
+
+/* ===== 입력창 공통 스타일 ===== */
+input[type="text"],
+textarea {
+  border: none; /* 전체 테두리 제거 */
+  border-top: 1.5px solid #ddd;
+  border-bottom: 1.5px solid #ddd; /* 위아래만 선 표시 */
+  background-color: #f4f5f7; /* 배경색과 동일하게 */
+  border-radius: 0; /* 둥근 모서리 제거 */
+  padding: 10px 8px;
+  font-size: 15px;
+  resize: none;
+  font-family: "Noto Sans KR", sans-serif;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+  outline: none;
+  border-color: #a18aff;
+}
+
+/* ===== 파일 업로드 ===== */
+input[type="file"] {
+  font-size: 14px;
+  color: #555;
+}
+
+#helper_text {
+  font-size: 12px;
+  color: #999;
+  margin-top: 4px;
+}
+
+/* ===== 수정 버튼 ===== */
+#submit_button {
+  display: block;
+  width: 70%;
+  background-color: #aca0eb;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin: 20px auto 0; /* 👈 가운데 정렬 핵심 */
+}
+
+/* ===== 반응형 ===== */
+@media (max-width: 480px) {
+  #edit_container {
+    width: 90%;
+    padding: 24px;
+  }
+}

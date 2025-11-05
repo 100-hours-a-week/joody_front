@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>게시글 작성</title>
+    <link rel="stylesheet" href="./css/postEdit.css" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Chiron+Hei+HK:ital,wght@0,200..900;1,200..900&family=Dongle&family=Gamja+Flower&family=Hi+Melody&family=Nanum+Gothic&family=Noto+Sans+KR:wght@100..900&family=Oswald:wght@200..700&display=swap");
+    </style>
+  </head>
+  <body>
+    <header id="main_header">
+      <a href="javascript:history.back()" id="back_link" aria-label="뒤로가기">
+        <img id="back_button" src="./img/back_1.png" alt="뒤로가기" />
+      </a>
+      <p id="header_title">아무 말 대잔치</p>
+      <img id="profile_img" src="./img/profile_1.jpeg" alt="프로필 이미지" />
+    </header>
+
+    <main id="edit_container">
+      <h1 id="edit_title">게시글 작성</h1>
+
+      <form id="edit_form">
+        <!-- 제목 입력 -->
+        <div class="form_group">
+          <label for="post_title_input">제목*</label>
+          <input
+            type="text"
+            id="post_title_input"
+            name="title"
+            required
+            placeholder="제목을 입력해주세요.(최대 26글자)"
+          />
+        </div>
+
+        <!-- 내용 입력 -->
+        <div class="form_group">
+          <label for="post_content_input">내용*</label>
+          <textarea
+            id="post_content_input"
+            name="content"
+            rows="10"
+            required
+            placeholder="내용을 입력해주세요."
+          ></textarea>
+        </div>
+
+        <!-- 이미지 업로드 -->
+        <div class="form_group">
+          <label for="post_image_input">이미지</label>
+          <input type="file" id="post_image_input" name="image" />
+        </div>
+
+        <!-- 수정 버튼 -->
+        <button id="submit_button" type="submit">완료</button>
+      </form>
+    </main>
+  </body>
+</html>
