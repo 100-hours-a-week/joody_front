@@ -244,8 +244,8 @@ body {
 
 /* ===== 모달 박스 ===== */
 #delete_modal {
-  background: white;
-  border-radius: 20px;
+  background: #ffffff;
+  border-radius: 12px;
   width: 300px;
   padding: 36px 24px 28px;
   text-align: center;
@@ -264,8 +264,8 @@ body {
 }
 
 #delete_modal p {
-  font-size: 15px;
-  color: #333;
+  font-size: 16px;
+  color: #000000;
   margin-bottom: 28px;
 }
 
@@ -279,9 +279,9 @@ body {
 #cancel_button,
 #confirm_button {
   width: 120px;
-  height: 48px;
+  height: 40px;
   border: none;
-  border-radius: 15px;
+  border-radius: 12px;
   font-size: 16px;
   font-weight: 400;
   cursor: pointer;
@@ -289,7 +289,7 @@ body {
 
 /* 취소 버튼 (검정색) */
 #cancel_button {
-  background-color: #2e2e2e;
+  background-color: #242424;
   color: white;
 }
 
@@ -299,10 +299,10 @@ body {
   color: black;
 }
 
-#confirm_button:hover {
+/* #confirm_button:hover {
   background-color: #a58cf0;
 }
 
 #cancel_button:hover {
   background-color: #1c1c1c;
-}
+} */

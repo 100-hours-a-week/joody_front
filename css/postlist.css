@@ -47,9 +47,6 @@ body {
   transform: translateY(-50%);
   top: 47%;
 }
-#profile_img:hover {
-  transform: scale(1);
-}
 
 #explain_wrap {
   position: relative;
