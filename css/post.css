@@ -1,0 +1,386 @@
+body {
+  margin: 0;
+  background-color: #f4f5f7;
+  font-family: "Pretendard", sans-serif;
+}
+
+#main_header {
+  width: 100%;
+  height: 104px;
+  background-color: #f4f5f7;
+  border-bottom: 1px solid #121212;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+#back_link {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  object-fit: cover;
+  transition: transform 0.2s;
+  position: relative;
+  z-index: 2;
+  right: 200px;
+}
+#back_button {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  cursor: pointer;
+}
+#header_title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "Gamja Flower";
+  font-size: 32px;
+  font-weight: 500;
+  margin: 0;
+}
+#profile_img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: transform 0.2s;
+  position: absolute;
+  z-index: 2;
+  right: calc(50% - 220px);
+  transform: translateY(-50%);
+  top: 47%;
+}
+
+/* 게시글 전체 컨테이너 */
+#post_container {
+  width: 595px;
+  margin: auto;
+  background-color: #f4f5f7;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+/* 제목 */
+#post_title {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 auto 16px; /* 가운데 정렬 유지 */
+  font-family: "Pretendard";
+
+  /* 이미지와 같은 폭으로 맞춤 */
+  width: 544px;
+  max-width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+/* ...existing code... */
+#post_info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 595px; /* 이미지와 동일 폭 기준 */
+  max-width: 100%;
+  margin: 0 auto 16px;
+  padding: 8px 0;
+  box-sizing: border-box;
+  flex-wrap: nowrap;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+/* 작성자 이미지 (고정 크기) */
+#post_author_img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-left: 20px;
+  flex: 0 0 40px;
+}
+
+/* 작성자 이름 */
+#post_author {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #222;
+}
+
+/* 작성일은 가능한 오른쪽으로 밀기 */
+#post_date {
+  margin: 0 0 0 15px; /* 왼쪽 여백만 */
+  font-size: 14px;
+  color: #000000;
+  flex: 0 0 auto;
+}
+
+/* 편집/삭제 버튼 스타일 */
+#edit_button {
+  background-color: #f4f4f4;
+  border: 1px solid #aca0eb;
+  border-radius: 8px;
+  padding: 4px 12px;
+  margin-left: auto; /* ← 핵심: 왼쪽 여유를 자동으로 차지해 오른쪽으로 밀어냄 */
+  cursor: pointer;
+  font-size: 15px;
+  color: #333;
+}
+#delete_button {
+  background-color: #f4f4f4;
+  border: 1px solid #aca0eb;
+  border-radius: 8px;
+  padding: 4px 12px;
+  margin-left: 1px; /* edit 버튼과의 간격 */
+  margin-right: 20px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #333;
+}
+
+/* 게시글 이미지 */
+
+#post_image {
+  display: block;
+  width: 544px;
+  max-width: 100%; /* 작은 화면에서도 부모 폭을 넘지 않도록 */
+  height: 306px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 0 auto 20px; /* 가로 가운데 정렬, 아래 여백 유지 */
+}
+
+#post_content {
+  margin: 20px auto 0;
+  line-height: 1.4;
+  color: #333;
+  font-size: 15px;
+
+  /* 이미지와 동일한 폭으로 맞추기 */
+  width: 544px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* ===== 좋아요/조회수/댓글수 섹션 ===== */
+#post_infos {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 8px;
+  margin-top: 30px;
+  width: 380px; /* 본문 기준 폭 고정 */
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 각 info 박스 (좋아요 / 조회수 / 댓글) */
+#post_infos div {
+  flex: 1; /* 동일한 가로폭 */
+  background-color: #d9d9d9;
+  border-radius: 16px;
+  text-align: center;
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80px; /* 높이 통일 */
+  box-sizing: border-box;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+/* 숫자 (위쪽) */
+#post_infos span:first-child {
+  font-size: 20px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 4px;
+}
+
+/* 텍스트 (아래쪽) */
+#post_infos span:last-child {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+}
+
+/* ===== 댓글 전체 영역 ===== */
+#comments_container {
+  width: 595px;
+  /* max-width: 100%; */
+  margin: 40px auto;
+  box-sizing: border-box;
+}
+
+/* ===== 댓글 작성 영역 ===== */
+#comment_write_box {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+#comment_input {
+  width: 100%;
+  height: 100px;
+  border: none; /* 테두리 제거 */
+  outline: none; /* 클릭했을 때 파란 라인 제거 */
+  background-color: #fff; /* 배경을 흰색으로 */
+  padding-top: 12px;
+  padding-bottom: 12px;
+  font-size: 15px;
+  font-family: "Noto Sans KR", sans-serif;
+  resize: none;
+  box-sizing: border-box;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+#comment_input::placeholder {
+  color: #999;
+}
+
+#submit_comment_button {
+  display: block;
+  background-color: #aca0eb;
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  padding: 10px 38px;
+  margin-top: 12px;
+  margin-left: auto;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* #submit_comment_button:hover {
+  background-color: #8e78ff;
+} */
+
+/* ===== 댓글 리스트 영역 ===== */
+#comment_list {
+  background-color: #f4f5f7;
+  border-radius: 12px;
+  /* padding: 16px 20px; */
+  width: 544px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* ===== 각 댓글 ===== */
+.comment_item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding-top: 12px;
+}
+
+.comment_item:last-child {
+  border-bottom: none;
+}
+
+/* 작성자 프로필 이미지 */
+.comment_author_img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #d9d9d9;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* 댓글 본문 */
+.comment_body {
+  flex: 1;
+}
+
+/* 작성자 + 날짜 + 버튼 라인 */
+.comment_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+/* 작성자 정보 묶음 */
+.comment_info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 작성자 */
+.comment_author {
+  font-weight: 700;
+  font-size: 15px;
+  color: #222;
+  margin: 0;
+}
+
+/* 날짜 */
+.comment_date {
+  font-size: 14px;
+  color: #000000;
+  font-weight: 400;
+  margin-left: 20px;
+}
+
+/* 버튼 정렬 */
+.comment_buttons {
+  display: flex;
+  gap: 6px;
+}
+
+/* 버튼 스타일 */
+.edit_comment_button,
+.delete_comment_button {
+  background-color: #fff;
+  border: 1px solid #d1c8ff;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #333;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* .edit_comment_button:hover,
+.delete_comment_button:hover {
+  background-color: #a18aff;
+  color: #fff;
+} */
+
+/* 댓글 내용 */
+.comment_content {
+  font-size: 15px;
+  font-weight: 400;
+  color: #000000;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+/* 반응형: 화면 좁을 때 요소 배치 조정 */
+@media (max-width: 420px) {
+  #post_info {
+    padding: 6px 8px;
+    gap: 8px;
+  }
+  #post_date {
+    width: 100%;
+    margin-left: 0;
+    order: 3; /* 날짜를 아래로 내릴 수 있음 */
+    text-align: left;
+    color: #777;
+    font-size: 13px;
+  }
+  #edit_button,
+  #delete_button {
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+}
