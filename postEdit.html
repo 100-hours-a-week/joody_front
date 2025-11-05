@@ -6,7 +6,7 @@
     <title>게시글 수정</title>
     <link rel="stylesheet" href="./css/postEdit.css" />
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Chiron+Hei+HK:ital,wght@0,200..900;1,200..900&family=Dongle&family=Gamja+Flower&family=Hi+Melody&family=Nanum+Gothic&family=Noto+Sans+KR:wght@100..900&family=Oswald:wght@200..700&display=swap");
     </style>
   </head>
   <body>
@@ -25,18 +25,21 @@
         <!-- 제목 입력 -->
         <div class="form_group">
           <label for="post_title_input">제목*</label>
-          <input type="text" id="post_title_input" name="title" required />
+          <input
+            type="text"
+            id="post_title_input"
+            name="title"
+            required
+            value="수정 전 제목"
+          />
         </div>
 
         <!-- 내용 입력 -->
         <div class="form_group">
           <label for="post_content_input">내용*</label>
-          <textarea
-            id="post_content_input"
-            name="content"
-            rows="10"
-            required
-          ></textarea>
+          <textarea id="post_content_input" name="content" rows="10" required>
+수정 전 내용들이 들어가있을 것 같아요..</textarea
+          >
         </div>
 
         <!-- 이미지 업로드 -->
