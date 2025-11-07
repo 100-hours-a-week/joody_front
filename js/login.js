@@ -65,7 +65,16 @@ document.addEventListener("DOMContentLoaded", () => {
     updateButtonState();
   });
 
-  // ===== focusout 시에도 검사 (입력 안 한 채 넘어갈 때 처리) =====
+  // focusout될 때(이메일 입력 안 한 채 넘어갈 때 처리)
+  emailInput.addEventListener("blur", () => {
+    const email = emailInput.value.trim();
+    if (email.length === 0) {
+      showHelper("* 이메일을 입력해주세요.");
+    }
+    updateButtonState();
+  });
+
+  // focusout될 때 ( 비밀번호 입력 안 한 채 넘어갈 때 처리)
   passwordInput.addEventListener("blur", () => {
     const password = passwordInput.value.trim();
     if (password.length === 0) {
@@ -105,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // 3️⃣ 로그인 요청 (예시) -> 실제 서버와 연동!!!!
+    //  < 로그인 요청 (예시) -> 실제 서버와 연동!!!! >
     // 실제 서버 요청 대신 가짜 로그인 검증
     const dummyEmail = "example@example.com";
     const dummyPassword = "Test1234!";
