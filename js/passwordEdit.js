@@ -20,6 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const editButton = document.getElementById("edited_button");
   const toast = document.getElementById("toast"); // 토스트 요소 추가 필요
 
+  // ✅ 현재 로그인한 유저 ID (로그인 시 저장해둔 값 사용)
+  const userId = localStorage.getItem("userId") || 1;
+
   // 비밀번호 정규식 (대문자, 소문자, 숫자, 특수문자 최소 1개씩 포함, 8~20자)
   const passwordRegex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+~\-=[\]{};':"\\|,.<>/?]).{8,20}$/;
@@ -108,13 +111,49 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
   // 버튼 클릭 시 전체 검사 + 토스트
-  editButton.addEventListener("click", (e) => {
+  editButton.addEventListener("click", async (e) => {
     e.preventDefault();
 
     const isValid = validatePassword();
+    if (!isValid) return;
 
-    if (isValid) {
-      showToast("수정 완료");
+    const newPassword = passwordInput.value.trim();
+    const newPassword_check = passwordCheckInput.value.trim();
+
+    try {
+      const response = await fetch(
+        `http://localhost:8080/users/${userId}/password`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            newPassword,
+            newPassword_check,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok && data.message === "password_update_success") {
+        localStorage.clear();
+        window.location.href = "/login.html";
+      } else if (data.message === "password_mismatch") {
+        showHelper(passwordCheckHelper, "*새 비밀번호가 일치하지 않습니다.");
+      } else if (data.message === "user_not_found") {
+        showHelper(passwordHelper, "* 존재하지 않는 사용자입니다.");
+      } else {
+        showHelper(
+          passwordHelper,
+          "* 비밀번호 변경에 실패했습니다. 다시 시도해주세요."
+        );
+      }
+    } catch (error) {
+      console.error("비밀번호 변경 요청 중 오류:", error);
+      showHelper(
+        passwordHelper,
+        "* 서버 연결에 실패했습니다. 다시 시도해주세요."
+      );
     }
   });
 });
