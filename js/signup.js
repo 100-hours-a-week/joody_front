@@ -195,18 +195,21 @@ document.addEventListener("DOMContentLoaded", function () {
     el.addEventListener("input", updateButtonState)
   );
 
-  // 회원가입 버튼 클릭 이벤트
-  signupButton.addEventListener("click", (e) => {
+  // ===== 회원가입 요청 =====
+  signupButton.addEventListener("click", async (e) => {
     e.preventDefault();
 
-    // 모든 필드가 유효한지 다시 확인
-    const emailValid = emailRegex.test(emailInput.value.trim());
-    const passwordValid = passwordRegex.test(passwordInput.value.trim());
-    const passwordMatch =
-      passwordInput.value.trim() === passwordCheckInput.value.trim() &&
-      passwordInput.value.trim() !== "";
-    const nicknameValid = nicknameRegex.test(nicknameInput.value.trim());
-    const avatarUploaded = avatarInput.files.length > 0;
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
+    const password_check = passwordCheckInput.value.trim();
+    const nickname = nicknameInput.value.trim();
+    const avatarFile = avatarInput.files[0];
+
+    const emailValid = emailRegex.test(email);
+    const passwordValid = passwordRegex.test(password);
+    const passwordMatch = password === password_check && password !== "";
+    const nicknameValid = nicknameRegex.test(nickname);
+    const avatarUploaded = !!avatarFile;
 
     if (
       !emailValid ||
@@ -219,12 +222,36 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // 회원가입 성공 시
-    // alert("회원가입이 완료되었습니다!");
-    window.location.href = "/login.html"; // 로그인 페이지로 이동
+    try {
+      // === multipart/form-data 구성 ===
+      const userData = { email, password, password_check, nickname };
+      const formData = new FormData();
+      formData.append(
+        "user",
+        new Blob([JSON.stringify(userData)], { type: "application/json" })
+      );
+      formData.append("profile_image", avatarFile);
+
+      const response = await fetch("http://localhost:8080/users/signup", {
+        method: "POST",
+        body: formData, // ⚡ Content-Type 자동 설정
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("회원가입이 완료되었습니다!");
+        window.location.href = "/login.html";
+      } else {
+        alert(data.message || "회원가입 실패");
+      }
+    } catch (err) {
+      console.error("회원가입 요청 오류:", err);
+      alert("서버 연결에 실패했습니다. 다시 시도해주세요.");
+    }
   });
 
-  // 로그인하러 가기 링크
+  // ===== 로그인 이동 =====
   loginLink.addEventListener("click", (e) => {
     e.preventDefault();
     window.location.href = "/login.html";
