@@ -50,6 +50,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const cancelButton = document.getElementById("cancel_button");
   const confirmButton = document.getElementById("confirm_button");
 
+  // ✅ 현재 로그인한 유저 ID (임시 예시 — 실제로는 로그인 시 localStorage 등에 저장해둠)
+  const userId = localStorage.getItem("userId") || 1;
+
   // 헬퍼 텍스트 출력 함수
   const showHelper = (message, color = "red") => {
     nicknameHelper.textContent = message;
@@ -94,16 +97,56 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2500);
   };
 
-  // 수정하기 버튼 클릭 시 검사
-  editButton.addEventListener("click", (e) => {
-    e.preventDefault(); // 폼 전송 방지
+  // // 수정하기 버튼 클릭 시 검사
+  // editButton.addEventListener("click", (e) => {
+  //   e.preventDefault(); // 폼 전송 방지
+
+  //   const isValid = validateNickname();
+
+  //   if (isValid) {
+  //     // alert("닉네임이 성공적으로 수정되었습니다!");
+  //     // 실제로는 서버 요청 코드 들어감 (예: fetch)
+  //     showToast("수정완료");
+  //   }
+  // });
+
+  // ✅ 닉네임 수정 API 연동
+  editButton.addEventListener("click", async (e) => {
+    e.preventDefault();
 
     const isValid = validateNickname();
+    if (!isValid) return;
 
-    if (isValid) {
-      // alert("닉네임이 성공적으로 수정되었습니다!");
-      // 실제로는 서버 요청 코드 들어감 (예: fetch)
-      showToast("수정완료");
+    const nickname = nicknameInput.value.trim();
+
+    try {
+      const response = await fetch(
+        `http://localhost:8080/users/${userId}/profile`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ nickname }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        showToast("수정완료");
+        nicknameHelper.textContent = "";
+        // console.log(response);
+      } else if (data.message === "duplicate_nickname") {
+        showHelper("* 이미 사용 중인 닉네임입니다.");
+      } else if (data.message === "user_not_found") {
+        showHelper("* 존재하지 않는 사용자입니다.");
+      } else {
+        showHelper("* 닉네임 수정에 실패했습니다. 다시 시도해주세요.");
+      }
+    } catch (error) {
+      console.error("닉네임 수정 요청 중 오류:", error);
+      showHelper("* 서버 연결에 실패했습니다. 다시 시도해주세요.");
     }
   });
 
@@ -119,10 +162,28 @@ document.addEventListener("DOMContentLoaded", () => {
     modalOverlay.classList.add("hidden");
   });
 
-  // 확인 클릭 → 닫기 (또는 실제 탈퇴 처리)
-  confirmButton.addEventListener("click", (e) => {
+  // 확인 클릭 → 회원탈퇴 API 요청
+  confirmButton.addEventListener("click", async (e) => {
     e.preventDefault();
-    // alert("회원탈퇴가 완료되었습니다.");
-    modalOverlay.classList.add("hidden");
+    try {
+      const response = await fetch(`http://localhost:8080/users/${userId}`, {
+        method: "DELETE",
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.message === "withdraw_success") {
+        // showToast("회원탈퇴가 완료되었습니다.");
+        localStorage.clear(); // ✅ 저장된 로그인 정보 제거
+        window.location.href = "/signup.html"; // ✅ 회원가입 페이지로 이동
+      } else {
+        showToast("회원탈퇴에 실패했습니다. 다시 시도해주세요.");
+      }
+    } catch (error) {
+      console.error("회원탈퇴 요청 중 오류:", error);
+      // showToast("서버 연결에 실패했습니다.");
+    } finally {
+      modalOverlay.classList.add("hidden");
+    }
   });
 });
