@@ -83,8 +83,8 @@ document.addEventListener("DOMContentLoaded", () => {
     updateButtonState();
   });
 
-  // 로그인 버튼 클릭 시 최종 검증
-  loginButton.addEventListener("click", (e) => {
+  // 로그인 버튼 클릭 시 실제 API 요청
+  loginButton.addEventListener("click", async (e) => {
     e.preventDefault(); // 기본 제출 막기
 
     const email = emailInput.value.trim();
@@ -114,17 +114,48 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    //  < 로그인 요청 (예시) -> 실제 서버와 연동!!!! >
-    // 실제 서버 요청 대신 가짜 로그인 검증
-    const dummyEmail = "example@example.com";
-    const dummyPassword = "Test1234!";
+    try {
+      // 2️⃣ 로그인 요청
+      const response = await fetch("http://localhost:8080/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (email === dummyEmail && password === dummyPassword) {
-      showHelper("", "#999");
-      //   alert("로그인 성공!");
-      window.location.href = "/postlist.html"; // 로그인 성공하면 게시글 목록 조회 페이지 이동
-    } else {
-      showHelper("* 아이디 또는 비밀번호를 확인해주세요.");
+      const data = await response.json();
+
+      // 3️⃣ 로그인 성공
+      if (response.ok) {
+        showHelper("", "#999");
+        // alert("로그인 성공!");
+
+        // ✅ 예시: 토큰 저장 (JWT가 포함된 경우)
+        if (data.data && data.data.token) {
+          localStorage.setItem("accessToken", data.data.token);
+        }
+
+        // ✅ 사용자 정보 저장 (예: userId, nickname)
+        if (data.data && data.data.user) {
+          localStorage.setItem("userId", data.data.user.id);
+          localStorage.setItem("nickname", data.data.user.nickname);
+        }
+
+        // ✅ 게시글 목록 페이지로 이동
+        window.location.href = "/postlist.html";
+      } else {
+        // 4️⃣ 로그인 실패
+        if (data.message === "emailOrPassword_mismatch") {
+          console.log(data.message);
+          showHelper("* 아이디 또는 비밀번호를 확인해주세요.");
+        } else {
+          showHelper(data.message || "로그인 실패. 다시 시도해주세요.");
+        }
+      }
+    } catch (error) {
+      console.error("로그인 요청 오류:", error);
+      showHelper("서버 연결에 실패했습니다. 다시 시도해주세요.");
     }
   });
 
