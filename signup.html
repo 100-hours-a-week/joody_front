@@ -11,7 +11,7 @@
   </head>
   <body>
     <header id="main_header">
-      <a href="javascript:history.back()" id="back_link" aria-label="뒤로가기">
+      <a href="/login.html" id="back_link" aria-label="뒤로가기">
         <img id="back_button" src="./img/back_1.png" alt="뒤로가기" />
       </a>
       <p id="header_title">아무 말 대잔치</p>
@@ -20,6 +20,7 @@
     <div id="signup_container">
       <form id="signup_form" enctype="multipart/form-data" method="post">
         <p class="profile_image">프로필 사진</p>
+        <p class="profile_image_helper"></p>
         <div class="avatar-container">
           <label
             for="avatar_input"
@@ -49,6 +50,7 @@
           required
           aria-label="이메일"
         />
+        <p class="email_helper"></p>
 
         <p class="password_label">비밀번호*</p>
         <input
@@ -59,6 +61,8 @@
           required
           aria-label="비밀번호"
         />
+        <p class="password_helper"></p>
+
         <p class="passwordCheck_label">비밀번호 확인*</p>
         <input
           type="password"
@@ -68,6 +72,8 @@
           required
           aria-label="비밀번호_확인"
         />
+        <p class="passwordCheck_helper"></p>
+
         <p class="nickname_label">닉네임*</p>
         <input
           type="nickname"
@@ -77,6 +83,7 @@
           required
           aria-label="닉네임"
         />
+        <p class="nickname_helper"></p>
 
         <button type="submit" id="signup_button">회원가입</button>
       </form>
