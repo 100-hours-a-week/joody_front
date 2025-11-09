@@ -21,7 +21,7 @@ body {
   transform: translateX(-50%);
   font-family: "Gamja Flower";
   font-size: 32px;
-  font-weight: 500;
+  font-weight: 300;
   margin: 0;
 }
 
@@ -31,6 +31,8 @@ body {
   text-align: center;
   margin-top: 200px;
   margin-bottom: 40px;
+  font-size: 32px;
+  font-weight: bold;
 }
 
 #login_form {
@@ -42,8 +44,8 @@ body {
 }
 
 .email_label {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 700;
   line-height: 100%;
   margin-bottom: 8px;
   padding-left: 13px;
@@ -51,8 +53,8 @@ body {
   margin-top: 25px;
 }
 .password_label {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 700;
   line-height: 100%;
   margin-bottom: 8px;
   padding-left: 13px;
@@ -71,6 +73,15 @@ body {
   background-color: #f4f5f7;
   border-radius: 4px;
   box-sizing: border-box; /* padding 포함해서 너비 계산 */
+  font-size: 14px;
+}
+
+#helper_text {
+  font-size: 12px;
+  color: #ff0000;
+  margin-top: -5px;
+  margin-bottom: 12px;
+  margin-left: 16px;
 }
 
 #login_button {
@@ -83,6 +94,8 @@ body {
   color: white;
   border-radius: 4px;
   font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 #signup_link {

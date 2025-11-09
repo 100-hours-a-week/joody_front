@@ -32,13 +32,13 @@ body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  right: calc(50% - 220px); /* ✅ 제목 중앙에서 살짝 오른쪽 (조정 가능) */
+  right: calc(50% - 260px); /* ✅ 제목 중앙에서 살짝 오른쪽 (조정 가능) */
 }
 
 /* 프로필 이미지 */
 #profile_img {
-  width: 45px;
-  height: 45px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   cursor: pointer;
   object-fit: cover;
@@ -191,6 +191,11 @@ body {
   border-radius: 4px;
   box-sizing: border-box;
 }
+.nickname_helper {
+  font-size: 12px;
+  color: #ff0000;
+  margin: -4px 0 8px 4px;
+}
 
 #edited_button {
   width: 355px;
@@ -214,7 +219,7 @@ body {
   font-size: 14px;
 }
 
-#completed_button {
+/* #completed_button {
   width: 102px;
   height: 46px;
   background-color: #aca0eb;
@@ -226,6 +231,28 @@ body {
   margin-top: 60px;
   padding: 10px;
   font-size: 15px;
+} */
+
+/* ===== 토스트 메시지 ===== */
+#toast {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #aca0eb;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 400;
+  opacity: 0;
+  transition: opacity 0.3s ease, bottom 0.3s ease;
+  z-index: 999;
+}
+
+#toast.show {
+  opacity: 1;
+  bottom: 100px;
 }
 
 /* ===== 모달 전체 오버레이 ===== */
