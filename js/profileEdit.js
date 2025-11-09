@@ -17,6 +17,34 @@ window.addEventListener("click", (e) => {
   }
 });
 
+async function loadUserProfile() {
+  try {
+    const userId = localStorage.getItem("userId"); // ✅ 로그인 시 저장해둬야 함
+
+    if (!userId) {
+      console.warn("로그인된 사용자 ID가 없습니다.");
+      return;
+    }
+
+    const res = await fetch(`http://localhost:8080/users/${userId}/profile`);
+    const json = await res.json();
+
+    // console.log(json.data.profileImage);
+
+    if (json.message === "read_success") {
+      const imgUrl = json.data.profileImage;
+
+      profileImg.src = imgUrl
+        ? imgUrl.startsWith("http")
+          ? imgUrl
+          : `http://localhost:8080${imgUrl}`
+        : "./img/profile.png";
+    }
+  } catch (err) {
+    console.error("프로필 불러오기 실패:", err);
+  }
+}
+
 // 프로필 이미지 변경 가능
 // 변경 버튼 누르면 파일 선택창 열기
 changeButton.addEventListener("click", (e) => {
@@ -38,7 +66,9 @@ avatarInput.addEventListener("change", (e) => {
 
 // 회원탈퇴 모달 제어
 // DomContentLoaded한 이유 : “HTML이 전부 다 로드되고 나서, 그 안의 요소들을 안전하게 조작할 수 있을 때” 실행하기 위해
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadUserProfile(); // ✅ 동적 userId 사용
+
   const nicknameInput = document.getElementById("nickname");
   const nicknameHelper = document.querySelector(".nickname_helper");
   const editButton = document.getElementById("edited_button");
@@ -96,19 +126,6 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => toast.classList.add("hidden"), 300);
     }, 2500);
   };
-
-  // // 수정하기 버튼 클릭 시 검사
-  // editButton.addEventListener("click", (e) => {
-  //   e.preventDefault(); // 폼 전송 방지
-
-  //   const isValid = validateNickname();
-
-  //   if (isValid) {
-  //     // alert("닉네임이 성공적으로 수정되었습니다!");
-  //     // 실제로는 서버 요청 코드 들어감 (예: fetch)
-  //     showToast("수정완료");
-  //   }
-  // });
 
   // ✅ 닉네임 수정 API 연동
   editButton.addEventListener("click", async (e) => {

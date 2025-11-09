@@ -1,4 +1,47 @@
+const profileImg = document.getElementById("profile_img");
+const dropdownMenu = document.getElementById("dropdown_menu");
+
+// 프로필 이미지 드롭다운
+profileImg.addEventListener("click", () => {
+  dropdownMenu.classList.toggle("hidden");
+});
+// 바깥 클릭 시 드롭다운 닫기
+window.addEventListener("click", (e) => {
+  if (!e.target.closest(".profile-menu")) {
+    dropdownMenu.classList.add("hidden");
+  }
+});
+
+async function loadUserProfile() {
+  try {
+    const userId = localStorage.getItem("userId"); // ✅ 로그인 시 저장해둬야 함
+
+    if (!userId) {
+      console.warn("로그인된 사용자 ID가 없습니다.");
+      return;
+    }
+
+    const res = await fetch(`http://localhost:8080/users/${userId}/profile`);
+    const json = await res.json();
+
+    // console.log(json.data.profileImage);
+
+    if (json.message === "read_success") {
+      const imgUrl = json.data.profileImage;
+
+      profileImg.src = imgUrl
+        ? imgUrl.startsWith("http")
+          ? imgUrl
+          : `http://localhost:8080${imgUrl}`
+        : "./img/profile.png";
+    }
+  } catch (err) {
+    console.error("프로필 불러오기 실패:", err);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
+  await loadUserProfile(); // ✅ 동적 userId 사용
   const titleInput = document.getElementById("post_title_input");
   const contentInput = document.getElementById("post_content_input");
   const imageInput = document.getElementById("post_image_input");

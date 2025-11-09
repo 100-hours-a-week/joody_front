@@ -137,9 +137,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // ✅ 사용자 정보 저장 (예: userId, nickname)
-        if (data.data && data.data.user) {
-          localStorage.setItem("userId", data.data.user.id);
-          localStorage.setItem("nickname", data.data.user.nickname);
+        if (data.data) {
+          localStorage.setItem("userId", data.data.id);
+          localStorage.setItem("nickname", data.data.nickname);
         }
 
         // ✅ 게시글 목록 페이지로 이동

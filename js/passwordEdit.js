@@ -12,7 +12,37 @@ window.addEventListener("click", (e) => {
   }
 });
 
-document.addEventListener("DOMContentLoaded", () => {
+async function loadUserProfile() {
+  try {
+    const userId = localStorage.getItem("userId"); // ✅ 로그인 시 저장해둬야 함
+
+    if (!userId) {
+      console.warn("로그인된 사용자 ID가 없습니다.");
+      return;
+    }
+
+    const res = await fetch(`http://localhost:8080/users/${userId}/profile`);
+    const json = await res.json();
+
+    // console.log(json.data.profileImage);
+
+    if (json.message === "read_success") {
+      const imgUrl = json.data.profileImage;
+
+      profileImg.src = imgUrl
+        ? imgUrl.startsWith("http")
+          ? imgUrl
+          : `http://localhost:8080${imgUrl}`
+        : "./img/profile.png";
+    }
+  } catch (err) {
+    console.error("프로필 불러오기 실패:", err);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadUserProfile(); // ✅ 동적 userId 사용
+
   const passwordInput = document.getElementById("password");
   const passwordHelper = document.querySelector(".password_helper");
   const passwordCheckInput = document.getElementById("passwordCheck");
