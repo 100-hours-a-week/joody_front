@@ -166,8 +166,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       const data = await response.json();
 
       if (response.ok && data.message === "password_update_success") {
-        localStorage.clear();
-        window.location.href = "/login.html";
+        showToast("수정완료");
+
+        setTimeout(() => {
+          localStorage.clear();
+          window.location.href = "/login.html";
+        }, 1500);
+        return;
       } else if (data.message === "password_mismatch") {
         showHelper(passwordCheckHelper, "*새 비밀번호가 일치하지 않습니다.");
       } else if (data.message === "user_not_found") {
