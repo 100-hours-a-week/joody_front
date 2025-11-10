@@ -24,7 +24,8 @@ async function loadUserProfile() {
     const res = await fetch(`http://localhost:8080/users/${userId}/profile`);
     const json = await res.json();
 
-    // console.log(json.data.profileImage);
+    console.log(json.data.profileImage);
+    console.log(json);
 
     if (json.message === "read_success") {
       const imgUrl = json.data.profileImage;
@@ -66,6 +67,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // ===== 4️⃣ 렌더링 함수 =====
   const renderPosts = (posts) => {
+    console.log(posts);
     const html = posts
       .map(
         (post) => `
@@ -90,8 +92,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             </div>
             <div class="post-author">
               <img class="author-avatar" src="${
-                post.authorProfileImage || "./img/profile_1.jpeg"
-              }" alt="작성자" />
+                post.authorProfileImage
+                  ? post.authorProfileImage.startsWith("http")
+                    ? post.authorProfileImage
+                    : `http://localhost:8080${post.authorProfileImage}`
+                  : "./img/profile_1.jpeg"
+              }" />
               <span class="author-name">${post.author || "익명"}</span>
             </div>
           </div>
