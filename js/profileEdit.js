@@ -29,16 +29,22 @@ async function loadUserProfile() {
     const res = await fetch(`http://localhost:8080/users/${userId}/profile`);
     const json = await res.json();
 
-    // console.log(json.data.profileImage);
-
     if (json.message === "read_success") {
       const imgUrl = json.data.profileImage;
 
-      profileImg.src = imgUrl
+      const finalUrl = imgUrl
         ? imgUrl.startsWith("http")
           ? imgUrl
           : `http://localhost:8080${imgUrl}`
         : "./img/profile.png";
+
+      // ✅ 헤더 프로필 이미지 변경
+      profileImg.src = finalUrl;
+
+      // ✅ 프로필 수정 페이지 미리보기 이미지 변경
+      if (currentAvatar) {
+        currentAvatar.src = finalUrl;
+      }
     }
   } catch (err) {
     console.error("프로필 불러오기 실패:", err);
@@ -52,15 +58,49 @@ changeButton.addEventListener("click", (e) => {
   avatarInput.click(); // ✅ 파일 업로드창 열기
 });
 
-// 파일 선택 시 이미지 미리보기 변경
-avatarInput.addEventListener("change", (e) => {
+// 파일 선택 시 이미지 미리보기 + 서버 업로드
+avatarInput.addEventListener("change", async (e) => {
   const file = e.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      currentAvatar.src = event.target.result; // ✅ 미리보기 교체
-    };
-    reader.readAsDataURL(file);
+  if (!file) return;
+
+  // ✅ 미리보기
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    currentAvatar.src = event.target.result;
+  };
+  reader.readAsDataURL(file);
+
+  // ✅ 서버 업로드 요청
+  try {
+    const userId = localStorage.getItem("userId");
+    const formData = new FormData();
+    formData.append("profile_image", file);
+
+    const res = await fetch(
+      `http://localhost:8080/users/${userId}/profile/image`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
+    const json = await res.json();
+
+    if (json.message === "profile_image_uploaded") {
+      const uploadedUrl = json.data; // 서버에서 반환된 full URL
+
+      // ✅ 헤더 프로필 이미지 즉시 변경
+      profileImg.src = uploadedUrl;
+
+      // ✅ 프로필 수정 페이지 이미지도 변경
+      currentAvatar.src = uploadedUrl;
+
+      console.log("업로드 성공:", uploadedUrl);
+    } else {
+      console.error("업로드 실패:", json);
+    }
+  } catch (err) {
+    console.error("이미지 업로드 중 오류:", err);
   }
 });
 
