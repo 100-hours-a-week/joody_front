@@ -33,7 +33,7 @@ async function loadUserProfile() {
         ? imgUrl.startsWith("http")
           ? imgUrl
           : `http://localhost:8080${imgUrl}`
-        : "./img/profile.png";
+        : "./img/original_profile.png";
     }
   } catch (err) {
     console.error("프로필 불러오기 실패:", err);
@@ -87,15 +87,29 @@ document.addEventListener("DOMContentLoaded", async () => {
       const comments = result.data?.content || [];
 
       console.log("✅ 실제 댓글 배열:", comments);
+      console.log(comments.updatedAt);
 
       // ✅ 댓글 리스트 비우기
       commentList.innerHTML = "";
 
       // ✅ 댓글 렌더링
       comments.forEach((comment) => {
-        const createdAt = comment.createdAt
-          ? formatDate(comment.createdAt)
-          : "-";
+        // const createdAt = comment.createdAt
+        //   ? formatDate(comment.createdAt)
+        //   : "-";
+
+        // ✅ 날짜 처리
+        const dateText =
+          comment.updatedAt && comment.updatedAt !== comment.createdAt
+            ? `${formatDate(comment.updatedAt)} (수정됨)`
+            : formatDate(comment.createdAt);
+
+        // ✅ 프로필 이미지 URL 만들기 (http / 상대경로 / 기본이미지 처리)
+        const avatar = comment.authorProfileImage
+          ? comment.authorProfileImage.startsWith("http")
+            ? comment.authorProfileImage
+            : `http://localhost:8080${comment.authorProfileImage}`
+          : "./img/original_profile.png";
 
         const newComment = document.createElement("div");
         newComment.classList.add("comment_item");
@@ -103,12 +117,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         newComment.dataset.commentId = comment.id;
 
         newComment.innerHTML = `
-        <img class="comment_author_img" src="./img/profile_1.jpeg" alt="작성자 프로필 이미지" />
+        <img class="comment_author_img" src="${avatar}" alt="작성자 프로필 이미지" />
         <div class="comment_body">
           <div class="comment_header">
             <div class="comment_info">
               <p class="comment_author">${comment.author || "익명"}</p>
-              <p class="comment_date">${createdAt}</p>
+              <p class="comment_date">${dateText}</p>
             </div>
             <div class="comment_buttons">
               <button class="edit_comment_button">수정</button>
@@ -143,23 +157,39 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!response.ok)
       throw new Error(result.message || "게시글을 불러오지 못했습니다.");
 
-    const post = result.data; // ✅ 백엔드 ApiResponse 구조 → data 안에 detail 들어있음
-    const imageUrl = post.postImage
+    const post = result.data; // 게시글 데이터
+    const postImageUrl = post.postImage
       ? post.postImage.startsWith("http")
         ? post.postImage
         : `http://localhost:8080/${post.postImage.replace(/^\/+/, "")}`
       : "";
 
-    console.log(post);
+    // ✅ 작성자 프로필 이미지 처리
+    const authorProfileUrl = post.authorProfileImage
+      ? post.authorProfileImage.startsWith("http")
+        ? post.authorProfileImage
+        : `http://localhost:8080${post.authorProfileImage}`
+      : "./img/profile.png";
+
+    const postImageElement = document.getElementById("post_image");
 
     // === DOM에 데이터 표시 ===
     document.getElementById("post_title").textContent = post.title;
     document.getElementById("post_author").textContent =
-      post.authorNickname || "작성자";
+      post.author || "작성자";
     document.getElementById("post_date").textContent = formatDate(
       post.createdAt
     );
-    document.getElementById("post_image").src = `${imageUrl}?t=${Date.now()}`;
+
+    if (post.postImage) {
+      postImageElement.src = postImageUrl + `?t=${Date.now()}`;
+      postImageElement.style.display = "block";
+    } else {
+      postImageElement.style.display = "none";
+    }
+
+    // ✅ 작성자 프로필 이미지 렌더링 (이거 추가!!)
+    document.getElementById("post_author_img").src = authorProfileUrl;
     document.querySelector("#post_content p").textContent = post.content;
     document.getElementById("like_count").textContent = formatNumber(
       post.likes
@@ -377,8 +407,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         const result = await response.json();
         if (!response.ok) throw new Error(result.message || "댓글 수정 실패");
 
+        console.log("댓글 수정 성공:", response);
+
         // ✅ UI 업데이트 (기존 내용 교체)
         editingCommentElement.textContent = text;
+
+        // ✅ UI 업데이트 (날짜 변경)
+        const commentItem = editingCommentElement.closest(".comment_item");
+        const dateEl = commentItem.querySelector(".comment_date");
+
+        dateEl.textContent = `${formatDate(new Date())} (수정됨)`;
 
         // 초기화
         isEditing = false;
@@ -408,16 +446,26 @@ document.addEventListener("DOMContentLoaded", async () => {
       const comment = {
         id: result.data.comment_id, // ✅ 새 댓글 ID
         authorNickname: localStorage.getItem("nickname") || "익명",
+        authorProfileImage:
+          localStorage.getItem("profileImage") || "./img/profile.png", // ✅ 추가
         content: text,
         createdAt: new Date().toISOString(),
       };
+
+      console.log(comment);
 
       const newComment = document.createElement("div");
       newComment.classList.add("comment_item");
       newComment.dataset.commentId = comment.id; // ✅ dataset 저장
 
       newComment.innerHTML = `
-      <img class="comment_author_img" src="./img/profile_1.jpeg" alt="작성자 프로필 이미지" />
+      <img class="comment_author_img"
+     src="${
+       comment.authorProfileImage.startsWith("http")
+         ? comment.authorProfileImage
+         : `http://localhost:8080${comment.authorProfileImage}`
+     }"
+     alt="작성자 프로필 이미지" />
       <div class="comment_body">
         <div class="comment_header">
           <div class="comment_info">
@@ -497,15 +545,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // ✅ 모달 닫기 & 스크롤 복원 (공통)
     postModalOverlay.classList.add("hidden");
-    commentModalOverlay.classList.add("hidden");
-    enableScroll();
-  });
-});
-
-// ✅ 모달 “취소” 버튼 클릭 시 → 닫기
-cancelButtons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    targetCommentToDelete = null;
     commentModalOverlay.classList.add("hidden");
     enableScroll();
   });
