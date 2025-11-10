@@ -139,8 +139,8 @@ body {
 
 /* 작성자 이미지 (고정 크기) */
 #post_author_img {
-  width: 36px;
-  height: 36px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   object-fit: cover;
   margin-left: 20px;
