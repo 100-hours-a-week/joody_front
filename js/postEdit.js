@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  // === ✨ 기존 게시글 불러오기 (GET /posts/{postId}) ===
+  // 기존 게시글 불러오기
   try {
     const response = await fetch(`http://localhost:8080/posts/${postId}`);
     const result = await response.json();
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     titleInput.value = post.title;
     contentInput.value = post.content;
 
-    // ✅ 기존 이미지 파일명 표시
+    // 기존 이미지 파일명 표시
     const imageFileName = document.createElement("p");
     imageFileName.id = "image_file_name";
     imageFileName.textContent = `현재 이미지 파일: ${
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     imageFileName.style.color = "#555";
     imageInput.insertAdjacentElement("afterend", imageFileName);
 
-    // ✅ 새 파일 선택 시 파일명 변경
+    // 새 파일 선택 시 파일명 변경
     imageInput.addEventListener("change", (e) => {
       const file = e.target.files[0];
       console.log(file.size);
@@ -95,11 +95,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         imageFileName.textContent = "선택된 파일이 없습니다.";
         return;
       }
-      // ✅ 3MB(=5 * 1024 * 1024 byte) 제한
       const maxSize = 3 * 1024 * 1024;
       if (file.size > maxSize) {
         alert(
-          `⚠️ 파일 용량이 너무 큽니다 (${(file.size / 1024 / 1024).toFixed(
+          `파일 용량이 너무 큽니다 (${(file.size / 1024 / 1024).toFixed(
             2
           )}MB)\n5MB 이하만 업로드 가능합니다.`
         );
@@ -108,7 +107,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
       }
 
-      // ✅ 3️⃣ 정상 파일이면 파일명 표시
+      // 정상 파일이면 파일명 표시
       imageFileName.textContent = `선택된 파일: ${file.name} (${(
         file.size / 1024
       ).toFixed(1)}KB)`;
@@ -120,7 +119,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  // === 제목 26자 제한 ===
+  // 제목 26자 제한
   titleInput.addEventListener("input", () => {
     if (titleInput.value.length > 26) {
       alert("제목은 최대 26자까지만 입력 가능합니다!");
@@ -128,7 +127,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // === 본문 길이 제한 (LONGTEXT 유사 처리) ===
+  // 본문 길이 제한
   contentInput.addEventListener("input", () => {
     const length = contentInput.value.length;
     if (length > 65535) {
@@ -137,7 +136,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // === 수정 버튼 클릭 시 ===
+  // 수정 버튼 클릭 시
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -150,7 +149,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    // === formData 구성 ===
+    // formData 구성
     const formData = new FormData();
     formData.append("title", title);
     formData.append("content", content);
