@@ -15,15 +15,6 @@ body {
   position: relative;
 }
 
-/* 작은 화면에서 여백 조절(선택)
-@media (max-width: 420px) {
-  #back_link {
-    left: 10px;
-    width: 24px;
-    height: 24px;
-  }
-} */
-
 /* 제목을 정확히 가운데에 고정 */
 #header_title {
   position: absolute;
