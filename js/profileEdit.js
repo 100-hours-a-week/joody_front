@@ -10,7 +10,7 @@ profileImg.addEventListener("click", () => {
   dropdownMenu.classList.toggle("hidden");
 });
 
-// 바깥 클릭 시 닫기
+// 드롭다운 바깥 클릭 시 닫기
 window.addEventListener("click", (e) => {
   if (!e.target.closest(".profile-menu")) {
     dropdownMenu.classList.add("hidden");
@@ -19,7 +19,7 @@ window.addEventListener("click", (e) => {
 
 async function loadUserProfile() {
   try {
-    const userId = localStorage.getItem("userId"); // ✅ 로그인 시 저장해둬야 함
+    const userId = localStorage.getItem("userId"); // 로그인 시 저장해둬야 함
 
     if (!userId) {
       console.warn("로그인된 사용자 ID가 없습니다.");
@@ -38,10 +38,10 @@ async function loadUserProfile() {
           : `http://localhost:8080${imgUrl}`
         : "./img/profile.png";
 
-      // ✅ 헤더 프로필 이미지 변경
+      // 헤더 프로필 이미지 변경
       profileImg.src = finalUrl;
 
-      // ✅ 프로필 수정 페이지 미리보기 이미지 변경
+      // 프로필 수정 페이지 미리보기 이미지 변경
       if (currentAvatar) {
         currentAvatar.src = finalUrl;
       }
@@ -55,7 +55,7 @@ async function loadUserProfile() {
 // 변경 버튼 누르면 파일 선택창 열기
 changeButton.addEventListener("click", (e) => {
   e.preventDefault(); // form 전송 방지
-  avatarInput.click(); // ✅ 파일 업로드창 열기
+  avatarInput.click(); // 파일 업로드창 열기
 });
 
 // 파일 선택 시 이미지 미리보기 + 서버 업로드
@@ -63,14 +63,14 @@ avatarInput.addEventListener("change", async (e) => {
   const file = e.target.files[0];
   if (!file) return;
 
-  // ✅ 미리보기
+  // 미리보기
   const reader = new FileReader();
   reader.onload = (event) => {
     currentAvatar.src = event.target.result;
   };
   reader.readAsDataURL(file);
 
-  // ✅ 서버 업로드 요청
+  // 서버 프로필 이미지 업로드 요청
   try {
     const userId = localStorage.getItem("userId");
     const formData = new FormData();
@@ -89,10 +89,10 @@ avatarInput.addEventListener("change", async (e) => {
     if (json.message === "profile_image_uploaded") {
       const uploadedUrl = json.data; // 서버에서 반환된 full URL
 
-      // ✅ 헤더 프로필 이미지 즉시 변경
+      // 헤더 프로필 이미지 즉시 변경
       profileImg.src = uploadedUrl;
 
-      // ✅ 프로필 수정 페이지 이미지도 변경
+      // 프로필 수정 페이지 이미지도 변경
       currentAvatar.src = uploadedUrl;
 
       console.log("업로드 성공:", uploadedUrl);
@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const cancelButton = document.getElementById("cancel_button");
   const confirmButton = document.getElementById("confirm_button");
 
-  // ✅ 현재 로그인한 유저 ID (임시 예시 — 실제로는 로그인 시 localStorage 등에 저장해둠)
+  // 현재 로그인한 유저 ID (로그인 시 저장해둔 값 사용)
   const userId = localStorage.getItem("userId") || 1;
 
   // 헬퍼 텍스트 출력 함수
@@ -138,12 +138,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       return false;
     }
 
-    // 중복 예시 (나중에 서버로 대체 가능)
-    if (nickname === "admin" || nickname === "user1") {
-      showHelper("* 중복된 닉네임입니다.");
-      return false;
-    }
-
     if (nickname.length > 10) {
       showHelper("* 닉네임은 최대 10자까지 작성 가능합니다.");
       return false;
@@ -154,7 +148,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return true;
   };
 
-  // ✅ 토스트 메시지 표시 함수
+  // 토스트 메시지 표시 함수
   const showToast = (message) => {
     toast.textContent = message;
     toast.classList.add("show");
@@ -167,7 +161,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }, 2500);
   };
 
-  // ✅ 닉네임 수정 API 연동
+  // 닉네임 수정 API 연동
   editButton.addEventListener("click", async (e) => {
     e.preventDefault();
 
@@ -230,15 +224,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       const data = await response.json();
 
       if (response.ok && data.message === "withdraw_success") {
-        // showToast("회원탈퇴가 완료되었습니다.");
-        localStorage.clear(); // ✅ 저장된 로그인 정보 제거
-        window.location.href = "/signup.html"; // ✅ 회원가입 페이지로 이동
+        localStorage.clear(); // 저장된 로그인 정보 제거
+        window.location.href = "/signup.html"; // 회원가입 페이지로 이동
       } else {
         showToast("회원탈퇴에 실패했습니다. 다시 시도해주세요.");
       }
     } catch (error) {
       console.error("회원탈퇴 요청 중 오류:", error);
-      // showToast("서버 연결에 실패했습니다.");
+      alert("서버 연결에 실패했습니다.");
     } finally {
       modalOverlay.classList.add("hidden");
     }
