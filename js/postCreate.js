@@ -14,7 +14,7 @@ window.addEventListener("click", (e) => {
 
 async function loadUserProfile() {
   try {
-    const userId = localStorage.getItem("userId"); // ✅ 로그인 시 저장해둬야 함
+    const userId = localStorage.getItem("userId"); // 로그인 시 저장해둬야 함
 
     if (!userId) {
       console.warn("로그인된 사용자 ID가 없습니다.");
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   submitButton.disabled = true;
   submitButton.style.backgroundColor = "#aca0eb";
 
-  // ===== 1️⃣ 제목 최대 26자 제한 =====
+  // 제목 최대 26자 제한
   titleInput.addEventListener("input", () => {
     if (titleInput.value.length > 26) {
       titleInput.value = titleInput.value.slice(0, 26);
@@ -62,10 +62,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     updateButtonState();
   });
 
-  // ===== 2️⃣ 내용 입력 감지 =====
+  // 내용 입력 감지
   contentInput.addEventListener("input", updateButtonState);
 
-  // ===== 3️⃣ 입력 상태에 따라 버튼 색상 업데이트 =====
+  // 입력 상태에 따라 버튼 색상 업데이트
   function updateButtonState() {
     const title = titleInput.value.trim();
     const content = contentInput.value.trim();
@@ -80,11 +80,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // ===== 4️⃣ 제출 이벤트 처리 =====
+  // 제출 이벤트 처리
   form.addEventListener("submit", async (e) => {
     e.preventDefault(); // 새로고침 방지
 
-    const userId = localStorage.getItem("userId"); // ✅ 로그인한 유저 ID 가져오기
+    const userId = localStorage.getItem("userId"); // 로그인한 유저 ID 가져오기
     if (!userId) {
       alert("로그인이 필요합니다.");
       window.location.href = "login.html";
@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    // === formData 구성 ===
+    // formData 구성
     const formData = new FormData();
     formData.append("title", title);
     formData.append("content", content);
@@ -117,8 +117,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       if (response.ok) {
         const postId = result.data.post_id;
-        // alert("게시글이 성공적으로 작성되었습니다!");
-        // // ✅ localStorage에 저장
+        // localStorage에 저장
         localStorage.setItem("CreatedPostId", postId);
         window.location.href = "postList.html";
       } else {
