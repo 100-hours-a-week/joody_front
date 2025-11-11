@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const email = emailInput.value.trim();
     const password = passwordInput.value.trim();
 
-    // 1️⃣ 이메일 검사
+    // 이메일 검사
     if (email.length === 0 || !emailRegex.test(email)) {
       showHelper(
         "* 올바른 이메일 주소 형식을 입력해주세요.(예) example@example.com)"
@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // 2️⃣ 비밀번호 검사
+    // 비밀번호 검사
     if (password.length === 0) {
       showHelper("* 비밀번호를 입력해주세요.");
       passwordInput.focus();
@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-      // 2️⃣ 로그인 요청
+      // 로그인 요청
       const response = await fetch("http://localhost:8080/users/login", {
         method: "POST",
         headers: {
@@ -126,32 +126,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const data = await response.json();
 
-      // 3️⃣ 로그인 성공
+      // 로그인 성공
       if (response.ok) {
         showHelper("", "#999");
         // alert("로그인 성공!");
 
-        // ✅ 예시: 토큰 저장 (JWT가 포함된 경우)
+        // 예시: 토큰 저장 (JWT가 포함된 경우)
         if (data.data && data.data.token) {
           localStorage.setItem("accessToken", data.data.token);
         }
 
-        // ✅ 사용자 정보 저장 (예: userId, nickname)
+        // 사용자 정보 저장 (예: userId, nickname)
         if (data.data && data.data.user) {
           localStorage.setItem("userId", data.data.user.id);
           localStorage.setItem("nickname", data.data.user.nickname);
           localStorage.setItem("profileImage", data.data.user.profileImage); // 선택
         }
 
-        // ✅ 게시글 목록 페이지로 이동
+        // 게시글 목록 페이지로 이동
         window.location.href = "/postlist.html";
       } else {
-        // 4️⃣ 로그인 실패
+        // 로그인 실패
+        console.log(data.message);
         if (data.message === "emailOrPassword_mismatch") {
           console.log(data.message);
           showHelper("* 아이디 또는 비밀번호를 확인해주세요.");
+        } else if (data.message == "deleted_user") {
+          showHelper("* 탈퇴한 회원입니다. 다시 가입해주세요.");
         } else {
-          showHelper(data.message || "로그인 실패. 다시 시도해주세요.");
+          showHelper("로그인 실패. 다시 시도해주세요.");
         }
       }
     } catch (error) {
@@ -162,7 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 회원가입 링크 클릭 시
   signupLink.addEventListener("click", (e) => {
-    e.preventDefault(); // 기본 링크 동작 막기 (안 써도 무방하지만 안전하게)
+    e.preventDefault(); // 기본 링크 동작 막기
     window.location.href = "/signup.html"; // 회원가입 페이지로 이동
   });
 });
