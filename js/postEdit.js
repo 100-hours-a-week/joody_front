@@ -164,7 +164,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       const result = await response.json();
 
       if (response.ok) {
-        alert("게시글이 성공적으로 수정되었습니다!");
         window.location.href = `post.html?id=${
           result.data.post_id
         }&t=${Date.now()}`;
