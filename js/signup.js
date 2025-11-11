@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (!avatarInput || !preview || !container) return;
 
-  // 컨테이너(또는 +) 클릭 시 파일 선택창 열기
+  // 컨테이너 또는 (+) 클릭 시 파일 선택창 열기
   container.addEventListener("click", function (e) {
     if (!container.classList.contains("has-avatar")) {
       avatarInput.click();
@@ -114,34 +114,35 @@ document.addEventListener("DOMContentLoaded", function () {
         emailHelper,
         "* 올바른 이메일 주소 형식을 입력해주세요. (예: example@example.com)"
       );
-    } else if (email === "test@example.com") {
-      // 중복 예시 (나중에 서버 연결 시 수정)
-      showHelper(emailHelper, "* 중복된 이메일입니다.");
     } else {
       showHelper(emailHelper, "");
     }
     updateButtonState();
   });
 
-  /* 비밀번호 이벤트 처리 */
-  // 비밀번호 띄어쓰기 차단
-  // passwordInput.addEventListener("keydown", (e) => {
-  //   if (e.key === " ") {
-  //     e.preventDefault(); // 입력 자체 차단
-  //     showHelper(passwordHelper, "* 비밀번호는 띄어쓰기를 할 수 없습니다.");
-  //   }
-  // });
+  // 실시간 비밀번호 입력 공백 검사
+  passwordInput.addEventListener("input", () => {
+    const password = passwordInput.value;
 
-  // 비밀번호 검사
+    if (/\s/.test(password)) {
+      showHelper(passwordHelper, "* 비밀번호에는 공백을 포함할 수 없습니다.");
+    } else {
+      showHelper(passwordHelper, "");
+    }
+
+    updateButtonState();
+  });
+
+  // blur 시 상세 비밀번호 유효성 검사
   passwordInput.addEventListener("blur", () => {
     const password = passwordInput.value.trim();
     if (password === "") {
       showHelper(passwordHelper, "* 비밀번호를 입력해주세요.");
     }
-    // // 공백 포함 여부 검사 추가 -> 일단 요구사항에 없기 때문에 차후에 반영
-    // else if (/\s/.test(password)) {
-    //   showHelper(passwordHelper, "* 비밀번호에는 공백을 포함할 수 없습니다.");
-    // }
+    // 공백 포함 여부 검사 추가
+    else if (/\s/.test(password)) {
+      showHelper(passwordHelper, "* 비밀번호에는 공백을 포함할 수 없습니다.");
+    }
 
     // 비밀번호 유효성 검사 && 공백 포함 여부 검사 추가
     else if (!passwordRegex.test(password) || /\s/.test(password)) {
@@ -170,20 +171,27 @@ document.addEventListener("DOMContentLoaded", function () {
     updateButtonState();
   });
 
-  // 닉네임 검사
+  // 실시간 닉네임 입력 공백 검사
+  nicknameInput.addEventListener("input", () => {
+    const nickname = nicknameInput.value;
+
+    if (/\s/.test(nickname)) {
+      showHelper(nicknameHelper, "* 닉네임에는 공백을 포함할 수 없습니다.");
+    } else if (nickname.length > 10) {
+      showHelper(nicknameHelper, "* 닉네임은 최대 10자까지 작성 가능합니다.");
+    } else {
+      showHelper(nicknameHelper, "");
+    }
+
+    updateButtonState();
+  });
+
+  // 닉네임 유효성 검사
   nicknameInput.addEventListener("blur", () => {
     const nickname = nicknameInput.value.trim();
 
     if (nickname === "") {
       showHelper(nicknameHelper, "* 닉네임을 입력해주세요.");
-    } else if (/\s/.test(nicknameInput.value)) {
-      // nicknameInput.value = nicknameInput.value.replace(/\s/g, "");
-      showHelper(nicknameHelper, "* 띄어쓰기를 없애주세요.");
-    } else if (nickname.length > 10) {
-      showHelper(nicknameHelper, "* 닉네임은 최대 10자까지 작성 가능합니다.");
-    } else if (nickname === "admin" || nickname === "user1") {
-      // 중복 예시
-      showHelper(nicknameHelper, "* 중복된 닉네임입니다.");
     } else {
       showHelper(nicknameHelper, "");
     }
@@ -242,6 +250,10 @@ document.addEventListener("DOMContentLoaded", function () {
       if (response.ok) {
         alert("회원가입이 완료되었습니다!");
         window.location.href = "/login.html";
+      } else if (data.message == "duplicate_email") {
+        showHelper(emailHelper, "* 중복된 이메일입니다.");
+      } else if (data.message == "duplicate_nickname") {
+        showHelper(nicknameHelper, "* 중복된 닉네임입니다.");
       } else {
         alert(data.message || "회원가입 실패");
       }
@@ -251,7 +263,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // ===== 로그인 이동 =====
+  // ===== 로그인 페이지 이동 =====
   loginLink.addEventListener("click", (e) => {
     e.preventDefault();
     window.location.href = "/login.html";
