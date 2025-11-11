@@ -49,23 +49,23 @@ document.addEventListener("DOMContentLoaded", async () => {
   const postList = document.getElementById("post_list");
   const writeButton = document.getElementById("write_post_button");
 
-  // ===== 1️⃣ 게시글 작성 버튼 =====
+  // 게시글 작성 버튼
   writeButton.addEventListener("click", () => {
     window.location.href = "postCreate.html";
   });
 
-  // ===== 2️⃣ 숫자 포맷 함수 =====
+  // 숫자 포맷 함수
   const formatNumber = (num) => {
     if (num >= 1000000) return (num / 1000).toFixed(0) + "k";
     if (num >= 1000) return Math.floor(num / 1000) + "k";
     return num;
   };
 
-  // ===== 3️⃣ 제목 길이 제한 =====
+  //제목 길이 제한
   const truncate = (text, max) =>
     text.length > max ? text.slice(0, max) + "…" : text;
 
-  // ===== 4️⃣ 렌더링 함수 =====
+  //렌더링 함수
   const renderPosts = (posts) => {
     console.log(posts);
     const html = posts
@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     postList.insertAdjacentHTML("beforeend", html);
   };
 
-  // ===== 5️⃣ 인피니티 스크롤 구현 =====
+  // 인피니티 스크롤 구현
   let nextCursor = null;
   let isLoading = false;
   let hasNext = true;
@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // ===== 6️⃣ IntersectionObserver로 스크롤 감지 =====
+  // IntersectionObserver로 스크롤 감지
   const sentinel = document.createElement("div");
   sentinel.id = "scroll_sentinel";
   postList.after(sentinel);
@@ -154,10 +154,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   observer.observe(sentinel);
 
-  // ===== 7️⃣ 최초 게시글 로드 =====
+  // 최초 게시글 로드
   await loadPosts();
 
-  // ===== 8️⃣ 게시글 클릭 시 상세 페이지 이동 =====
+  // 게시글 클릭 시 상세 페이지 이동
   postList.addEventListener("click", (e) => {
     const card = e.target.closest(".post-card");
     if (!card) return;
