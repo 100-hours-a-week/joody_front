@@ -17,6 +17,11 @@ window.addEventListener("click", (e) => {
   }
 });
 
+// 헤더 제목 클릭 시 게시글 목록 페이지로 이동
+document.getElementById("header_title").addEventListener("click", () => {
+  window.location.href = "postList.html";
+});
+
 async function loadUserProfile() {
   try {
     const userId = localStorage.getItem("userId"); // 로그인 시 저장해둬야 함.
