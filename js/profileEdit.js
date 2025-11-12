@@ -38,6 +38,15 @@ async function loadUserProfile() {
 
     if (json.message === "read_success") {
       const imgUrl = json.data.profileImage;
+      const email = json.data.email;
+
+      // ✅ 2️⃣ 이메일 표시
+      const emailDisplay = document.getElementById("email_display");
+      if (emailDisplay && email) {
+        emailDisplay.textContent = email;
+      } else if (emailDisplay) {
+        emailDisplay.textContent = "이메일 정보가 없습니다.";
+      }
 
       const finalUrl = imgUrl
         ? imgUrl.startsWith("http")
@@ -122,7 +131,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const toast = document.getElementById("toast");
   // 여기 안에는 html 요소들이 다 로드된 상태에서 실행이 되는 부분!!
   // 취소 버튼이 눌린 후에, 이 모달창이 띄워져야 하기 때문에 DomContentLoaded 안에 작성
-  const deleteLink = document.getElementById("prodileDelete_link");
+  const deleteLink = document.getElementById("profileDelete_link");
   const modalOverlay = document.getElementById("modal_overlay");
   const cancelButton = document.getElementById("cancel_button");
   const confirmButton = document.getElementById("confirm_button");
