@@ -134,6 +134,6 @@ input:focus {
 
 /* 활성화 시 */
 #next_button.active {
-  background-color: #2d69ff;
+  background-color: #4baa7d;
   cursor: pointer;
 }
