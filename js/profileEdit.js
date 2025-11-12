@@ -19,7 +19,7 @@ window.addEventListener("click", (e) => {
 
 async function loadUserProfile() {
   try {
-    const userId = localStorage.getItem("userId"); // 로그인 시 저장해둬야 함
+    const userId = localStorage.getItem("userId"); // 로그인 시 저장해둬야 함.
 
     if (!userId) {
       console.warn("로그인된 사용자 ID가 없습니다.");
