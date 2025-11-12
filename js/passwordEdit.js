@@ -11,6 +11,10 @@ window.addEventListener("click", (e) => {
     dropdownMenu.classList.add("hidden");
   }
 });
+// 헤더 제목 클릭 시 게시글 목록 페이지로 이동
+document.getElementById("header_title").addEventListener("click", () => {
+  window.location.href = "postList.html";
+});
 
 async function loadUserProfile() {
   try {
