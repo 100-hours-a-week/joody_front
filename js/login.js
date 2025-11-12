@@ -26,10 +26,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (isEmailValid && isPasswordValid) {
       // 이메일,비밀번호 모두 유효한 경우
-      loginButton.style.backgroundColor = "#7f6aee";
+      loginButton.style.backgroundColor = "#2d69ff";
       loginButton.style.cursor = "pointer";
     } else {
-      loginButton.style.backgroundColor = "#aca0eb";
+      loginButton.style.backgroundColor = "#dcdbe3";
       loginButton.style.cursor = "default";
     }
   };
@@ -166,6 +166,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // 회원가입 링크 클릭 시
   signupLink.addEventListener("click", (e) => {
     e.preventDefault(); // 기본 링크 동작 막기
-    window.location.href = "/signup.html"; // 회원가입 페이지로 이동
+    window.location.href = "/signup_1.html"; // 회원가입 페이지로 이동
   });
 });
