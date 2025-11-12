@@ -134,25 +134,56 @@ document.addEventListener("DOMContentLoaded", async () => {
     nicknameHelper.style.color = color;
   };
 
+  // ===== 닉네임 입력 시 공백 입력 자체 차단 =====
+  nicknameInput.addEventListener("keydown", (e) => {
+    if (e.key === " " || e.code === "Space") {
+      e.preventDefault(); // ✅ 스페이스바 입력 자체를 막음
+      showHelper("* 닉네임에 공백은 사용할 수 없습니다.");
+    } else {
+      // ✅ 다른 키 입력 시 헬퍼 문구 지우기 (잔상 방지)
+      nicknameHelper.textContent = "";
+    }
+  });
+
   // 닉네임 유효성 검사 함수
   const validateNickname = () => {
-    const nickname = nicknameInput.value.trim();
+    let nickname = nicknameInput.value.trim();
+
+    // ✅ 공백 입력 즉시 제거
+    if (/\s/.test(nickname)) {
+      nickname = nickname.replace(/\s+/g, "");
+      nicknameInput.value = nickname;
+      showHelper("* 닉네임에 공백은 사용할 수 없습니다.");
+      editButton.style.backgroundColor = "#dcdbe3"; // ❌ 비활성화
+      editButton.disabled = true;
+      return false;
+    }
 
     if (nickname === "") {
       showHelper("* 닉네임을 입력해주세요.");
+      editButton.style.backgroundColor = "#dcdbe3";
+      editButton.disabled = true;
       return false;
     }
 
     if (nickname.length > 10) {
       showHelper("* 닉네임은 최대 10자까지 작성 가능합니다.");
+      editButton.style.backgroundColor = "#dcdbe3";
+      editButton.disabled = true;
       return false;
     }
 
-    // 유효한 경우
+    // ✅ 유효한 경우
     showHelper("");
+    editButton.style.backgroundColor = "#3182f6"; // 🔵 활성화
+    editButton.disabled = false;
     return true;
   };
 
+  // ✅ 닉네임 입력 시마다 실시간 검사 & 버튼 색상 반영
+  nicknameInput.addEventListener("input", () => {
+    validateNickname();
+  });
   // 토스트 메시지 표시 함수
   const showToast = (message) => {
     toast.textContent = message;
