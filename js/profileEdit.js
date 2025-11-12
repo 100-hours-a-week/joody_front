@@ -34,6 +34,8 @@ async function loadUserProfile() {
     const res = await fetch(`http://localhost:8080/users/${userId}/profile`);
     const json = await res.json();
 
+    console.log(json);
+
     if (json.message === "read_success") {
       const imgUrl = json.data.profileImage;
 
@@ -175,7 +177,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // ✅ 유효한 경우
     showHelper("");
-    editButton.style.backgroundColor = "#3182f6"; // 🔵 활성화
+    editButton.style.backgroundColor = "#4baa7d"; // 활성화
+    editButton.style.color = "#fff";
     editButton.disabled = false;
     return true;
   };

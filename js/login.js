@@ -26,10 +26,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (isEmailValid && isPasswordValid) {
       // 이메일,비밀번호 모두 유효한 경우
-      loginButton.style.backgroundColor = "#2d69ff";
+      loginButton.style.backgroundColor = "#4BAA7D";
+      loginButton.style.color = "#ffffff";
       loginButton.style.cursor = "pointer";
     } else {
       loginButton.style.backgroundColor = "#dcdbe3";
+      loginButton.style.color = "#fff";
       loginButton.style.cursor = "default";
     }
   };

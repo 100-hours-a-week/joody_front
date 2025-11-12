@@ -114,10 +114,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 버튼 색상 업데이트
   const updateButtonState = (isValid) => {
     if (isValid) {
-      editButton.style.backgroundColor = "#7f6aee";
+      // editButton.style.backgroundColor = "#3182f6";
+      editButton.style.backgroundColor = "#4BAA7D";
       editButton.style.cursor = "pointer";
     } else {
-      editButton.style.backgroundColor = "#aca0eb";
+      editButton.style.backgroundColor = "#dcdbe3";
       editButton.style.cursor = "default";
     }
   };
