@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background-color: #f4f5f7;
+  background-color: #fff;
   font-family: "Pretendard", sans-serif;
 }
 
@@ -8,8 +8,8 @@ body {
 #main_header {
   width: 100%;
   height: 104px;
-  background-color: #f4f5f7;
-  border-bottom: 1px solid #121212;
+  background-color: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* ✅ 아주 연한 회색 (투명도 0.1) */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -81,11 +81,13 @@ body {
 }
 
 #profileEdit_title {
-  /* 텍스트 가운데 정렬 */
-  width: 100%;
-  text-align: center;
-  margin-top: 110px;
-  margin-bottom: 10px;
+  position: relative;
+  width: 392px; /* #profileEdit_form과 동일한 고정 너비 */
+  max-width: 92%;
+  margin: 100px auto 10px; /* 중앙 정렬: 상단 여백은 필요에 따라 조정 */
+  font-size: 24px;
+  text-align: left; /* 폼 안에서 왼쪽 정렬 유지 */
+  box-sizing: border-box;
 }
 
 #profileEdit_container {
@@ -106,7 +108,7 @@ body {
   gap: 12px;
   padding: 16px;
   border-radius: 6px;
-  background: #f4f5f7;
+  background: #fff;
   /* box-shadow: 0 1px 4px rgba(0,0,0,0.06); */
   box-sizing: border-box;
 }
@@ -185,12 +187,20 @@ body {
 #nickname {
   width: 100%;
   height: 36px;
-  border: 1px solid #121212;
+  border: none; /* ✅ 네모 테두리 제거 */
+  border-bottom: 1px solid #ddd;
   margin: 0;
   padding: 0 15px; /* 양쪽 15px 여유 */
-  background-color: #f4f5f7;
+  background-color: #fff; /* ✅ 배경 투명 */
   border-radius: 4px;
   box-sizing: border-box;
+  outline: none; /* ✅ 포커스 시 기본 파란 테두리 제거 */
+  transition: all 0.2s ease;
+}
+/* ✅ 포커스 시 밑줄 강조만 */
+#nickname:focus {
+  border-bottom: 2px solid #8cb4ff;
+  background-color: transparent; /* ✅ 하늘색 제거 */
 }
 .nickname_helper {
   font-size: 12px;
@@ -201,7 +211,7 @@ body {
 #edited_button {
   width: 355px;
   height: 33px;
-  background-color: #aca0eb;
+  background-color: #dcdbe3;
   border: none;
   color: #fff;
   border-radius: 4px;
@@ -237,10 +247,10 @@ body {
 /* ===== 토스트 메시지 ===== */
 #toast {
   position: fixed;
-  bottom: 40px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #aca0eb;
+  background-color: #3182f6;
   color: #fff;
   padding: 12px 24px;
   border-radius: 20px;
@@ -326,11 +336,3 @@ body {
   background-color: #c4a5fa;
   color: black;
 }
-
-/* #confirm_button:hover {
-  background-color: #a58cf0;
-}
-
-#cancel_button:hover {
-  background-color: #1c1c1c;
-} */
