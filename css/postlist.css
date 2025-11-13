@@ -1,18 +1,25 @@
 body {
   margin: 0;
-  background-color: #f4f5f7;
+  background-color: #ffffff;
   font-family: "Pretendard", sans-serif;
+  color: #121212;
 }
 
 #main_header {
+  position: absolute;
   width: 100%;
   height: 104px;
-  background-color: #f4f5f7;
-  border-bottom: 1px solid #121212;
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(75, 170, 125, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+
+  /* 가로 가운데 배치 */
+  margin: 0 auto;
+  left: 0;
+  right: 0;
 }
 
 /* 제목을 정확히 가운데에 고정 */
@@ -31,7 +38,7 @@ body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  right: calc(50% - 260px); /* ✅ 제목 중앙에서 살짝 오른쪽 (조정 가능) */
+  right: calc(50% - 220px); /* ✅ 제목 중앙에서 살짝 오른쪽 (조정 가능) */
   z-index: 2000;
 }
 
@@ -99,51 +106,56 @@ body {
 
 /* 버튼 오른쪽 상단 고정 */
 #write_post_button {
-  position: absolute;
-  right: 20px;
-  top: 50px;
-  background: #b8a7f8;
+  position: fixed;
+  bottom: 40px;
+  right: calc(50% - 220px);
+  z-index: 1001;
+  background: #4baa7d;
   color: #fff;
   border: none;
-  border-radius: 20px;
-  padding: 10px 22px;
-  font-weight: bold;
+  border-radius: 50%;
+  box-sizing: border-box;
   cursor: pointer;
-  transition: background 0.2s;
+  width: 56px; /* 원 크기: 필요시 조정 */
+  height: 56px;
+  padding: 0;
+}
+/* 아이콘 크기와 정렬 */
+#write_post_button .btn-icon {
+  width: 26px;
+  height: 26px;
+  padding: auto;
+  /* object-fit: contain;
+  display: inline-block; */
 }
 #write_post_button:hover {
-  background: #a28beb;
-}
-
-/* 모바일에서 여백 조정 */
-@media (max-width: 420px) {
-  #explain_wrap {
-    padding: 0 10px;
-  }
-  #write_post_button {
-    padding: 6px 10px;
-  }
+  transform: translateY(-2px);
+  background: #3f9b6f;
 }
 
 /* ===== 게시글 카드 ===== */
 #post_container {
-  min-height: calc(100vh - 104px); /* header 높이만큼 빼기(필요시 조정) */
+  /* 헤더 바로 아래에서부터 카드가 쌓이도록 상단 여백을 헤더 높이로 확보 */
+  padding-top: 40px; /* header 높이(104px) + 추가 간격 */
+  min-height: calc(100vh - 104px - 12px);
+
   display: flex;
   flex-direction: column;
-  justify-content: center; /* 세로 중앙 정렬 */
-  align-items: center; /* 가로 중앙 정렬 (카드 폭 고정이면 중앙으로) */
-  padding: 20px 12px;
+  justify-content: flex-start; /* 위에서부터 쌓기 */
+  align-items: center; /* 카드들을 가로 중앙에 배치 */
+  padding-left: 12px;
+  padding-right: 12px;
   box-sizing: border-box;
 }
 
 .post-card {
-  width: 600px;
-  height: 160px;
+  width: 400px;
+  height: 130px;
   background-color: #fff;
   border-radius: 12px;
-  padding: 35px 35px 0 35px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e5e5e5;
+  padding: 20px 20px 0 20px;
+  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); */
+  border: 1px solid #4baa7d;
   transition: box-shadow 0.2s;
   margin-top: 20px;
 }
@@ -153,7 +165,7 @@ body {
 
 /* 제목 */
 .post-title {
-  font-size: 22px;
+  font-size: 15px;
   font-weight: 700;
   margin: 0 0 20px 0;
   color: #121212;
@@ -167,7 +179,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 15px;
+  font-size: 13px;
   color: #555;
   margin-bottom: 20px;
 }
@@ -180,11 +192,11 @@ body {
   display: flex;
   align-items: center;
   border-top: 1px solid #eee;
-  padding-top: 16px;
+  padding-top: 10px;
 }
 .author-avatar {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background: #ddd;
   margin-right: 10px;
@@ -193,9 +205,20 @@ body {
 .author-name {
   font-weight: 600;
   color: #333;
+  font-size: 14px;
 }
 
 /* ===== 반응형 ===== */
+
+/* 모바일에서 여백 조정 */
+@media (max-width: 420px) {
+  #explain_wrap {
+    padding: 0 10px;
+  }
+  #write_post_button {
+    padding: 6px 10px;
+  }
+}
 @media (max-width: 420px) {
   #main_header {
     height: 80px;
