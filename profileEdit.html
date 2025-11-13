@@ -10,7 +10,7 @@
     </style>
   </head>
   <body>
-    <header id="main_header">
+    <!-- <header id="main_header">
       <p id="header_title">아무 말 대잔치</p>
       <div class="profile-menu">
         <img id="profile_img" src="./img/profile.png" alt="프로필 이미지" />
@@ -51,11 +51,11 @@
         <button type="submit" id="edited_button">수정하기</button>
       </form>
       <a href="회원탈퇴" id="profileDelete_link">회원탈퇴</a>
-      <!-- <button type="submit" id="completed_button">수정완료</button> -->
+      <button type="submit" id="completed_button">수정완료</button> 
       <div id="toast" class="hidden"></div>
     </div>
 
-    <!-- 회원탈퇴 모달 -->
+    회원탈퇴 모달 
     <div id="modal_overlay" class="hidden">
       <div id="delete_modal">
         <h2>회원탈퇴 하시겠습니까?</h2>
@@ -65,7 +65,9 @@
           <button id="confirm_button">확인</button>
         </div>
       </div>
-    </div>
+    </div> -->
+    <div id="profileEdit_app"></div>
   </body>
-  <script src="./js/profileEdit.js"></script>
+  <!-- <script src="./js/profileEdit.js"></script> -->
+  <script src="./js/v-dom/profileEdit_virtual.js"></script>
 </html>
