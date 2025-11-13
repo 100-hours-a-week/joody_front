@@ -1,14 +1,14 @@
 body {
   margin: 0;
-  background-color: #f4f5f7;
+  background-color: #ffffff;
   font-family: "Pretendard", sans-serif;
 }
 
 #main_header {
   width: 100%;
   height: 104px;
-  background-color: #f4f5f7;
-  border-bottom: 1px solid #121212;
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(75, 170, 125, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,7 +23,7 @@ body {
   transition: transform 0.2s;
   position: relative;
   z-index: 2;
-  right: 260px;
+  right: 220px;
 }
 #back_button {
   width: 100%;
@@ -46,7 +46,7 @@ body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  right: calc(50% - 260px); /* ✅ 제목 중앙에서 살짝 오른쪽 (조정 가능) */
+  right: calc(50% - 220px); /* ✅ 제목 중앙에서 살짝 오른쪽 (조정 가능) */
   z-index: 2000;
 }
 
@@ -99,7 +99,7 @@ body {
 
 /* ===== 메인 컨테이너 ===== */
 #edit_container {
-  width: 592px;
+  width: 500px;
   margin: 50px auto;
   border-radius: 12px;
   padding: 40px;
@@ -131,9 +131,8 @@ label {
 input[type="text"],
 textarea {
   border: none; /* 전체 테두리 제거 */
-  border-top: 1.5px solid #ddd;
-  border-bottom: 1.5px solid #ddd; /* 위아래만 선 표시 */
-  background-color: #f4f5f7; /* 배경색과 동일하게 */
+  border-bottom: 1.5px solid #d9d9d9; /* 위아래만 선 표시 */
+  background-color: #ffffff; /* 배경색과 동일하게 */
   border-radius: 0; /* 둥근 모서리 제거 */
   padding: 10px 8px;
   font-size: 15px;
@@ -146,7 +145,7 @@ textarea {
 input[type="text"]:focus,
 textarea:focus {
   outline: none;
-  border-color: #a18aff;
+  border-color: #4baa7d;
 }
 
 /* ===== 파일 업로드 ===== */
@@ -165,7 +164,7 @@ input[type="file"] {
 #submit_button {
   display: block;
   width: 70%;
-  background-color: #7f6aee;
+  background-color: #4baa7d;
   color: white;
   border: none;
   border-radius: 10px;
