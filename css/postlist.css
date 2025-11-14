@@ -32,6 +32,11 @@ body {
   font-weight: 500;
   margin: 0;
 }
+#header_logo {
+  height: 60px; /* 원하는 크기로 조절 */
+  object-fit: contain;
+  display: block;
+}
 
 /* 프로필 메뉴 */
 .profile-menu {
