@@ -96,7 +96,7 @@ let state = {
 
 // ========== 상태 갱신 ==========
 function setState(next) {
-  state = { ...state, ...next };
+  state = structuredClone({ ...state, ...next });
   render();
 }
 
@@ -175,6 +175,8 @@ async function updateNickname() {
 
   const data = await res.json();
   if (res.ok) {
+    // 닉네임 변경이 즉시 댓글 페이지에도 반영되도록
+    localStorage.setItem("nickname", nickname);
     showToast("수정완료");
     setState({ helper: "" });
   } else if (data.message === "duplicate_nickname") {
