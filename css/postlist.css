@@ -142,6 +142,41 @@ body {
   background: #3f9b6f;
 }
 
+/* ===== 라인형 네이버 검색창 ===== */
+#search_box {
+  width: 440px;
+  max-width: 100%;
+  margin: 20px auto 20px;
+
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #4baa7d; /* 초록 라인 */
+  padding: 8px 17px;
+  box-sizing: border-box;
+}
+
+#search_input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  background: transparent;
+  padding: 6px 0;
+  color: #333;
+}
+
+#search_input::placeholder {
+  color: #c4c4c4;
+  font-weight: 300;
+}
+
+#search_icon {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
 /* ===== 게시글 카드 ===== */
 #post_container {
   /* 헤더 바로 아래에서부터 카드가 쌓이도록 상단 여백을 헤더 높이로 확보 */
@@ -214,7 +249,7 @@ body {
 .author-name {
   font-weight: 600;
   color: #333;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /* ===== 반응형 ===== */
