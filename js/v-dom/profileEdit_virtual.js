@@ -249,7 +249,7 @@ function App() {
           id: "header_title",
           onclick: () => (location.href = "postList.html"),
         },
-        "아무 말 대잔치"
+        h("img", { src: "./img/logo4.png", id: "header_logo", alt: "로고" })
       ),
       h(
         "div",
