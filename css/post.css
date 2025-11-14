@@ -221,33 +221,37 @@ body {
   box-sizing: border-box;
 }
 
-/* ===== 좋아요/조회수/댓글수 섹션 ===== */
+/* ===== 좋아요 / 조회수 / 댓글수 (트렌디 버전) ===== */
+
 #post_infos {
   display: flex;
-  justify-content: center;
-  align-items: stretch;
-  gap: 8px;
-  margin-top: 30px;
-  width: 380px; /* 본문 기준 폭 고정 */
+  justify-content: flex-start;
+  align-items: center;
+  gap: 22px;
+  margin-top: 24px;
+  width: 480px;
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
+  padding-left: 10px;
 }
 
-/* 각 info 박스 (좋아요 / 조회수 / 댓글) */
-#post_infos div {
-  flex: 1; /* 동일한 가로폭 */
-  background-color: #d9d9d9;
-  border-radius: 16px;
-  text-align: center;
-  padding: 16px 0;
+.stat_item {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: 80px; /* 높이 통일 */
-  box-sizing: border-box;
-  transition: background-color 0.2s, transform 0.2s;
+  gap: 6px;
+}
+
+.stat_icon {
+  width: 22px;
+  height: 22px;
+  opacity: 0.75;
+}
+
+.stat_number {
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
 }
 
 #likes_section {
@@ -321,7 +325,7 @@ body {
 
 #submit_comment_button {
   display: block;
-  background-color: #aca0eb;
+  background-color: #4baa7d;
   color: #fff;
   border: none;
   border-radius: 16px;
@@ -433,27 +437,6 @@ body {
   line-height: 1.4;
 }
 
-/* 반응형: 화면 좁을 때 요소 배치 조정 */
-@media (max-width: 420px) {
-  #post_info {
-    padding: 6px 8px;
-    gap: 8px;
-  }
-  #post_date {
-    width: 100%;
-    margin-left: 0;
-    order: 3; /* 날짜를 아래로 내릴 수 있음 */
-    text-align: left;
-    color: #777;
-    font-size: 13px;
-  }
-  #edit_button,
-  #delete_button {
-    padding: 6px 8px;
-    font-size: 13px;
-  }
-}
-
 .hidden {
   display: none !important;
 }
@@ -528,6 +511,23 @@ body {
   color: #ffffff;
 }
 
-/* .confirm_button:hover {
-  background-color: #8e78ff;
-} */
+/* 반응형: 화면 좁을 때 요소 배치 조정 */
+@media (max-width: 420px) {
+  #post_info {
+    padding: 6px 8px;
+    gap: 8px;
+  }
+  #post_date {
+    width: 100%;
+    margin-left: 0;
+    order: 3; /* 날짜를 아래로 내릴 수 있음 */
+    text-align: left;
+    color: #777;
+    font-size: 13px;
+  }
+  #edit_button,
+  #delete_button {
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+}
