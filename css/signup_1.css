@@ -90,7 +90,7 @@ input {
 }
 
 input:focus {
-  border-color: #2d69ff;
+  border-color: #4baa7d;
   background-color: transparent; /* 하늘색 포커스 배경 제거 */
 }
 
