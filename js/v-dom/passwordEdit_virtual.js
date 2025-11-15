@@ -1,3 +1,5 @@
+import { loadUserProfile } from "../utils/user.js";
+
 function h(type, props = {}, ...children) {
   return { type, props, children };
 }
@@ -381,55 +383,8 @@ function render() {
   oldVNode = newVNode;
 }
 
-// ========== 7. 헤더/프로필 드롭다운 + 프로필 이미지 로딩 (기존 로직 그대로) ==========
-
-async function loadUserProfile() {
-  try {
-    const userId = localStorage.getItem("userId"); // 로그인 시 저장해둔 값
-
-    if (!userId) {
-      console.warn("로그인된 사용자 ID가 없습니다.");
-      return;
-    }
-
-    const res = await fetch(`http://localhost:8080/users/${userId}/profile`);
-    const json = await res.json();
-
-    if (json.message === "read_success") {
-      const imgUrl = json.data.profileImage;
-      const profileImg = document.getElementById("profile_img");
-
-      if (profileImg) {
-        profileImg.src = imgUrl
-          ? imgUrl.startsWith("http")
-            ? imgUrl
-            : `http://localhost:8080${imgUrl}`
-          : "./img/profile.png";
-      }
-    }
-  } catch (err) {
-    console.error("프로필 불러오기 실패:", err);
-  }
-}
-
 document.addEventListener("DOMContentLoaded", async () => {
-  // 1) 헤더 프로필 드롭다운
-  const profileImg = document.getElementById("profile_img");
-  const dropdownMenu = document.getElementById("dropdown_menu");
-
-  if (profileImg && dropdownMenu) {
-    profileImg.addEventListener("click", () => {
-      dropdownMenu.classList.toggle("hidden");
-    });
-
-    window.addEventListener("click", (e) => {
-      if (!e.target.closest(".profile-menu")) {
-        dropdownMenu.classList.add("hidden");
-      }
-    });
-  }
-
-  // 2) 헤더 제목 클릭 → 게시글 목록 이동
+  //헤더 제목 클릭 → 게시글 목록 이동
   const headerTitle = document.getElementById("header_title");
   if (headerTitle) {
     headerTitle.addEventListener("click", () => {
