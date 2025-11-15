@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>회원가입 1단계</title>
+    <link rel="stylesheet" href="./css/signup_1.css" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap");
+    </style>
+  </head>
+  <body>
+    <header id="main_header">
+      <a href="/login.html" id="back_link" aria-label="뒤로가기">
+        <img id="back_button" src="./img/back_1.png" alt="뒤로가기" />
+      </a>
+    </header>
+
+    <main id="signup_container">
+      <h2 id="signup_title">이메일과 비밀번호를<br />입력해주세요</h2>
+
+      <form id="signup_form">
+        <div class="input_group">
+          <label for="email">이메일</label>
+          <div class="input_wrapper">
+            <input
+              type="email"
+              id="email"
+              placeholder="email@example.com"
+              required
+            />
+          </div>
+          <p class="email_helper"></p>
+        </div>
+
+        <div class="input_group">
+          <label for="password">비밀번호</label>
+          <div class="input_wrapper">
+            <input
+              type="password"
+              id="password"
+              placeholder="비밀번호를 입력하세요."
+              required
+            />
+          </div>
+          <p class="password_helper"></p>
+        </div>
+
+        <div class="input_group">
+          <label for="password_check">비밀번호 확인</label>
+          <div class="input_wrapper">
+            <input
+              type="password"
+              id="password_check"
+              placeholder="다시 한번 입력해주세요."
+              required
+            />
+          </div>
+          <p class="passwordCheck_helper"></p>
+        </div>
+
+        <button type="submit" id="next_button" disabled>다음</button>
+      </form>
+    </main>
+
+    <!-- <script src="./js/signup_1.js"></script> -->
+    <script type="module" src="js/v-dom/signup1_virtual.js"></script>
+  </body>
+</html>

@@ -43,6 +43,10 @@ async function loadUserProfile() {
 
 document.addEventListener("DOMContentLoaded", async () => {
   await loadUserProfile(); // ✅ 동적 userId 사용
+  let searchKeyword = "";
+
+  const searchInput = document.getElementById("search_input");
+  const searchButton = document.getElementById("search_icon");
 
   console.log(localStorage.getItem("userId"));
 
@@ -121,6 +125,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       const url = new URL("http://localhost:8080/posts");
       if (nextCursor) url.searchParams.append("cursorCreatedAt", nextCursor);
       url.searchParams.append("size", 5); // 페이지당 5개
+
+      // ⭐ 검색어가 있으면 keyword 파라미터 추가!
+      if (searchKeyword) {
+        url.searchParams.append("keyword", searchKeyword);
+      }
+
       const response = await fetch(url);
       const json = await response.json();
 
@@ -140,6 +150,45 @@ document.addEventListener("DOMContentLoaded", async () => {
       isLoading = false;
     }
   }
+
+  async function runSearch() {
+    searchKeyword = searchInput.value.trim();
+
+    // 검색어 없을 때 → 전체 모드로 전환
+    if (searchKeyword === "") {
+      nextCursor = null;
+      hasNext = true;
+      postList.innerHTML = "";
+      await loadPosts();
+      return;
+    }
+
+    // 검색 모드
+    nextCursor = null;
+    hasNext = true;
+    postList.innerHTML = ""; // 기존 내용 삭제
+    await loadPosts();
+  }
+
+  // 검색 이벤트
+  searchButton.addEventListener("click", () => {
+    runSearch();
+  });
+
+  searchInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") runSearch();
+  });
+
+  // 검색창 비워지면 자동으로 전체 목록 재로드
+  searchInput.addEventListener("input", async () => {
+    if (searchInput.value.trim() === "") {
+      searchKeyword = "";
+      nextCursor = null;
+      hasNext = true;
+      postList.innerHTML = "";
+      await loadPosts();
+    }
+  });
 
   // IntersectionObserver로 스크롤 감지
   const sentinel = document.createElement("div");

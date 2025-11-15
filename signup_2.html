@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>회원가입 2단계</title>
+    <link rel="stylesheet" href="./css/signup_2.css" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap");
+    </style>
+  </head>
+  <body>
+    <header id="main_header">
+      <a href="/signup_1.html" id="back_link" aria-label="뒤로가기">
+        <img id="back_button" src="./img/back_1.png" alt="뒤로가기" />
+      </a>
+    </header>
+
+    <main id="signup_container">
+      <h2 id="signup_title">프로필 사진과<br />이름을 설정해주세요</h2>
+
+      <form id="signup_form">
+        <div id="avatar-container">
+          <label
+            for="avatar_input"
+            style="cursor: pointer; display: inline-block"
+          >
+            <img id="avatar_preview" src="" alt="프로필 미리보기" />
+          </label>
+          <input
+            type="file"
+            id="avatar_input"
+            name="avatar"
+            accept="image/*"
+            style="display: none"
+          />
+        </div>
+        <p class="profile_image_helper"></p>
+
+        <div class="input_group">
+          <label for="nickname">닉네임</label>
+          <div class="input_wrapper">
+            <input
+              type="text"
+              id="nickname"
+              maxlength="10"
+              placeholder="닉네임을 입력해주세요."
+              required
+            />
+          </div>
+          <p class="nickname_helper"></p>
+        </div>
+
+        <button type="submit" id="confirm_button" disabled>확인</button>
+      </form>
+    </main>
+
+    <!-- <script src="./js/signup_2.js"></script> -->
+    <script type="module" src="js/v-dom/signup2_virtual.js"></script>
+  </body>
+</html>

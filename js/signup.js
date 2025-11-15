@@ -248,7 +248,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const data = await response.json();
 
       if (response.ok) {
-        alert("회원가입이 완료되었습니다!");
         window.location.href = "/login.html";
       } else if (data.message == "duplicate_email") {
         showHelper(emailHelper, "* 중복된 이메일입니다.");
