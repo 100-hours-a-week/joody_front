@@ -1,138 +1,8 @@
 import { loadUserProfile } from "../utils/user.js";
+import { h, createDom, updateElement } from "./common/Vdom.js";
+import { initState, getState, setState, subscribe } from "./common/store.js";
 
-function h(type, props = {}, ...children) {
-  return { type, props, children };
-}
-
-function createDom(node) {
-  if (node == null) return document.createTextNode("");
-  if (typeof node === "string" || typeof node === "number") {
-    return document.createTextNode(String(node));
-  }
-
-  const el = document.createElement(node.type);
-  const props = node.props || {};
-
-  Object.keys(props).forEach((k) => {
-    const v = props[k];
-    if (k.startsWith("on") && typeof v === "function") {
-      el.addEventListener(k.slice(2).toLowerCase(), v);
-    } else if (k === "value") {
-      el.value = v;
-    } else if (k === "className") {
-      el.setAttribute("class", v);
-    } else if (k === "disabled") {
-      el.disabled = !!v;
-    } else if (k === "style" && typeof v === "object") {
-      Object.assign(el.style, v);
-    } else if (v != null) {
-      el.setAttribute(k, v);
-    }
-  });
-
-  (node.children || []).forEach((c) => el.appendChild(createDom(c)));
-  return el;
-}
-
-function changed(a, b) {
-  if (a == null || b == null) return a !== b;
-  if (typeof a !== typeof b) return true;
-  if (typeof a === "string" || typeof a === "number") return a !== b;
-  return a.type !== b.type;
-}
-
-function patchProps(el, newProps, oldProps) {
-  // 제거
-  Object.keys(oldProps).forEach((k) => {
-    if (!(k in newProps)) {
-      if (k.startsWith("on")) {
-        el.removeEventListener(k.slice(2).toLowerCase(), oldProps[k]);
-      } else if (k === "value") {
-        el.value = "";
-      } else if (k === "className") {
-        el.removeAttribute("class");
-      } else if (k === "style") {
-        el.removeAttribute("style");
-      } else if (k === "disabled") {
-        el.disabled = false;
-      } else {
-        el.removeAttribute(k);
-      }
-    }
-  });
-
-  // 추가/업데이트
-  Object.keys(newProps).forEach((k) => {
-    const nv = newProps[k];
-    const ov = oldProps[k];
-    if (nv === ov) return;
-
-    if (k.startsWith("on") && typeof nv === "function") {
-      if (typeof ov === "function") {
-        el.removeEventListener(k.slice(2).toLowerCase(), ov);
-      }
-      el.addEventListener(k.slice(2).toLowerCase(), nv);
-    } else if (k === "value") {
-      if (el.value !== nv) el.value = nv;
-    } else if (k === "className") {
-      el.setAttribute("class", nv);
-    } else if (k === "style" && typeof nv === "object") {
-      el.removeAttribute("style");
-      Object.assign(el.style, nv);
-    } else if (k === "disabled") {
-      el.disabled = !!nv;
-    } else if (nv != null) {
-      el.setAttribute(k, nv);
-    }
-  });
-}
-
-function updateDom(parent, newNode, oldNode, index = 0) {
-  if (!parent) return;
-  const existing = parent.childNodes[index];
-
-  // 새 노드 없음 → 제거
-  if (newNode == null) {
-    if (existing) parent.removeChild(existing);
-    return;
-  }
-
-  // 기존 노드 없음 → 추가
-  if (oldNode == null) {
-    parent.appendChild(createDom(newNode));
-    return;
-  }
-
-  // 타입이 다르면 교체
-  if (changed(newNode, oldNode)) {
-    parent.replaceChild(createDom(newNode), existing);
-    return;
-  }
-
-  // 텍스트 노드
-  if (typeof newNode === "string" || typeof newNode === "number") {
-    if (existing && existing.nodeType === Node.TEXT_NODE) {
-      const text = String(newNode);
-      if (existing.nodeValue !== text) existing.nodeValue = text;
-    }
-    return;
-  }
-
-  // 속성 패치
-  patchProps(existing, newNode.props || {}, oldNode.props || {});
-
-  // 자식 재귀
-  const newChildren = newNode.children || [];
-  const oldChildren = oldNode.children || [];
-  const max = Math.max(newChildren.length, oldChildren.length);
-  for (let i = 0; i < max; i++) {
-    updateDom(existing, newChildren[i], oldChildren[i], i);
-  }
-}
-
-// ========== 2. 상태 ==========
-
-let state = {
+initState({
   password: "",
   passwordCheck: "",
   helperPassword: "",
@@ -140,23 +10,16 @@ let state = {
   buttonActive: false,
   toastMsg: "",
   showToast: false,
-};
+});
 
 const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+~\-=[\]{};':"\\|,.<>/?]).{8,20}$/;
 
-// 상태 변경
-function setState(next) {
-  state = { ...state, ...next };
-  render();
-}
-
-// ========== 3. 기존 로직 반영: 유효성 검사 + 토스트 ==========
+// 유효성 검사 + 토스트
 
 function showToast(message) {
   setState({ toastMsg: message, showToast: true });
   setTimeout(() => {
-    // CSS 애니메이션 시간 고려해서 hidden 처리
     setState({ showToast: false });
   }, 2500);
 }
@@ -172,6 +35,7 @@ function setHelper(target, msg) {
 
 // 비밀번호 개별 검사
 function checkPassword() {
+  const state = getState();
   const password = state.password.trim();
 
   if (password === "") {
@@ -191,6 +55,7 @@ function checkPassword() {
 
 // 비밀번호 확인 개별 검사
 function checkPasswordCheck() {
+  const state = getState();
   const password = state.password.trim();
   const passwordCheck = state.passwordCheck.trim();
 
@@ -215,7 +80,7 @@ function validateAll() {
   return isValid;
 }
 
-// ========== 4. 이벤트 핸들러 (입력/블러/클릭) ==========
+// 이벤트 핸들러 (입력/블러/클릭)
 
 function handlePasswordInput(e) {
   setState({ password: e.target.value });
@@ -238,6 +103,7 @@ function handlePasswordCheckBlur() {
 async function handleSubmit(e) {
   e.preventDefault();
 
+  const state = getState();
   const isValid = validateAll();
   if (!isValid) return;
 
@@ -284,9 +150,10 @@ async function handleSubmit(e) {
   }
 }
 
-// ========== 5. VDOM 뷰 ==========
+// VDOM 뷰
 
 function App() {
+  const state = getState();
   const btnStyle = state.buttonActive
     ? {
         backgroundColor: "#4BAA7D",
@@ -367,7 +234,7 @@ function App() {
   );
 }
 
-// ========== 6. 렌더링 루프 ==========
+// 렌더링 루프
 
 const root = document.getElementById("passwordEdit_container");
 let oldVNode = null;
@@ -378,10 +245,12 @@ function render() {
     root.innerHTML = "";
     root.appendChild(createDom(newVNode));
   } else {
-    updateDom(root, newVNode, oldVNode);
+    updateElement(root, newVNode, oldVNode);
   }
   oldVNode = newVNode;
 }
+// 상태 변경 시마다 render 자동 호출
+subscribe(render);
 
 document.addEventListener("DOMContentLoaded", async () => {
   //헤더 제목 클릭 → 게시글 목록 이동
@@ -392,9 +261,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // 3) 프로필 이미지 불러오기
+  // 프로필 이미지 불러오기
   await loadUserProfile();
 
-  // 4) VDOM 첫 렌더
+  // VDOM 첫 렌더
   render();
 });
