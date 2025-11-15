@@ -151,7 +151,7 @@ body {
   display: flex;
   align-items: center;
   border-bottom: 2px solid #4baa7d; /* 초록 라인 */
-  padding: 8px 17px;
+  padding: 8px 1px;
   box-sizing: border-box;
 }
 
@@ -227,8 +227,26 @@ body {
   color: #555;
   margin-bottom: 20px;
 }
-.stats-left span {
+.stats-left {
+  display: flex;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   margin-right: 10px;
+}
+
+.stat-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.stat-number {
+  font-weight: 600;
+  font-size: 14px;
 }
 
 /* 작성자 정보 */
