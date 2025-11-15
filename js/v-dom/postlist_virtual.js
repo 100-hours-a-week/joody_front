@@ -1,5 +1,7 @@
 import { loadUserProfile } from "../utils/user.js";
 
+import { createDom } from "./common/Vdom.js";
+
 function h(type, props, ...children) {
   return {
     type,
@@ -8,49 +10,12 @@ function h(type, props, ...children) {
   };
 }
 
-function createElement(vnode) {
-  if (typeof vnode === "string" || typeof vnode === "number") {
-    return document.createTextNode(vnode);
-  }
-
-  const el = document.createElement(vnode.type);
-
-  // props 설정
-  for (const [key, value] of Object.entries(vnode.props || {})) {
-    if (key === "className") {
-      el.className = value;
-    } else if (key === "style" && typeof value === "object") {
-      Object.assign(el.style, value);
-    } else if (key.startsWith("on") && typeof value === "function") {
-      // 이벤트 핸들러 (onClick, onInput 등)
-      const eventName = key.slice(2).toLowerCase();
-      el.addEventListener(eventName, value);
-    } else if (key === "dataset" && typeof value === "object") {
-      Object.entries(value).forEach(([dataKey, dataValue]) => {
-        el.dataset[dataKey] = dataValue;
-      });
-    } else {
-      el.setAttribute(key, value);
-    }
-  }
-
-  // children 처리
-  vnode.children.forEach((child) => {
-    el.appendChild(createElement(child));
-  });
-
-  return el;
-}
-
-// 전체를 diff까지 구현하기엔 과하니까, 여기서는 postList 영역만 통째로 다시 렌더
+// postList 영역만 통째로 다시 렌더
 function render(vnode, container) {
   container.innerHTML = "";
-  container.appendChild(createElement(vnode));
+  container.appendChild(createDom(vnode));
 }
 
-// =====================
-// 2. 기존 유틸 함수들 (그대로 사용)
-// =====================
 const formatNumber = (num) => {
   if (num >= 1000000) return (num / 1000).toFixed(0) + "k";
   if (num >= 1000) return Math.floor(num / 1000) + "k";
@@ -60,9 +25,7 @@ const formatNumber = (num) => {
 const truncate = (text, max) =>
   text.length > max ? text.slice(0, max) + "…" : text;
 
-// =====================
-// 3. 전역 상태 (state) 정의
-// =====================
+// 전역 상태 (state) 정의
 const state = {
   posts: [],
   nextCursor: null,
@@ -71,9 +34,7 @@ const state = {
   searchKeyword: "",
 };
 
-// =====================
-// 6. 게시글 리스트를 Virtual DOM으로 렌더
-// =====================
+// 게시글 리스트를 Virtual DOM으로 렌더
 function PostListView(posts) {
   // post-card 클릭 핸들러
   const handleCardClick = (id) => () => {
@@ -82,7 +43,7 @@ function PostListView(posts) {
 
   return h(
     "div",
-    {}, // postList 최상단 래퍼 (필수는 아니지만 하나 두면 깔끔)
+    {},
     posts.map((post) =>
       h(
         "article",
@@ -95,7 +56,7 @@ function PostListView(posts) {
           "div",
           { className: "post-content" },
           h("h3", { className: "post-title" }, truncate(post.title, 26)),
-          // 통계 영역
+
           h(
             "div",
             { className: "post-stats" },
@@ -182,9 +143,7 @@ function renderPosts() {
   render(vnode, postList);
 }
 
-// =====================
-// 7. 데이터 로딩 로직 (인피니티 스크롤 + 검색 그대로 사용)
-// =====================
+// 데이터 로딩 로직 (인피니티 스크롤 + 검색 그대로 사용)
 async function loadPosts(isSearch = state.searchKeyword !== "") {
   if (state.isLoading || !state.hasNext) return;
   state.isLoading = true;
@@ -244,9 +203,7 @@ async function runSearch() {
   await loadPosts(true); // 검색 모드 표시
 }
 
-// =====================
-// 8. DOMContentLoaded 이후 초기화
-// =====================
+// DOMContentLoaded 이후 초기화
 document.addEventListener("DOMContentLoaded", async () => {
   await loadUserProfile();
 
