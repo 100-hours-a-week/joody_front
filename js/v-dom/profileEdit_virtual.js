@@ -1,86 +1,7 @@
-/** ========= Virtual DOM 기반 회원정보 수정 페이지 ========= **/
+import { h, createDom, updateElement } from "./common/Vdom.js";
+import { initState, getState, setState, subscribe } from "./common/store.js";
 
-// ========== Virtual DOM 유틸 ==========
-function h(type, props = {}, ...children) {
-  return { type, props, children };
-}
-function createDom(node) {
-  if (node == null) return document.createTextNode("");
-  if (typeof node === "string" || typeof node === "number")
-    return document.createTextNode(String(node));
-
-  const el = document.createElement(node.type);
-  const props = node.props || {};
-
-  Object.keys(props).forEach((k) => {
-    const v = props[k];
-    if (k.startsWith("on") && typeof v === "function")
-      el.addEventListener(k.slice(2).toLowerCase(), v);
-    else if (k === "value") el.value = v;
-    else if (k === "className") el.setAttribute("class", v);
-    else if (k === "disabled") el.disabled = !!v;
-    else if (k === "style" && typeof v === "object") Object.assign(el.style, v);
-    else if (v != null) el.setAttribute(k, v);
-  });
-
-  (node.children || []).forEach((c) => el.appendChild(createDom(c)));
-  return el;
-}
-function changed(a, b) {
-  if (a == null || b == null) return a !== b;
-  if (typeof a !== typeof b) return true;
-  if (typeof a === "string" || typeof a === "number") return a !== b;
-  return a.type !== b.type;
-}
-function patchProps(el, newProps, oldProps) {
-  Object.keys(oldProps).forEach((k) => {
-    if (!(k in newProps)) {
-      if (k.startsWith("on"))
-        el.removeEventListener(k.slice(2).toLowerCase(), oldProps[k]);
-      else el.removeAttribute(k);
-    }
-  });
-  Object.keys(newProps).forEach((k) => {
-    const nv = newProps[k];
-    const ov = oldProps[k];
-    if (nv === ov) return;
-    if (k.startsWith("on") && typeof nv === "function") {
-      if (typeof ov === "function")
-        el.removeEventListener(k.slice(2).toLowerCase(), ov);
-      el.addEventListener(k.slice(2).toLowerCase(), nv);
-    } else if (k === "value") el.value = nv;
-    else if (k === "disabled") el.disabled = !!nv;
-    else if (k === "className") el.setAttribute("class", nv);
-    else if (k === "style" && typeof nv === "object") {
-      el.removeAttribute("style");
-      Object.assign(el.style, nv);
-    } else if (nv != null) el.setAttribute(k, nv);
-  });
-}
-function updateDom(parent, newNode, oldNode, index = 0) {
-  if (!parent) return;
-  const existing = parent.childNodes[index];
-  if (newNode == null) {
-    if (existing) parent.removeChild(existing);
-    return;
-  }
-  if (oldNode == null) {
-    parent.appendChild(createDom(newNode));
-    return;
-  }
-  if (changed(newNode, oldNode)) {
-    parent.replaceChild(createDom(newNode), existing);
-    return;
-  }
-  patchProps(existing, newNode.props || {}, oldNode.props || {});
-  const nc = newNode.children || [];
-  const oc = oldNode.children || [];
-  const max = Math.max(nc.length, oc.length);
-  for (let i = 0; i < max; i++) updateDom(existing, nc[i], oc[i], i);
-}
-
-// ========== 상태 ==========
-let state = {
+initState({
   userId: localStorage.getItem("userId") || null,
   email: "",
   profileImage: "./img/profile.png",
@@ -92,15 +13,9 @@ let state = {
   showToast: false,
   editEnabled: false,
   uploading: false,
-};
+});
 
-// ========== 상태 갱신 ==========
-function setState(next) {
-  state = structuredClone({ ...state, ...next });
-  render();
-}
-
-// ========== 유틸 ==========
+// 토스트 메시지
 function showToast(msg) {
   setState({ toastMsg: msg, showToast: true });
   setTimeout(() => setState({ showToast: false }), 2500);
@@ -108,6 +23,7 @@ function showToast(msg) {
 
 // ========== API ==========
 async function loadProfile() {
+  const state = getState();
   try {
     const userId = state.userId;
     if (!userId) return;
@@ -133,6 +49,7 @@ async function loadProfile() {
 }
 
 async function uploadProfileImage(file) {
+  const state = getState();
   if (!file) return;
   const userId = state.userId;
   const fd = new FormData();
@@ -161,6 +78,7 @@ async function uploadProfileImage(file) {
 }
 
 async function updateNickname() {
+  const state = getState();
   const nickname = state.nickname.trim();
   if (!nickname) return;
 
@@ -204,6 +122,7 @@ async function withdrawUser() {
 
 // ========== 이벤트 ==========
 function handleDropdownToggle() {
+  const state = getState();
   setState({ dropdownOpen: !state.dropdownOpen });
 }
 function handleOutsideClick(e) {
@@ -234,6 +153,7 @@ function handleNicknameInput(e) {
 
 // ========== 뷰 ==========
 function App() {
+  const state = getState();
   const activeStyle = state.editEnabled
     ? { backgroundColor: "#4baa7d", color: "#fff", cursor: "pointer" }
     : { backgroundColor: "#dcdbe3", color: "#fff", cursor: "default" };
@@ -393,9 +313,12 @@ function render() {
   if (!oldVNode) {
     root.innerHTML = "";
     root.appendChild(createDom(newVNode));
-  } else updateDom(root, newVNode, oldVNode);
+  } else updateElement(root, newVNode, oldVNode);
   oldVNode = newVNode;
 }
+
+// 상태 변경 시마다 render 자동 호출
+subscribe(render);
 
 document.addEventListener("DOMContentLoaded", async () => {
   await loadProfile();
