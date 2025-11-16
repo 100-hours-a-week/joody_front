@@ -105,7 +105,7 @@ async function updateNickname() {
 }
 
 async function withdrawUser() {
-  const userId = state.userId;
+  const { userId } = getState();
   const res = await fetch(`http://localhost:8080/users/${userId}`, {
     method: "DELETE",
   });
