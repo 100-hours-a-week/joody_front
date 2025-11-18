@@ -70,7 +70,7 @@ function App() {
 
     setState({ isLoading: true, helper: "" });
     try {
-      const res = await fetch("http://localhost:8080/users/login", {
+      const res = await fetch("http://localhost:8080/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
