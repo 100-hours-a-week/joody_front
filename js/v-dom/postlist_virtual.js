@@ -204,7 +204,17 @@ async function loadPosts(isSearch = state.searchKeyword !== "") {
       url.searchParams.append("keyword", state.searchKeyword);
     }
 
-    const response = await fetch(url);
+    // const response = await fetch(url);
+    // 인증 토큰 추가
+    const response = await fetch(url, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log(localStorage.getItem("token"));
+
     const json = await response.json();
 
     if (json.message === "post_list_success") {
