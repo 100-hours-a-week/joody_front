@@ -2,6 +2,42 @@ import { loadUserProfile } from "../utils/user.js";
 
 import { createDom } from "./common/Vdom.js";
 
+// ==== 성능 테스트 전용 유틸 ====
+document
+  .getElementById("perf_start")
+  .addEventListener("click", () => perf.start());
+document.getElementById("perf_end").addEventListener("click", () => perf.end());
+
+const perf = {
+  apiCalls: 0,
+  inputEvents: 0,
+  scrollEvents: 0,
+  startTime: 0,
+
+  start() {
+    console.log(
+      "%c[PERF] 성능 테스트 시작",
+      "color: green; font-weight: bold;"
+    );
+    this.apiCalls = 0;
+    this.inputEvents = 0;
+    this.scrollEvents = 0;
+    this.startTime = performance.now();
+  },
+
+  end() {
+    const duration = (performance.now() - this.startTime).toFixed(2);
+    console.log("%c===== 성능 결과 =====", "color: blue; font-weight: bold;");
+    console.table({
+      "API 호출 수": this.apiCalls,
+      "input 이벤트 수": this.inputEvents,
+      "스크롤 이벤트 수": this.scrollEvents,
+      "총 수행 시간(ms)": duration,
+    });
+  },
+};
+// =========================
+
 function h(type, props, ...children) {
   return {
     type,
@@ -145,6 +181,7 @@ function renderPosts() {
 
 // 데이터 로딩 로직 (인피니티 스크롤 + 검색 그대로 사용)
 async function loadPosts(isSearch = state.searchKeyword !== "") {
+  perf.apiCalls++; // 🚀 API 호출 수 기록
   if (state.isLoading || !state.hasNext) return;
   state.isLoading = true;
 
@@ -220,26 +257,68 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   // 검색 버튼 클릭
-  searchButton.addEventListener("click", () => {
-    runSearch();
-  });
+  // searchButton.addEventListener("click", () => {
+  //   runSearch();
+  // });
 
-  // Enter로 검색
+  // // Enter로 검색
+  // searchInput.addEventListener("keypress", (e) => {
+  //   if (e.key === "Enter") runSearch();
+  // });
+
+  // 검색버튼 및 enter키 스로틀링 처리s
+  const throttle = (fn, delay) => {
+    let last = 0;
+    return (...args) => {
+      const now = Date.now();
+      if (now - last > delay) {
+        last = now;
+        fn(...args);
+      }
+    };
+  };
+
+  searchButton.addEventListener("click", throttle(runSearch, 1000));
   searchInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") runSearch();
+    if (e.key === "Enter") throttle(runSearch, 1000)();
   });
 
-  // 검색창 비워지면 전체 목록 자동 재로드
-  searchInput.addEventListener("input", async () => {
-    if (searchInput.value.trim() === "") {
-      state.searchKeyword = "";
-      state.nextCursor = null;
-      state.hasNext = true;
-      state.posts = [];
-      renderPosts();
-      await loadPosts();
-    }
-  });
+  // // 검색창 비워지면 전체 목록 자동 재로드
+  // searchInput.addEventListener("input", async () => {
+  //   perf.inputEvents++; // 🚀 입력 이벤트 기록
+  //   if (searchInput.value.trim() === "") {
+  //     state.searchKeyword = "";
+  //     state.nextCursor = null;
+  //     state.hasNext = true;
+  //     state.posts = [];
+  //     renderPosts();
+  //     await loadPosts();
+  //   }
+  // });
+
+  // 디바운싱 처리
+  const debounce = (fn, delay) => {
+    let t;
+    return (...args) => {
+      clearTimeout(t);
+      t = setTimeout(() => fn(...args), delay);
+    };
+  };
+
+  searchInput.addEventListener(
+    "input",
+    debounce(async () => {
+      perf.inputEvents++; // 🚀 입력 이벤트 기록
+      if (searchInput.value.trim() === "") {
+        state.searchKeyword = "";
+        state.nextCursor = null;
+        state.hasNext = true;
+        state.posts = [];
+        renderPosts();
+        await loadPosts();
+      }
+    }, 300)
+  );
 
   // IntersectionObserver로 인피니티 스크롤
   const sentinel = document.createElement("div");
