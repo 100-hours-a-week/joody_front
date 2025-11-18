@@ -85,7 +85,9 @@ function App() {
           localStorage.setItem("userId", data.data.user.id);
           localStorage.setItem("nickname", data.data.user.nickname);
           localStorage.setItem("profileImage", data.data.user.profileImage);
+          localStorage.setItem("token", data.data.token);
         }
+
         window.location.href = "/postList.html";
       } else if (data.message === "emailOrPassword_mismatch") {
         setState({ helper: "* 아이디 또는 비밀번호를 확인해주세요." });
