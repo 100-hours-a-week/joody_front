@@ -20,7 +20,13 @@ export async function loadUserProfile() {
       return;
     }
 
-    const res = await fetch(`http://localhost:8080/users/${userId}/profile`);
+    // const res = await fetch(`http://localhost:8080/users/${userId}/profile`);
+    const res = await fetch(`http://localhost:8080/users/${userId}/profile`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      },
+    });
     const json = await res.json();
 
     if (json.message === "read_success") {
