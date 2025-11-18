@@ -3,10 +3,10 @@ import { loadUserProfile } from "../utils/user.js";
 import { createDom } from "./common/Vdom.js";
 
 // ==== 성능 테스트 전용 유틸 ====
-document
-  .getElementById("perf_start")
-  .addEventListener("click", () => perf.start());
-document.getElementById("perf_end").addEventListener("click", () => perf.end());
+// document
+//   .getElementById("perf_start")
+//   .addEventListener("click", () => perf.start());
+// document.getElementById("perf_end").addEventListener("click", () => perf.end());
 
 const perf = {
   apiCalls: 0,
