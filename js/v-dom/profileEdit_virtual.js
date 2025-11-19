@@ -28,7 +28,12 @@ async function loadProfile() {
     const userId = state.userId;
     if (!userId) return;
 
-    const res = await fetch(`http://localhost:8080/users/${userId}/profile`);
+    const res = await fetch(`http://localhost:8080/users/${userId}/profile`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token"),
+      },
+      credentials: "include",
+    });
     const json = await res.json();
 
     if (json.message === "read_success") {
@@ -57,10 +62,20 @@ async function uploadProfileImage(file) {
 
   try {
     setState({ uploading: true });
+    // const res = await fetch(
+    //   `http://localhost:8080/users/${userId}/profile/image`,
+    //   {
+    //     method: "POST",
+    //     body: fd,
+    //   }
+    // );
     const res = await fetch(
       `http://localhost:8080/users/${userId}/profile/image`,
       {
         method: "POST",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
         body: fd,
       }
     );
@@ -86,11 +101,14 @@ async function updateNickname() {
     `http://localhost:8080/users/${state.userId}/profile`,
     {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("access_token"),
+      },
+      credentials: "include", // 쿠키도 보낼거면 유지
       body: JSON.stringify({ nickname }),
     }
   );
-
   const data = await res.json();
   if (res.ok) {
     // 닉네임 변경이 즉시 댓글 페이지에도 반영되도록
@@ -108,6 +126,10 @@ async function withdrawUser() {
   const { userId } = getState();
   const res = await fetch(`http://localhost:8080/users/${userId}`, {
     method: "DELETE",
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("access_token"),
+    },
+    credentials: "include",
   });
   const data = await res.json();
 
