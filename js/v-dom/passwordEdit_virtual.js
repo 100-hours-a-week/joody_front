@@ -1,6 +1,7 @@
 import { loadUserProfile } from "../utils/user.js";
 import { h, createDom, updateElement } from "./common/Vdom.js";
 import { initState, getState, setState, subscribe } from "./common/store.js";
+import { apiRequest } from "../utils/api.js";
 
 initState({
   password: "",
@@ -112,22 +113,21 @@ async function handleSubmit(e) {
   const userId = localStorage.getItem("userId") || 1;
 
   try {
-    const response = await fetch(
-      `http://localhost:8080/users/${userId}/password`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-        credentials: "include", // 쿠키도 보낼거면 유지
-        body: JSON.stringify({
-          newPassword,
-          newPassword_check,
-        }),
-      }
-    );
-    const data = await response.json();
+    const { ok, data } = await apiRequest(`/users/${userId}/password`, {
+      method: "PUT",
+      body: JSON.stringify({
+        newPassword,
+        newPassword_check,
+      }),
+    });
+
+    if (!ok || !data) {
+      setHelper(
+        "password",
+        "* 비밀번호 변경에 실패했습니다. 다시 시도해주세요."
+      );
+      return;
+    }
 
     if (response.ok && data.message === "password_update_success") {
       showToast("수정완료");
