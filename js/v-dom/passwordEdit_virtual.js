@@ -116,21 +116,28 @@ async function handleSubmit(e) {
       `http://localhost:8080/users/${userId}/password`,
       {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+        },
+        credentials: "include", // 쿠키도 보낼거면 유지
         body: JSON.stringify({
           newPassword,
           newPassword_check,
         }),
       }
     );
-
     const data = await response.json();
 
     if (response.ok && data.message === "password_update_success") {
       showToast("수정완료");
 
       setTimeout(() => {
-        localStorage.clear();
+        // ⭐ 쿠키 인증 구조에서는 localStorage 삭제 안 해도 됨
+        localStorage.removeItem("userId");
+        localStorage.removeItem("nickname");
+        localStorage.removeItem("profileImage");
+
         window.location.href = "/login.html";
       }, 1500);
       return;
