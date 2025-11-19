@@ -49,6 +49,7 @@ HTML,CSS,JavaScript
 ### 4.2 Cooperation
 Git,Github,Notion
 <br/>
+<br/>
 
 ## 5. Project Structure (프로젝트 구조)
 ```plaintext
