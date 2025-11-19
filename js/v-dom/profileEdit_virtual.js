@@ -58,13 +58,7 @@ async function uploadProfileImage(file) {
 
   try {
     setState({ uploading: true });
-    // const res = await fetch(
-    //   `http://localhost:8080/users/${userId}/profile/image`,
-    //   {
-    //     method: "POST",
-    //     body: fd,
-    //   }
-    // );
+
     const { ok, data } = await apiRequest(`/users/${state.userId}/profile`, {
       method: "PUT",
       body: JSON.stringify({ nickname }),
@@ -117,16 +111,11 @@ async function updateNickname() {
 
 async function withdrawUser() {
   const { userId } = getState();
-  const res = await fetch(`http://localhost:8080/users/${userId}`, {
+  const { ok, data } = await apiRequest(`/users/${userId}`, {
     method: "DELETE",
-    headers: {
-      Authorization: "Bearer " + localStorage.getItem("access_token"),
-    },
-    credentials: "include",
   });
-  const data = await res.json();
 
-  if (res.ok && data.message === "withdraw_success") {
+  if (ok && data.message === "withdraw_success") {
     localStorage.clear();
     window.location.href = "/signup_1.html";
   } else {
