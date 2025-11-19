@@ -93,7 +93,8 @@ function App() {
 
       // Access Token 저장
       const accessToken = data.data.accessToken;
-      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("access_token", accessToken);
+      console.log(accessToken);
 
       // 사용자 정보 저장 (댓글 표시, 프로필 표시 등에 필요)
       const user = data.data.user;
