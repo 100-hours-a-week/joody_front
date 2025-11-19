@@ -1,5 +1,6 @@
 import { h, createDom, updateElement } from "./common/Vdom.js";
 import { initState, getState, setState, subscribe } from "./common/store.js";
+import { apiRequest } from "../utils/api.js";
 
 initState({
   email: "",
@@ -70,33 +71,42 @@ function App() {
 
     setState({ isLoading: true, helper: "" });
     try {
-      const res = await fetch("http://localhost:8080/auth/login", {
+      // apiRequest 사용 (credentials: include 자동 적용됨!)
+      const { ok, data } = await apiRequest("/auth/login", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: state.email.trim(),
           password: state.password.trim(),
         }),
       });
-      const data = await res.json();
 
-      if (res.ok) {
-        if (data.data?.user) {
-          localStorage.setItem("userId", data.data.user.id);
-          localStorage.setItem("nickname", data.data.user.nickname);
-          localStorage.setItem("profileImage", data.data.user.profileImage);
-          localStorage.setItem("token", data.data.token);
+      if (!ok) {
+        if (data?.message === "emailOrPassword_mismatch") {
+          setState({ helper: "* 아이디 또는 비밀번호를 확인해주세요." });
+        } else if (data?.message === "deleted_user") {
+          setState({ helper: "* 탈퇴한 회원입니다. 다시 가입해주세요." });
+        } else {
+          setState({ helper: "로그인 실패. 다시 시도해주세요." });
         }
-
-        window.location.href = "/postList.html";
-      } else if (data.message === "emailOrPassword_mismatch") {
-        setState({ helper: "* 아이디 또는 비밀번호를 확인해주세요." });
-      } else if (data.message === "deleted_user") {
-        setState({ helper: "* 탈퇴한 회원입니다. 다시 가입해주세요." });
-      } else {
-        setState({ helper: "로그인 실패. 다시 시도해주세요." });
+        return;
       }
-    } catch {
+
+      // Access Token 저장
+      const accessToken = data.data.accessToken;
+      localStorage.setItem("accessToken", accessToken);
+
+      // 사용자 정보 저장 (댓글 표시, 프로필 표시 등에 필요)
+      const user = data.data.user;
+      localStorage.setItem("userId", user.id);
+      localStorage.setItem("nickname", user.nickname);
+      localStorage.setItem("profileImage", user.profileImage);
+
+      // Refresh Token은 HttpOnly 쿠키로 자동 저장됨 (JS에서 접근 불가)
+
+      // 이동!
+      window.location.href = "/postList.html";
+    } catch (err) {
+      console.error("로그인 요청 실패:", err);
       setState({ helper: "서버 연결 실패. 다시 시도해주세요." });
     } finally {
       setState({ isLoading: false });
