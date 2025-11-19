@@ -2,6 +2,7 @@ import { loadUserProfile } from "../utils/user.js";
 import { h, createDom, updateElement } from "./common/Vdom.js";
 import { initState, getState, setState, subscribe } from "./common/store.js";
 import { debounce, throttle } from "../utils/common.js";
+import { apiRequest } from "../utils/api.js";
 
 // -------------------- 초기 상태 --------------------
 initState({
@@ -69,31 +70,24 @@ const handleSubmit = throttle(async (e) => {
   if (s.image) formData.append("image", s.image);
 
   try {
-    const token = localStorage.getItem("access_token");
-
-    const response = await fetch(`http://localhost:8080/posts/${userId}`, {
+    const result = await apiRequest(`/posts/${userId}`, {
       method: "POST",
-      credentials: "include",
-      headers: {
-        Authorization: token ? `Bearer ${token}` : "",
-      },
-      body: formData,
+      body: formData, // 👈 FormData 그대로 전달
     });
 
-    if (response.status === 401 || response.status === 403) {
-      alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
-      window.location.href = "/login.html";
+    if (!result.ok) {
+      if (result.status === 401 || result.status === 403) {
+        alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
+        window.location.href = "/login.html";
+        return;
+      }
+      alert("게시글 작성 실패: " + (result.data?.message || "오류"));
       return;
     }
 
-    const result = await response.json();
-    if (response.ok) {
-      const postId = result.data.post_id;
-      localStorage.setItem("CreatedPostId", postId);
-      window.location.href = "postList.html";
-    } else {
-      alert("게시글 작성 실패: " + (result.message || "오류"));
-    }
+    const postId = result.data.data.post_id;
+    localStorage.setItem("CreatedPostId", postId);
+    window.location.href = "postList.html";
   } catch (err) {
     console.error("게시글 작성 오류:", err);
     alert("서버 오류가 발생했습니다.");
