@@ -113,6 +113,22 @@ async function handleSubmit(e) {
   const userId = localStorage.getItem("userId") || 1;
 
   try {
+    // const response = await fetch(
+    //   `http://localhost:8080/users/${userId}/password`,
+    //   {
+    //     method: "PUT",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: "Bearer " + localStorage.getItem("access_token"),
+    //     },
+    //     credentials: "include", // 쿠키도 보낼거면 유지
+    //     body: JSON.stringify({
+    //       newPassword,
+    //       newPassword_check,
+    //     }),
+    //   }
+    // );
+    // const data = await response.json();
     const { ok, data } = await apiRequest(`/users/${userId}/password`, {
       method: "PUT",
       body: JSON.stringify({
@@ -129,7 +145,7 @@ async function handleSubmit(e) {
       return;
     }
 
-    if (response.ok && data.message === "password_update_success") {
+    if (ok && data.message === "password_update_success") {
       showToast("수정완료");
 
       setTimeout(() => {
