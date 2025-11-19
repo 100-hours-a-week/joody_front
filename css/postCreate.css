@@ -112,6 +112,8 @@ body {
   border-radius: 12px;
   padding: 40px;
   box-sizing: border-box;
+  min-height: auto; /* 고정 높이 절대 X */
+  overflow: visible; /* 중요! */
 }
 
 #edit_title {
