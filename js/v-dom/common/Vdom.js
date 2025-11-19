@@ -80,31 +80,55 @@ export function updateElement(parent, newNode, oldNode, index = 0) {
 }
 
 export function patchProps(el, newProps, oldProps) {
+  // 1) oldProps 제거
   Object.keys(oldProps).forEach((k) => {
     if (!(k in newProps)) {
       if (k.startsWith("on"))
         el.removeEventListener(k.slice(2).toLowerCase(), oldProps[k]);
-      else if (k === "disabled") el.disabled = false;
-      else if (k === "value") el.value = "";
-      else if (k === "style") el.removeAttribute("style");
-      else if (k === "className") el.removeAttribute("class");
-      else el.removeAttribute(k);
+      else if (k === "disabled") {
+        el.removeAttribute("disabled");
+        el.disabled = false;
+      } else if (k === "value") {
+        el.value = "";
+      } else if (k === "style") {
+        el.removeAttribute("style");
+      } else if (k === "className") {
+        el.removeAttribute("class");
+      } else {
+        el.removeAttribute(k);
+      }
     }
   });
 
+  // 2) newProps 추가/업데이트
+  // 2) newProps 추가/업데이트
   Object.keys(newProps).forEach((k) => {
     const nv = newProps[k],
       ov = oldProps[k];
     if (nv === ov) return;
 
     if (k.startsWith("on") && typeof nv === "function") {
-      if (typeof ov === "function")
+      if (typeof ov === "function") {
         el.removeEventListener(k.slice(2).toLowerCase(), ov);
+      }
       el.addEventListener(k.slice(2).toLowerCase(), nv);
     } else if (k === "value") {
-      if (el.value !== nv) el.value = nv;
+      // 🔥 input/textarea 값 강제 동기화
+      if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+        if (el.value !== nv) el.value = nv;
+      }
+      // textarea는 textContent도 동기화 필요
+      if (el.tagName === "TEXTAREA") {
+        if (el.textContent !== nv) el.textContent = nv;
+      }
     } else if (k === "disabled") {
-      el.disabled = !!nv;
+      if (nv) {
+        el.setAttribute("disabled", "");
+        el.disabled = true;
+      } else {
+        el.removeAttribute("disabled");
+        el.disabled = false;
+      }
     } else if (k === "style" && typeof nv === "object") {
       el.removeAttribute("style");
       Object.assign(el.style, nv);
