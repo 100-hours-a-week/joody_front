@@ -1,4 +1,4 @@
-<img src="https://github.com/100-hours-a-week/joody_front/edit/feature/week_10/img/logo4.png" alt="로고" width="100%"/>
+<img src="https://github.com/100-hours-a-week/joody_front/img/logo4.png" alt="로고" width="100%"/>
 
 <br/>
 <br/>
