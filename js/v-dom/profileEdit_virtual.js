@@ -1,5 +1,6 @@
 import { h, createDom, updateElement } from "./common/Vdom.js";
 import { initState, getState, setState, subscribe } from "./common/store.js";
+import { apiRequest } from "../utils/api.js";
 
 initState({
   userId: localStorage.getItem("userId") || null,
@@ -28,17 +29,12 @@ async function loadProfile() {
     const userId = state.userId;
     if (!userId) return;
 
-    const res = await fetch(`http://localhost:8080/users/${userId}/profile`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("access_token"),
-      },
-      credentials: "include",
-    });
-    const json = await res.json();
+    const { ok, data } = await apiRequest(`/users/${userId}/profile`);
 
-    if (json.message === "read_success") {
-      const img = json.data.profileImage;
-      const email = json.data.email;
+    if (ok && data.message === "read_success") {
+      const img = data.data.profileImage;
+      const email = data.data.email;
+
       setState({
         email: email || "",
         profileImage: img
@@ -69,21 +65,18 @@ async function uploadProfileImage(file) {
     //     body: fd,
     //   }
     // );
-    const res = await fetch(
-      `http://localhost:8080/users/${userId}/profile/image`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-        body: fd,
-      }
-    );
-    const json = await res.json();
-    if (json.message === "profile_image_uploaded") {
-      setState({ profileImage: json.data });
+    const { ok, data } = await apiRequest(`/users/${state.userId}/profile`, {
+      method: "PUT",
+      body: JSON.stringify({ nickname }),
+    });
+    if (ok) {
+      localStorage.setItem("nickname", nickname);
+      showToast("수정완료");
+      setState({ helper: "" });
+    } else if (data?.message === "duplicate_nickname") {
+      setState({ helper: "* 이미 사용 중인 닉네임입니다." });
     } else {
-      console.error("업로드 실패:", json);
+      setState({ helper: "* 닉네임 수정 실패" });
     }
   } catch (e) {
     console.error("이미지 업로드 중 오류:", e);
