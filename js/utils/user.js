@@ -13,20 +13,30 @@ window.addEventListener("click", (e) => {
 
 export async function loadUserProfile() {
   try {
-    const userId = localStorage.getItem("userId"); // ✅ 로그인 시 저장해둬야 함
+    const userId = localStorage.getItem("userId");
+    const accessToken = localStorage.getItem("access_token");
 
-    if (!userId) {
-      console.warn("로그인된 사용자 ID가 없습니다.");
+    if (!userId || !accessToken) {
+      console.warn("로그인 정보가 없습니다.");
+      window.location.href = "/login.html";
       return;
     }
 
-    // const res = await fetch(`http://localhost:8080/users/${userId}/profile`);
     const res = await fetch(`http://localhost:8080/users/${userId}/profile`, {
+      method: "GET",
+      credentials: "include", // ⭐ refresh token 자동 포함
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`, // ⭐ access token 직접 포함
       },
     });
+
+    // Access Token 만료 → 백엔드에서 401 제공
+    if (res.status === 401) {
+      alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
+      window.location.href = "/login.html";
+      return;
+    }
+
     const json = await res.json();
 
     if (json.message === "read_success") {
@@ -36,7 +46,7 @@ export async function loadUserProfile() {
         ? imgUrl.startsWith("http")
           ? imgUrl
           : `http://localhost:8080${imgUrl}`
-        : "./img/profile.png";
+        : "./img/original_profile.png";
     }
   } catch (err) {
     console.error("프로필 불러오기 실패:", err);
