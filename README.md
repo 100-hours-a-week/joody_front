@@ -4,20 +4,20 @@
 <br/>
 
 
-# 1. Project Overview (프로젝트 개요)
+## 1. Project Overview (프로젝트 개요)
 - 프로젝트 이름: 아무말 대잔치
 - 프로젝트 설명: 다양한 사람들이 모인 자유로운 커뮤니티
 
 <br/>
 <br/>
 
-# 2. Introduce (팀원 및 팀 소개)
+## 2. Introduce (팀원 및 팀 소개)
 - 개인프로젝트 : 주다영(FE)
 
 <br/>
 <br/>
 
-# 3. Key Features (주요 기능)
+## 3. Key Features (주요 기능)
 - **회원가입**:
   - 회원가입 시 DB에 유저정보가 등록됩니다.
 
@@ -37,17 +37,17 @@
 <br/>
 
 
-# 5. Technology Stack (기술 스택)
-## 5.1 Language
+## 4. Technology Stack (기술 스택)
+### 4.1 Language
 HTML,CSS,JavaScript
 <br/>
 
 
-## 5.4 Cooperation
+### 4.2 Cooperation
 Git,Github,Notion
 <br/>
 
-# 6. Project Structure (프로젝트 구조)
+## 5. Project Structure (프로젝트 구조)
 ```plaintext
 projects/
 ├── css/                          # 각 페이지별 스타일 파일
