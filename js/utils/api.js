@@ -3,18 +3,30 @@
 function getToken() {
   return localStorage.getItem("access_token"); // 엑세스 토큰 키 이름 ..
 }
+// ✔ FormData 체크
+function isFormData(body) {
+  return body instanceof FormData;
+}
 
 export async function apiRequest(url, options = {}) {
   const fullUrl = `http://localhost:8080${url}`;
   const token = getToken();
 
+  const isMultipart = isFormData(options.body);
+
+  const headers = {
+    ...(options.headers || {}),
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
+
+  // ✔ JSON일 때만 Content-Type 넣기
+  if (!isMultipart) {
+    headers["Content-Type"] = "application/json";
+  }
+
   const config = {
     ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...(options.headers || {}),
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
+    headers,
     credentials: "include",
   };
 
