@@ -206,14 +206,29 @@ async function loadPosts(isSearch = state.searchKeyword !== "") {
 
     // const response = await fetch(url);
     // 인증 토큰 추가
+    const accessToken = localStorage.getItem("access_token");
+    console.log(accessToken);
+
     const response = await fetch(url, {
+      method: "GET",
+      credentials: "include", // ⭐ 쿠키 포함
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
         "Content-Type": "application/json",
+        Authorization: accessToken ? `Bearer ${accessToken}` : "",
       },
     });
 
-    console.log(localStorage.getItem("token"));
+    // ⭐ 401 / 403 처리
+    if (response.status === 401) {
+      alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
+      window.location.href = "/login.html";
+      return;
+    }
+    if (response.status === 403) {
+      alert("권한이 없습니다. 다시 로그인해주세요.");
+      window.location.href = "/login.html";
+      return;
+    }
 
     const json = await response.json();
 
