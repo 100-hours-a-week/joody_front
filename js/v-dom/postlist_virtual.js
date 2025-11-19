@@ -1,6 +1,7 @@
 import { loadUserProfile } from "../utils/user.js";
 
 import { createDom } from "./common/Vdom.js";
+import { apiRequest } from "../utils/api.js";
 
 // ==== 성능 테스트 전용 유틸 ====
 // document
@@ -204,41 +205,27 @@ async function loadPosts(isSearch = state.searchKeyword !== "") {
       url.searchParams.append("keyword", state.searchKeyword);
     }
 
-    // const response = await fetch(url);
-    // 인증 토큰 추가
-    const accessToken = localStorage.getItem("access_token");
-    console.log(accessToken);
+    // apiRequest 호출
+    const { ok, data, status } = await apiRequest(url.pathname + url.search);
 
-    const response = await fetch(url, {
-      method: "GET",
-      credentials: "include", // ⭐ 쿠키 포함
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: accessToken ? `Bearer ${accessToken}` : "",
-      },
-    });
-
-    // ⭐ 401 / 403 처리
-    if (response.status === 401) {
-      alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
-      window.location.href = "/login.html";
-      return;
-    }
-    if (response.status === 403) {
-      alert("권한이 없습니다. 다시 로그인해주세요.");
-      window.location.href = "/login.html";
+    if (!ok) {
+      if (status === 401) {
+        alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
+        window.location.href = "/login.html";
+      } else if (status === 403) {
+        alert("권한이 없습니다. 다시 로그인해주세요.");
+        window.location.href = "/login.html";
+      }
       return;
     }
 
-    const json = await response.json();
+    if (data.message === "post_list_success") {
+      const list = data.data;
 
-    if (json.message === "post_list_success") {
-      const data = json.data;
-
-      // 기존 posts에 새로 받아온 content를 이어붙임
-      state.posts = [...state.posts, ...data.content];
-      state.nextCursor = data.nextCursor;
-      state.hasNext = data.hasNext;
+      // 캡슐화
+      state.posts = [...state.posts, ...list.content];
+      state.nextCursor = list.nextCursor;
+      state.hasNext = list.hasNext;
 
       //Virtual DOM 렌더
       renderPosts();
