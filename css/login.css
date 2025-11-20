@@ -4,22 +4,20 @@ body {
   background-color: #fff;
   color: #121212;
 
-  /* 화면 중앙 배치 */
   display: flex;
-  justify-content: center; /* 수평 가운데 */
-  align-items: center; /* 수직 가운데 추가 */
-  min-height: 100vh; /* 화면 전체 높이 기준 */
   flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* 중앙 → 위쪽 배치 */
+  padding-top: 200px; /* 🔥 원하는 만큼 위로 붙이기 */
 }
 
-#header_title {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: "Gamja Flower";
-  font-size: 32px;
-  font-weight: 300;
-  margin: 0;
+#logo_wrapper {
+  margin-bottom: 30px; /* 로고와 로그인 박스 사이 간격 */
+}
+
+#login_logo {
+  width: 120px; /* 원하는 크기로 조정 가능 */
+  height: auto;
 }
 
 #login_title {
