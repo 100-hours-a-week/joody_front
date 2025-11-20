@@ -72,6 +72,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   function render() {
     const state = getState();
 
+    console.log(state);
+    console.log(state.title);
+
     return h(
       "form",
       {
@@ -114,7 +117,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           required: true,
           placeholder: "내용을 입력해주세요.",
           value: state.content,
-          oninput: debounce((e) => {
+          oninput: (e) => {
             const text = e.target.value;
             if (text.length > 65535) {
               alert("본문이 너무 깁니다!");
@@ -122,7 +125,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             } else {
               setState({ content: text });
             }
-          }, 200),
+          },
         })
       ),
 
