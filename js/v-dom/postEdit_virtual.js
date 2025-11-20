@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           id: "submit_button",
           type: "submit",
         },
-        "작성하기"
+        "수정하기"
       )
     );
   }

@@ -2,9 +2,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const preview = document.getElementById("avatar_preview");
   const container = document.querySelector(".avatar-container");
   const signupButton = document.getElementById("signup_button");
+  const nextButton = document.getElementById("next_button");
   const avatarInput = document.getElementById("avatar_input");
   const avatarHelper = document.querySelector(".profile_image_helper");
-  const emailInput = document.getElementById("username");
+  const emailInput = document.getElementById("email");
   const emailHelper = document.querySelector(".email_helper");
   const passwordInput = document.getElementById("password");
   const passwordHelper = document.querySelector(".password_helper");
