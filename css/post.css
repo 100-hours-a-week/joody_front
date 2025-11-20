@@ -341,6 +341,10 @@ body {
   font-weight: bold;
 }
 
+#submit_comment_button {
+  display: none;
+}
+
 /* #submit_comment_button:hover {
   background-color: #8e78ff;
 } */
@@ -430,6 +434,11 @@ body {
   cursor: pointer;
   color: #333;
   transition: background 0.2s, color 0.2s;
+}
+
+.edit_comment_button,
+.delete_comment_button {
+  display: none;
 }
 
 /* 댓글 내용 */
