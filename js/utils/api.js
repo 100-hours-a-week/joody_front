@@ -3,10 +3,6 @@
 function getToken() {
   return localStorage.getItem("access_token"); // 엑세스 토큰 키 이름 ..
 }
-// ✔ FormData 체크
-function isFormData(body) {
-  return body instanceof FormData;
-}
 
 export async function apiRequest(url, options = {}) {
   const fullUrl = `http://localhost:8080${url}`;
@@ -26,6 +22,8 @@ export async function apiRequest(url, options = {}) {
 
   let response = await fetch(fullUrl, config);
 
+  // console.log(response);
+
   if (response.status === 401) {
     const refreshed = await refreshAccessToken();
     if (!refreshed) {
@@ -42,6 +40,7 @@ export async function apiRequest(url, options = {}) {
   const data = await response.json().catch(() => null);
   return { ok: response.ok, status: response.status, data };
 
+  // 엑세스 토큰 만료시 리프레스 토큰 API 자동 호출
   async function refreshAccessToken() {
     try {
       const res = await fetch("http://localhost:8080/auth/refresh", {
@@ -51,6 +50,8 @@ export async function apiRequest(url, options = {}) {
 
       const json = await res.json();
       if (!res.ok) return false;
+
+      console.log("토큰 재발급 성공:", json);
 
       // access_token으로 저장
       localStorage.setItem("access_token", json.data.accessToken);
