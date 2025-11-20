@@ -65,25 +65,33 @@ function App() {
   }
 
   // ✅ 로그인 클릭
+  // ✅ 로그인 클릭
   async function handleLogin(e) {
     e.preventDefault();
-    if (!isActive) return; // 비활성화 상태일 때 클릭 방지
+    if (!isActive) return;
 
     setState({ isLoading: true, helper: "" });
+
     try {
-      // apiRequest 사용 (credentials: include 자동 적용됨!)
-      const { ok, data } = await apiRequest("/auth/login", {
+      // ❗ 로그인은 fetch로 직접 요청해야 함 (apiRequest 쓰면 안 됨!)
+      const res = await fetch("http://localhost:8080/auth/login", {
         method: "POST",
+        credentials: "include", // Refresh Token 저장용
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           email: state.email.trim(),
           password: state.password.trim(),
         }),
       });
 
-      if (!ok) {
-        if (data?.message === "emailOrPassword_mismatch") {
+      const json = await res.json();
+
+      if (!res.ok) {
+        if (json?.message === "emailOrPassword_mismatch") {
           setState({ helper: "* 아이디 또는 비밀번호를 확인해주세요." });
-        } else if (data?.message === "deleted_user") {
+        } else if (json?.message === "deleted_user") {
           setState({ helper: "* 탈퇴한 회원입니다. 다시 가입해주세요." });
         } else {
           setState({ helper: "로그인 실패. 다시 시도해주세요." });
@@ -92,19 +100,16 @@ function App() {
       }
 
       // Access Token 저장
-      const accessToken = data.data.accessToken;
+      const accessToken = json.data.accessToken;
       localStorage.setItem("access_token", accessToken);
-      console.log(accessToken);
 
-      // 사용자 정보 저장 (댓글 표시, 프로필 표시 등에 필요)
-      const user = data.data.user;
+      // 사용자 정보 저장
+      const user = json.data.user;
       localStorage.setItem("userId", user.id);
       localStorage.setItem("nickname", user.nickname);
       localStorage.setItem("profileImage", user.profileImage);
 
-      // Refresh Token은 HttpOnly 쿠키로 자동 저장됨 (JS에서 접근 불가)
-
-      // 이동!
+      // 성공 시 이동
       window.location.href = "/postList.html";
     } catch (err) {
       console.error("로그인 요청 실패:", err);
