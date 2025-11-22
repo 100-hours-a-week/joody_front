@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // 초기 버튼 상태
   submitButton.disabled = true;
-  submitButton.style.backgroundColor = "#d9d9d9";
+  submitButton.style.backgroundColor = "#aca0eb";
 
   // 제목 최대 26자 제한
   titleInput.addEventListener("input", () => {
@@ -72,11 +72,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (title.length > 0 && content.length > 0) {
       submitButton.disabled = false;
-      submitButton.style.backgroundColor = "#4baa7d";
+      submitButton.style.backgroundColor = "#7f6aee";
       helperText.textContent = "";
     } else {
       submitButton.disabled = true;
-      submitButton.style.backgroundColor = "#d9d9d9";
+      submitButton.style.backgroundColor = "#aca0eb";
     }
   }
 
