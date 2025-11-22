@@ -115,7 +115,7 @@ projects/
 
 ## 🎥 Demonstration (시현 영상)
 
-
+<p>[회원가입 및 로그인]</p>
 <video src="https://github.com/user-attachments/assets/8019065c-5a4d-4afa-8d3f-879ab666719c"
        controls 
        width="70%">
