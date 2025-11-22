@@ -1,14 +1,14 @@
 body {
   margin: 0;
-  background-color: #ffffff;
+  background-color: #f4f5f7;
   font-family: "Pretendard", sans-serif;
 }
 
 #main_header {
   width: 100%;
   height: 104px;
-  background-color: #ffffff;
-  border-bottom: 1px solid rgba(75, 170, 125, 0.25);
+  background-color: #f4f5f7;
+  border-bottom: 1px solid #121212;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,7 +23,7 @@ body {
   transition: transform 0.2s;
   position: relative;
   z-index: 2;
-  right: 220px;
+  right: 200px;
 }
 #back_button {
   width: 100%;
@@ -32,6 +32,7 @@ body {
   display: block;
   cursor: pointer;
 }
+
 #header_title {
   position: absolute;
   left: 50%;
@@ -41,17 +42,25 @@ body {
   font-weight: 500;
   margin: 0;
 }
-#header_logo {
-  height: 60px; /* 원하는 크기로 조절 */
-  object-fit: contain;
-  display: block;
+#profile_img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: transform 0.2s;
+  position: absolute;
+  z-index: 2;
+  right: calc(50% - 220px);
+  transform: translateY(-50%);
+  top: 47%;
 }
+
 /* 프로필 메뉴 */
 .profile-menu {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  right: calc(50% - 220px); /* ✅ 제목 중앙에서 살짝 오른쪽 (조정 가능) */
+  right: calc(50% - 260px); /* ✅ 제목 중앙에서 살짝 오른쪽 (조정 가능) */
   z-index: 2000;
 }
 
@@ -65,7 +74,6 @@ body {
   transition: transform 0.2s;
   position: relative;
   z-index: 2;
-  border: 2px solid #4baa7d;
 }
 #profile_img:hover {
   transform: scale(1);
@@ -78,12 +86,11 @@ body {
   left: 10%;
   transform: translateX(-50%);
   width: 115px;
-  background-color: #f9f9f9;
-  border: 1px solid #4baa7d;
-  border-radius: 8px;
+  background: #d9d9d9;
+  border: 1px solid #ddd;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   list-style: none;
-  padding: 0;
+  padding: 8px 0;
   margin: 0;
 }
 
@@ -92,8 +99,7 @@ body {
   text-align: center;
 }
 #dropdown_menu li:hover {
-  font-size: 17px;
-  font-weight: bold;
+  background-color: #e9e9e9;
 }
 #dropdown_menu a {
   color: #333;
@@ -107,18 +113,15 @@ body {
 
 /* ===== 메인 컨테이너 ===== */
 #edit_container {
-  width: 500px;
-  margin: 50px auto;
-  border-radius: 12px;
-  padding: 40px;
+  width: 592px;
+  margin: 10px;
+  padding: 10px;
   box-sizing: border-box;
-  min-height: auto; /* 고정 높이 절대 X */
-  overflow: visible; /* 중요! */
 }
 
 #edit_title {
   text-align: center;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 700;
   margin-bottom: 80px;
 }
@@ -141,11 +144,12 @@ label {
 input[type="text"],
 textarea {
   border: none; /* 전체 테두리 제거 */
-  border-bottom: 1.5px solid #d9d9d9; /* 위아래만 선 표시 */
-  background-color: #ffffff; /* 배경색과 동일하게 */
+  border-top: 1.5px solid #ddd;
+  border-bottom: 1.5px solid #ddd; /* 위아래만 선 표시 */
+  background-color: #f4f5f7; /* 배경색과 동일하게 */
   border-radius: 0; /* 둥근 모서리 제거 */
   padding: 10px 8px;
-  font-size: 13px;
+  font-size: 15px;
   resize: none;
   font-family: "Noto Sans KR", sans-serif;
   box-sizing: border-box;
@@ -155,7 +159,7 @@ textarea {
 input[type="text"]:focus,
 textarea:focus {
   outline: none;
-  border-color: #4baa7d;
+  border-color: #a18aff;
 }
 
 /* ===== 파일 업로드 ===== */
@@ -164,17 +168,17 @@ input[type="file"] {
   color: #555;
 }
 
-.nickname_helper {
+.helper_text {
   font-size: 12px;
   color: #ff0000;
   margin: -4px 0 8px 4px;
 }
 
-/* ===== 작성 버튼 ===== */
+/* ===== 수정 버튼 ===== */
 #submit_button {
   display: block;
   width: 70%;
-  /* background-color: #4baa7d; */
+  background-color: #aca0eb;
   color: white;
   border: none;
   border-radius: 10px;

@@ -1,73 +1,82 @@
 body {
   margin: 0;
+  background-color: #f4f5f7;
   font-family: "Pretendard", sans-serif;
-  background-color: #fff;
-  color: #121212;
+}
 
+#main_header {
+  width: 100%;
+  height: 104px;
+  background-color: #f4f5f7;
+  border-bottom: 1px solid #121212;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* 중앙 → 위쪽 배치 */
-  padding-top: 200px; /* 🔥 원하는 만큼 위로 붙이기 */
+  justify-content: center;
+  position: relative;
 }
 
-#logo_wrapper {
-  margin-bottom: 30px; /* 로고와 로그인 박스 사이 간격 */
-}
-
-#login_logo {
-  width: 120px; /* 원하는 크기로 조정 가능 */
-  height: auto;
+#header_title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "Gamja Flower";
+  font-size: 32px;
+  font-weight: 300;
+  margin: 0;
 }
 
 #login_title {
   /* 텍스트 가운데 정렬 */
   width: 100%;
   text-align: center;
-  /* margin-top: 50px; */
+  margin-top: 200px;
   margin-bottom: 40px;
   font-size: 32px;
   font-weight: bold;
 }
 
-/* ✅ 폼 전체 중앙 정렬 */
 #login_form {
-  width: 360px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  box-sizing: border-box;
+  width: 392px;
+  height: 198px;
+  /* border: 1px solid #121212; */
+  margin: auto;
+  border-radius: 4px;
 }
 
-/* ✅ 라벨 스타일 */
-.email_label,
-.password_label {
-  width: 100%;
+.email_label {
   font-size: 15px;
   font-weight: 700;
+  line-height: 100%;
   margin-bottom: 8px;
+  padding-left: 13px;
+  font-weight: bold;
+  margin-top: 25px;
+}
+.password_label {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 100%;
+  margin-bottom: 8px;
+  padding-left: 13px;
+  font-weight: bold;
 }
 
 #username,
 #password {
-  width: 100%;
+  width: calc(100% - 30px);
   max-width: 355px;
-  height: 40px;
-  border: none; /* ✅ 네모 테두리 제거 */
-  border-bottom: 1px solid #ddd;
-  margin-bottom: 20px;
-  padding: 0 5px;
-  background-color: transparent; /* ✅ 배경 투명 */
-  box-sizing: border-box;
+  height: 33px;
+  border: 1px solid #121212;
+  margin-bottom: 16px;
+  padding: 0 15px; /* 양쪽 15px 여유 */
+  margin-left: 16px;
+  background-color: #f4f5f7;
+  border-radius: 4px;
+  box-sizing: border-box; /* padding 포함해서 너비 계산 */
   font-size: 14px;
-  outline: none; /* ✅ 포커스 시 기본 파란 테두리 제거 */
-  transition: all 0.2s ease;
-  padding: 0 15px;
 }
 
 #helper_text {
-  width: 100%;
   font-size: 12px;
   color: #ff0000;
   margin-top: -5px;
@@ -78,11 +87,11 @@ body {
 #login_button {
   width: 361px;
   height: 37px;
-  background-color: #dcdbe3;
+  background-color: #aca0eb;
   display: block;
   margin: 12px auto 0;
   border: none;
-  color: #fff;
+  color: white;
   border-radius: 4px;
   font-weight: bold;
   font-size: 14px;

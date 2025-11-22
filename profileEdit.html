@@ -10,8 +10,63 @@
     </style>
   </head>
   <body>
-    <div id="profileEdit_app"></div>
+    <header id="main_header">
+      <p id="header_title">아무 말 대잔치</p>
+      <!-- 뒤로가기 버튼해서 게시글 목록 보이는 거 구현해야될듯 -->
+
+      <div class="profile-menu">
+        <img id="profile_img" src="./img/profile.png" alt="프로필 이미지" />
+        <ul id="dropdown_menu" class="hidden">
+          <li><a href="/profileEdit.html">회원정보수정</a></li>
+          <li><a href="/passwordEdit.html">비밀번호수정</a></li>
+          <li><a href="/login.html">로그아웃</a></li>
+        </ul>
+      </div>
+    </header>
+    <h1 id="profileEdit_title">회원정보수정</h1>
+    <div id="profileEdit_container">
+      <form id="profileEdit_form" enctype="multipart/form-data" method="post">
+        <p class="profile_image">프로필 사진*</p>
+        <div class="avatar-container has-avatar">
+          <img
+            id="current_avatar"
+            src="./img/profile.png"
+            alt="현재 프로필 이미지"
+          />
+          <button id="change_button">변경</button>
+          <input type="file" id="avatar_input" accept="image/*" />
+        </div>
+
+        <p class="email_label">이메일</p>
+        <p id="email_display">example@example.com</p>
+        <p class="nickname_label">닉네임*</p>
+        <input
+          type="nickname"
+          id="nickname"
+          name="nickname"
+          placeholder="닉네임을 입력하세요."
+          required
+          aria-label="닉네임"
+        />
+        <p class="nickname_helper"></p>
+        <button type="submit" id="edited_button">수정하기</button>
+      </form>
+      <a href="회원탈퇴" id="prodileDelete_link">회원탈퇴</a>
+      <!-- <button type="submit" id="completed_button">수정완료</button> -->
+      <div id="toast" class="hidden"></div>
+    </div>
+
+    <!-- 회원탈퇴 모달 -->
+    <div id="modal_overlay" class="hidden">
+      <div id="delete_modal">
+        <h2>회원탈퇴 하시겠습니까?</h2>
+        <p>작성된 게시글과 댓글은 삭제됩니다.</p>
+        <div class="modal_buttons">
+          <button id="cancel_button">취소</button>
+          <button id="confirm_button">확인</button>
+        </div>
+      </div>
+    </div>
   </body>
-  <!-- <script src="./js/profileEdit.js"></script> -->
-  <script type="module" src="./js/v-dom/profileEdit_virtual.js"></script>
+  <script src="./js/profileEdit.js"></script>
 </html>

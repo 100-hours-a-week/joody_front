@@ -2,10 +2,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const preview = document.getElementById("avatar_preview");
   const container = document.querySelector(".avatar-container");
   const signupButton = document.getElementById("signup_button");
-  const nextButton = document.getElementById("next_button");
   const avatarInput = document.getElementById("avatar_input");
   const avatarHelper = document.querySelector(".profile_image_helper");
-  const emailInput = document.getElementById("email");
+  const emailInput = document.getElementById("username");
   const emailHelper = document.querySelector(".email_helper");
   const passwordInput = document.getElementById("password");
   const passwordHelper = document.querySelector(".password_helper");
@@ -249,6 +248,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const data = await response.json();
 
       if (response.ok) {
+        alert("회원가입이 완료되었습니다!");
         window.location.href = "/login.html";
       } else if (data.message == "duplicate_email") {
         showHelper(emailHelper, "* 중복된 이메일입니다.");
