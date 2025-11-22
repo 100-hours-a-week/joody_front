@@ -17,9 +17,14 @@ window.addEventListener("click", (e) => {
   }
 });
 
+// 헤더 제목 클릭 시 게시글 목록 페이지로 이동
+document.getElementById("header_title").addEventListener("click", () => {
+  window.location.href = "postList.html";
+});
+
 async function loadUserProfile() {
   try {
-    const userId = localStorage.getItem("userId"); // 로그인 시 저장해둬야 함
+    const userId = localStorage.getItem("userId"); // 로그인 시 저장해둬야 함.
 
     if (!userId) {
       console.warn("로그인된 사용자 ID가 없습니다.");
@@ -29,8 +34,19 @@ async function loadUserProfile() {
     const res = await fetch(`http://localhost:8080/users/${userId}/profile`);
     const json = await res.json();
 
+    console.log(json);
+
     if (json.message === "read_success") {
       const imgUrl = json.data.profileImage;
+      const email = json.data.email;
+
+      // ✅ 2️⃣ 이메일 표시
+      const emailDisplay = document.getElementById("email_display");
+      if (emailDisplay && email) {
+        emailDisplay.textContent = email;
+      } else if (emailDisplay) {
+        emailDisplay.textContent = "이메일 정보가 없습니다.";
+      }
 
       const finalUrl = imgUrl
         ? imgUrl.startsWith("http")
@@ -115,7 +131,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const toast = document.getElementById("toast");
   // 여기 안에는 html 요소들이 다 로드된 상태에서 실행이 되는 부분!!
   // 취소 버튼이 눌린 후에, 이 모달창이 띄워져야 하기 때문에 DomContentLoaded 안에 작성
-  const deleteLink = document.getElementById("prodileDelete_link");
+  const deleteLink = document.getElementById("profileDelete_link");
   const modalOverlay = document.getElementById("modal_overlay");
   const cancelButton = document.getElementById("cancel_button");
   const confirmButton = document.getElementById("confirm_button");
@@ -129,25 +145,57 @@ document.addEventListener("DOMContentLoaded", async () => {
     nicknameHelper.style.color = color;
   };
 
+  // ===== 닉네임 입력 시 공백 입력 자체 차단 =====
+  nicknameInput.addEventListener("keydown", (e) => {
+    if (e.key === " " || e.code === "Space") {
+      e.preventDefault(); // ✅ 스페이스바 입력 자체를 막음
+      showHelper("* 닉네임에 공백은 사용할 수 없습니다.");
+    } else {
+      // ✅ 다른 키 입력 시 헬퍼 문구 지우기 (잔상 방지)
+      nicknameHelper.textContent = "";
+    }
+  });
+
   // 닉네임 유효성 검사 함수
   const validateNickname = () => {
-    const nickname = nicknameInput.value.trim();
+    let nickname = nicknameInput.value.trim();
+
+    // ✅ 공백 입력 즉시 제거
+    if (/\s/.test(nickname)) {
+      nickname = nickname.replace(/\s+/g, "");
+      nicknameInput.value = nickname;
+      showHelper("* 닉네임에 공백은 사용할 수 없습니다.");
+      editButton.style.backgroundColor = "#dcdbe3"; // ❌ 비활성화
+      editButton.disabled = true;
+      return false;
+    }
 
     if (nickname === "") {
       showHelper("* 닉네임을 입력해주세요.");
+      editButton.style.backgroundColor = "#dcdbe3";
+      editButton.disabled = true;
       return false;
     }
 
     if (nickname.length > 10) {
       showHelper("* 닉네임은 최대 10자까지 작성 가능합니다.");
+      editButton.style.backgroundColor = "#dcdbe3";
+      editButton.disabled = true;
       return false;
     }
 
-    // 유효한 경우
+    // ✅ 유효한 경우
     showHelper("");
+    editButton.style.backgroundColor = "#4baa7d"; // 활성화
+    editButton.style.color = "#fff";
+    editButton.disabled = false;
     return true;
   };
 
+  // ✅ 닉네임 입력 시마다 실시간 검사 & 버튼 색상 반영
+  nicknameInput.addEventListener("input", () => {
+    validateNickname();
+  });
   // 토스트 메시지 표시 함수
   const showToast = (message) => {
     toast.textContent = message;
