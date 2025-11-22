@@ -114,7 +114,12 @@ projects/
 ```
 
 ## 🎥 Demonstration (시현 영상)
-https://github.com/100-hours-a-week/joody_front/issues/4
+
+
+<video src="https://github.com/100-hours-a-week/joody_front/issues/4"
+       controls 
+       width="70%">
+</video>
 
 <br/>
 <br/>
