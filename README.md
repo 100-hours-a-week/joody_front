@@ -115,13 +115,13 @@ projects/
 
 ## 🎥 Demonstration (시현 영상)
 
-<video src="https://raw.githubusercontent.com/100-hours-a-week/joody_front/feature/week_10/videos/signUp&login.mp4" 
+<video src="https://github.com/100-hours-a-week/joody_front/feature/week_10/videos/signUp&login.mp4" 
        controls 
        width="70%"></video>
-<video src="https://raw.githubusercontent.com/100-hours-a-week/joody_front/feature/week_10/videos/profiles.mp4" 
+<video src="https://github.com/100-hours-a-week/joody_front/feature/week_10/videos/profiles.mp4" 
        controls 
        width="70%"></video>
-<video src="https://raw.githubusercontent.com/100-hours-a-week/joody_front/feature/week_10/videos/postsCRUD.mp4" 
+<video src="https://github.com/100-hours-a-week/joody_front/feature/week_10/videos/postsCRUD.mp4" 
        controls 
        width="70%"></video>
 <br/>
