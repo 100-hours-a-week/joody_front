@@ -116,10 +116,12 @@ projects/
 ## 🎥 Demonstration (시현 영상)
 
 **[회원가입 및 로그인]**
+<div align="center">
 <video src="https://github.com/user-attachments/assets/8019065c-5a4d-4afa-8d3f-879ab666719c"
        controls 
        width="70%">
 </video>
+</div>
 <br />
 **[회원정보 및 비밀번호 수정]**
 <p align="center">
