@@ -115,16 +115,41 @@ projects/
 
 ## 🎥 Demonstration (시현 영상)
 
-<p>[회원가입 및 로그인]</p>
+**[회원가입 및 로그인]**
 <video src="https://github.com/user-attachments/assets/8019065c-5a4d-4afa-8d3f-879ab666719c"
        controls 
        width="70%">
 </video>
+<br />
+**[회원정보 및 비밀번호 수정]**
 <video src="https://github.com/user-attachments/assets/4bfd4e5b-7eb9-4d89-8124-fef532adcd4f"
        controls 
        width="70%">
 </video>
+<br />
+**[게시글작성및조회]**
+<video src="https://github.com/user-attachments/assets/bb15802e-e36c-4404-8b57-32a099c17bfa"
+       controls 
+       width="70%">
+</video>
+<br />
+**[게시글 수정]**
+<video src="https://github.com/user-attachments/assets/be20ff32-e8e9-476c-a67b-c31d3057f01e"
+       controls 
+       width="70%">
+</video>
+<br />
+**[댓글 CRUD]**
+<video src="https://github.com/user-attachments/assets/64ed4a4f-2a78-4f0e-9388-33165fb7edd2"
+       controls 
+       width="70%">
+</video>
+<br />
+**[게시글 삭제 및 좋아요 토글 기능]**
+<video src="https://github.com/user-attachments/assets/31ad5b30-6472-4e2c-a6c5-e6129e62106d"
+       controls 
+       width="70%">
+</video>
+<br />
 
 
-<br/>
-<br/>
