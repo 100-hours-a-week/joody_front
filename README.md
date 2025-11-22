@@ -6,8 +6,8 @@
 <br/>
 <br/>
 
-
 ## 1. Project Overview (프로젝트 개요)
+
 - 프로젝트 이름: 아무말 대잔치
 - 프로젝트 설명: 다양한 사람들이 모인 자유로운 커뮤니티
 
@@ -15,43 +15,51 @@
 <br/>
 
 ## 2. Introduce (팀원 및 팀 소개)
+
 - 개인프로젝트 : 주다영(FE)
 
 <br/>
 <br/>
 
 ## 3. Key Features (주요 기능)
+
 - **회원가입**:
+
   - 회원가입 시 DB에 유저정보가 등록됩니다.
 
 - **로그인**:
+
   - 사용자 인증 정보를 통해 로그인합니다.
 
 - **게시글 작성**:
+
   - 새로운 게시글을 작성할 수 있습니다.
 
 - **게시글 검색 기능**:
+
   - 관심있는 게시글을 즉시 검색해볼 수 있습니다.
- 
+
 - **프로필**:
   - 회원정보 수정(프로필 이미지 수정 및 닉네임 수정), 비밀번호 수정이 가능합니다.
 
 <br/>
 <br/>
 
-
 ## 4. Technology Stack (기술 스택)
+
 ### 4.1 Language
+
 HTML,CSS,JavaScript
 <br/>
 
-
 ### 4.2 Cooperation
+
 Git,Github,Notion
 <br/>
 <br/>
 
 ## 5. Project Structure (프로젝트 구조)
+
 ```plaintext
 projects/
 ├── css/                          # 각 페이지별 스타일 파일
@@ -105,5 +113,16 @@ projects/
 
 ```
 
+## 🎥 Demonstration (시현 영상)
+
+<video src="https://raw.githubusercontent.com/100-hours-a-week/joody_front/feature/week_10/videos/signUp&login.mp4" 
+       controls 
+       width="70%"></video>
+<video src="https://raw.githubusercontent.com/100-hours-a-week/joody_front/feature/week_10/videos/profiles.mp4" 
+       controls 
+       width="70%"></video>
+<video src="https://raw.githubusercontent.com/100-hours-a-week/joody_front/feature/week_10/videos/postsCRUD.mp4" 
+       controls 
+       width="70%"></video>
 <br/>
 <br/>
