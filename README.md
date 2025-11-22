@@ -122,10 +122,12 @@ projects/
 </video>
 <br />
 **[회원정보 및 비밀번호 수정]**
+<p align="center">
 <video src="https://github.com/user-attachments/assets/4bfd4e5b-7eb9-4d89-8124-fef532adcd4f"
        controls 
        width="70%">
-</video>
+</video> 
+</p>
 <br />
 **[게시글작성및조회]**
 <video src="https://github.com/user-attachments/assets/bb15802e-e36c-4404-8b57-32a099c17bfa"
