@@ -1,6 +1,7 @@
 import { loadUserProfile } from "../utils/user.js";
 
-import { createDom } from "./common/Vdom.js";
+import { render } from "./common/Vdom.js";
+
 import { apiRequest } from "../utils/api.js";
 
 // ==== 성능 테스트 전용 유틸 ====
@@ -47,12 +48,6 @@ function h(type, props, ...children) {
   };
 }
 
-// postList 영역만 통째로 다시 렌더
-function render(vnode, container) {
-  container.innerHTML = "";
-  container.appendChild(createDom(vnode));
-}
-
 const formatNumber = (num) => {
   if (num >= 1000000) return (num / 1000).toFixed(0) + "k";
   if (num >= 1000) return Math.floor(num / 1000) + "k";
@@ -85,6 +80,7 @@ function PostListView(posts) {
       h(
         "article",
         {
+          key: post.id, // 추가!!!
           className: "post-card",
           dataset: { id: post.id },
           onClick: handleCardClick(post.id),
@@ -174,10 +170,11 @@ function PostListView(posts) {
   );
 }
 
+// postList diff + patch 반영
 function renderPosts() {
   const postList = document.getElementById("post_list");
   const vnode = PostListView(state.posts);
-  render(vnode, postList);
+  render(vnode, postList); // ← VDOM의 render 호출 (diff 적용)
 }
 
 // 데이터 로딩 로직 (인피니티 스크롤 + 검색 그대로 사용)
