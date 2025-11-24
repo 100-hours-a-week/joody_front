@@ -71,12 +71,69 @@ export function updateElement(parent, newNode, oldNode, index = 0) {
   if (!existing || existing.nodeType !== Node.ELEMENT_NODE) return;
 
   patchProps(existing, newNode.props || {}, oldNode.props || {});
+  // const newChildren = newNode.children || [];
+  // const oldChildren = oldNode.children || [];
+  // const max = Math.max(newChildren.length, oldChildren.length);
+  // for (let i = 0; i < max; i++) {
+  //   updateElement(existing, newChildren[i], oldChildren[i], i);
+  // }
+
+  // ==============================
+  //   ⭐ Key 기반 children diff
+  // ==============================
   const newChildren = newNode.children || [];
   const oldChildren = oldNode.children || [];
-  const max = Math.max(newChildren.length, oldChildren.length);
-  for (let i = 0; i < max; i++) {
-    updateElement(existing, newChildren[i], oldChildren[i], i);
-  }
+
+  // oldChildren keyMap 생성
+  const oldKeyMap = {};
+  oldChildren.forEach((child, idx) => {
+    const key = child?.props?.key;
+    if (key != null) {
+      oldKeyMap[key] = { vnode: child, index: idx };
+    }
+  });
+
+  let lastPlacedIndex = 0;
+
+  newChildren.forEach((newChild, newIdx) => {
+    const key = newChild?.props?.key;
+
+    // key가 없으면 fallback: index diff
+    if (key == null) {
+      updateElement(existing, newChild, oldChildren[newIdx], newIdx);
+      return;
+    }
+
+    // key로 oldChild 찾기
+    const mapped = oldKeyMap[key];
+    if (mapped) {
+      const oldIdx = mapped.index;
+      const oldChild = mapped.vnode;
+
+      // 기존 요소 diff
+      updateElement(existing, newChild, oldChild, oldIdx);
+
+      // 필요한 경우 DOM 위치 교체(앞에 이동 등)
+      if (oldIdx < lastPlacedIndex) {
+        const nodeToMove = existing.childNodes[oldIdx];
+        const referenceNode = existing.childNodes[newIdx] || null;
+        existing.insertBefore(nodeToMove, referenceNode);
+      }
+
+      lastPlacedIndex = Math.max(lastPlacedIndex, oldIdx);
+    } else {
+      // 새로운 노드 → 추가
+      updateElement(existing, newChild, null, newIdx);
+    }
+  });
+
+  // old 중에서 new에 없는 key → 삭제
+  oldChildren.forEach((oldChild, oldIdx) => {
+    const key = oldChild?.props?.key;
+    if (key != null && !newChildren.some((n) => n?.props?.key === key)) {
+      updateElement(existing, null, oldChild, oldIdx);
+    }
+  });
 }
 
 export function patchProps(el, newProps, oldProps) {
@@ -138,4 +195,20 @@ export function patchProps(el, newProps, oldProps) {
       el.setAttribute(k, nv);
     }
   });
+}
+
+export function render(vnode, container) {
+  const oldVNode = container._prevVNode;
+
+  if (!oldVNode) {
+    // 최초 렌더 (전체 생성)
+    const dom = createDom(vnode);
+    container.appendChild(dom);
+  } else {
+    // diff & patch
+    updateElement(container, vnode, oldVNode);
+  }
+
+  // 새 vnode 기억
+  container._prevVNode = vnode;
 }
