@@ -1,0 +1,195 @@
+body {
+  margin: 0;
+  background-color: #ffffff;
+  font-family: "Pretendard", sans-serif;
+}
+
+#main_header {
+  width: 100%;
+  height: 104px;
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(75, 170, 125, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+#back_link {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  object-fit: cover;
+  transition: transform 0.2s;
+  position: relative;
+  z-index: 2;
+  right: 220px;
+}
+#back_button {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  cursor: pointer;
+}
+#header_title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "Gamja Flower";
+  font-size: 32px;
+  font-weight: 500;
+  margin: 0;
+}
+#header_logo {
+  height: 60px; /* 원하는 크기로 조절 */
+  object-fit: contain;
+  display: block;
+}
+/* 프로필 메뉴 */
+.profile-menu {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: calc(50% - 220px); /* ✅ 제목 중앙에서 살짝 오른쪽 (조정 가능) */
+  z-index: 2000;
+}
+
+/* 프로필 이미지 */
+#profile_img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  object-fit: cover;
+  transition: transform 0.2s;
+  position: relative;
+  z-index: 2;
+  border: 2px solid #4baa7d;
+}
+#profile_img:hover {
+  transform: scale(1);
+}
+
+/* 드롭다운 메뉴 */
+#dropdown_menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 10%;
+  transform: translateX(-50%);
+  width: 115px;
+  background-color: #f9f9f9;
+  border: 1px solid #4baa7d;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#dropdown_menu li {
+  padding: 10px 16px;
+  text-align: center;
+}
+#dropdown_menu li:hover {
+  font-size: 17px;
+  font-weight: bold;
+}
+#dropdown_menu a {
+  color: #333;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.hidden {
+  display: none;
+}
+
+/* ===== 메인 컨테이너 ===== */
+#edit_container {
+  width: 500px;
+  margin: 50px auto;
+  border-radius: 12px;
+  padding: 40px;
+  box-sizing: border-box;
+  min-height: auto; /* 고정 높이 절대 X */
+  overflow: visible; /* 중요! */
+}
+
+#edit_title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 80px;
+}
+
+/* ===== 폼 그룹 ===== */
+.form_group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 50px;
+}
+
+label {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: #222;
+}
+
+/* ===== 입력창 공통 스타일 ===== */
+input[type="text"],
+textarea {
+  border: none; /* 전체 테두리 제거 */
+  border-bottom: 1.5px solid #d9d9d9; /* 위아래만 선 표시 */
+  background-color: #ffffff; /* 배경색과 동일하게 */
+  border-radius: 0; /* 둥근 모서리 제거 */
+  padding: 10px 8px;
+  font-size: 13px;
+  resize: none;
+  font-family: "Noto Sans KR", sans-serif;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+  outline: none;
+  border-color: #4baa7d;
+}
+
+/* ===== 파일 업로드 ===== */
+input[type="file"] {
+  font-size: 14px;
+  color: #555;
+}
+
+.nickname_helper {
+  font-size: 12px;
+  color: #ff0000;
+  margin: -4px 0 8px 4px;
+}
+
+/* ===== 작성 버튼 ===== */
+#submit_button {
+  display: block;
+  width: 70%;
+  /* background-color: #4baa7d; */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin: 20px auto 0; /* 👈 가운데 정렬 핵심 */
+}
+
+/* ===== 반응형 ===== */
+@media (max-width: 480px) {
+  #edit_container {
+    width: 90%;
+    padding: 24px;
+  }
+}

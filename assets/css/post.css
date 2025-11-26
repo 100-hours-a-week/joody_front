@@ -1,0 +1,537 @@
+body {
+  margin: 0;
+  background-color: #ffffff;
+  font-family: "Pretendard", sans-serif;
+}
+
+#main_header {
+  width: 100%;
+  height: 104px;
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(75, 170, 125, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+#back_link {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  object-fit: cover;
+  transition: transform 0.2s;
+  position: relative;
+  z-index: 2;
+  right: 220px;
+}
+
+#back_button {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  cursor: pointer;
+}
+
+#header_title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "Gamja Flower";
+  font-size: 32px;
+  font-weight: 500;
+  margin: 0;
+}
+
+#header_logo {
+  height: 60px; /* 원하는 크기로 조절 */
+  object-fit: contain;
+  display: block;
+  border: none;
+  outline: none;
+}
+
+/* 프로필 메뉴 */
+.profile-menu {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: calc(50% - 220px); /* ✅ 제목 중앙에서 살짝 오른쪽 (조정 가능) */
+  z-index: 2000;
+}
+
+/* 프로필 이미지 */
+#profile_img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  object-fit: cover;
+  transition: transform 0.2s;
+  position: relative;
+  z-index: 2;
+  border: 2px solid #4baa7d;
+}
+#profile_img:hover {
+  transform: scale(1);
+}
+
+/* 드롭다운 메뉴 */
+#dropdown_menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 10%;
+  transform: translateX(-50%);
+  width: 115px;
+  background-color: #f9f9f9;
+  border: 1px solid #4baa7d;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#dropdown_menu li {
+  padding: 10px 16px;
+  text-align: center;
+}
+#dropdown_menu li:hover {
+  font-size: 17px;
+  font-weight: bold;
+}
+#dropdown_menu a {
+  color: #333;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.hidden {
+  display: none;
+}
+/* 게시글 전체 컨테이너 */
+#post_container {
+  width: 450px;
+  margin: auto;
+  background-color: #ffffff;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #4baa7d;
+}
+
+/* 제목 */
+#post_title {
+  font-size: 20spx;
+  font-weight: bold;
+  margin: 0 auto 16px; /* 가운데 정렬 유지 */
+  font-family: "Pretendard";
+
+  /* 이미지와 같은 폭으로 맞춤 */
+  width: 480px;
+  max-width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+/* ...existing code... */
+#post_info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 480px; /* 이미지와 동일 폭 기준 */
+  max-width: 100%;
+  margin: 0 auto 16px;
+  padding: 10px 0;
+  box-sizing: border-box;
+  flex-wrap: nowrap;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+/* 작성자 이미지 (고정 크기) */
+#post_author_img {
+  width: 30px; /* 아예 조금 더 크게 하고 싶으면 여기 조절 */
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-left: 20px;
+
+  flex-shrink: 0; /* 💡 절대 줄거나 늘어나지 않도록 */
+  flex-grow: 0;
+  flex-basis: auto;
+}
+
+/* 작성자 이름 */
+#post_author {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+}
+
+/* 작성일은 가능한 오른쪽으로 밀기 */
+#post_date {
+  margin: 0 0 0 15px; /* 왼쪽 여백만 */
+  font-size: 13px;
+  color: #000000;
+  flex: 0 0 auto;
+}
+
+/* 편집/삭제 버튼 스타일 */
+#edit_button {
+  background-color: #ffffff;
+  border: 1px solid #4baa7d;
+  border-radius: 8px;
+  padding: 4px 12px;
+  margin-left: auto; /* ← 핵심: 왼쪽 여유를 자동으로 차지해 오른쪽으로 밀어냄 */
+  cursor: pointer;
+  font-size: 13px;
+  color: #333;
+}
+#delete_button {
+  background-color: #ffffff;
+  border: 1px solid #4baa7d;
+  border-radius: 8px;
+  padding: 4px 12px;
+  margin-left: 1px; /* edit 버튼과의 간격 */
+  margin-right: 20px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #333;
+}
+
+/* 게시글 이미지 */
+
+#post_image {
+  display: block;
+  width: 500px;
+  max-width: 100%; /* 작은 화면에서도 부모 폭을 넘지 않도록 */
+  height: 306px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 0 auto 20px; /* 가로 가운데 정렬, 아래 여백 유지 */
+}
+
+#post_content {
+  margin: 20px auto 0;
+  line-height: 1.4;
+  color: #333;
+  font-size: 13px;
+
+  /* 이미지와 동일한 폭으로 맞추기 */
+  width: 544px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* ===== 좋아요 / 조회수 / 댓글수 (트렌디 버전) ===== */
+
+#post_infos {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 22px;
+  margin-top: 24px;
+  width: 480px;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10px;
+}
+
+.stat_item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stat_icon {
+  width: 22px;
+  height: 22px;
+  opacity: 0.75;
+}
+
+.stat_number {
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+}
+
+#likes_section {
+  flex: 1;
+  background-color: #d9d9d9;
+  border: none;
+  border-radius: 16px;
+  text-align: center;
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  box-sizing: border-box;
+  transition: background-color 0.2s, transform 0.2s;
+  cursor: pointer;
+}
+#likes_section:focus {
+  outline: none;
+}
+
+/* 숫자 (위쪽) */
+#post_infos span:first-child {
+  font-size: 20px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 4px;
+}
+
+/* 텍스트 (아래쪽) */
+#post_infos span:last-child {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+}
+
+/* ===== 댓글 전체 영역 ===== */
+#comments_container {
+  width: 470px;
+  margin: 20px auto;
+  box-sizing: border-box;
+}
+
+/* ===== 댓글 작성 영역 ===== */
+#comment_write_box {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 24px;
+}
+
+#comment_input {
+  width: 100%;
+  height: 80px;
+  border: none; /* 테두리 제거 */
+  outline: none; /* 클릭했을 때 파란 라인 제거 */
+  background-color: #fff; /* 배경을 흰색으로 */
+  padding-top: 12px;
+  padding-left: 12px;
+  padding-bottom: 12px;
+  font-size: 13px;
+  font-family: "Noto Sans KR", sans-serif;
+  resize: none;
+  box-sizing: border-box;
+  border-bottom: 1px solid #4baa7d;
+}
+
+#comment_input::placeholder {
+  color: #999;
+}
+
+#submit_comment_button {
+  display: block;
+  background-color: #4baa7d;
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  padding: 10px 30px;
+  margin-top: 12px;
+  margin-left: auto;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* #submit_comment_button:hover {
+  background-color: #8e78ff;
+} */
+
+/* ===== 댓글 리스트 영역 ===== */
+#comment_list {
+  background-color: #ffffff;
+  border-radius: 12px;
+  /* padding: 16px 20px; */
+  width: 450px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* ===== 각 댓글 ===== */
+.comment_item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding-top: 12px;
+}
+
+.comment_item:last-child {
+  border-bottom: none;
+}
+
+/* 작성자 프로필 이미지 */
+.comment_author_img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #d9d9d9;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* 댓글 본문 */
+.comment_body {
+  flex: 1;
+}
+
+/* 작성자 + 날짜 + 버튼 라인 */
+.comment_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+/* 작성자 정보 묶음 */
+.comment_info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 작성자 */
+.comment_author {
+  font-weight: 700;
+  font-size: 14px;
+  color: #222;
+  margin: 0;
+}
+
+/* 날짜 */
+.comment_date {
+  font-size: 13px;
+  color: #000000;
+  font-weight: 400;
+  margin-left: 20px;
+}
+
+/* 버튼 정렬 */
+.comment_buttons {
+  display: flex;
+  gap: 6px;
+}
+
+/* 버튼 스타일 */
+.edit_comment_button,
+.delete_comment_button {
+  background-color: #fff;
+  border: 1px solid #4baa7d;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #333;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* 댓글 내용 */
+.comment_content {
+  font-size: 13px;
+  font-weight: 400;
+  color: #000000;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* 전체 화면 어두운 배경 */
+#post_modal_overlay,
+#comment_modal_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* 모달 박스 공통 */
+.modal_box {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 36px 24px 28px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.modal_box h2 {
+  font-size: 20px;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.modal_box p {
+  font-size: 16px;
+  color: #000000;
+  margin-bottom: 28px;
+}
+
+/* 버튼 영역 지금 모달 UI CSS만 바꾸면 될 거 같음 지금 못하겟어;;*/
+.modal_buttons {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.modal_buttons button {
+  width: 120px;
+  height: 40px;
+  border: none;
+  border-radius: 12px;
+  /* padding: 8px 16px; */
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 400;
+}
+
+.cancel_button {
+  background-color: #242424;
+  color: #fff;
+}
+
+.confirm_button {
+  background-color: #4baa7d;
+  color: #ffffff;
+}
+
+#comment_confirm_button {
+  background-color: #4baa7d;
+  color: #ffffff;
+}
+
+/* 반응형: 화면 좁을 때 요소 배치 조정 */
+@media (max-width: 420px) {
+  #post_info {
+    padding: 6px 8px;
+    gap: 8px;
+  }
+  #post_date {
+    width: 100%;
+    margin-left: 0;
+    order: 3; /* 날짜를 아래로 내릴 수 있음 */
+    text-align: left;
+    color: #777;
+    font-size: 13px;
+  }
+  #edit_button,
+  #delete_button {
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+}
