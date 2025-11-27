@@ -186,9 +186,13 @@ export function patchProps(el, newProps, oldProps) {
         el.removeAttribute("disabled");
         el.disabled = false;
       }
-    } else if (k === "style" && typeof nv === "object") {
-      el.removeAttribute("style");
-      Object.assign(el.style, nv);
+    } else if (k === "style") {
+      el.removeAttribute("style"); // 🔥 style 완전 삭제 후,
+      if (nv && typeof nv === "object") {
+        for (const [key, value] of Object.entries(nv)) {
+          el.style[key] = value; // 필요한 스타일만 다시 적용
+        }
+      }
     } else if (k === "className") {
       el.setAttribute("class", nv);
     } else if (nv != null) {
