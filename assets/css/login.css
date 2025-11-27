@@ -8,7 +8,10 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start; /* 중앙 → 위쪽 배치 */
-  padding-top: 200px; /* 🔥 원하는 만큼 위로 붙이기 */
+}
+
+.login_vdom_wrapper {
+  padding-top: 80px;
 }
 
 #logo_wrapper {
@@ -70,6 +73,11 @@ body {
   padding: 0 15px;
 }
 
+#username:focus,
+#password:focus {
+  border-color: #4baa7d;
+}
+
 #helper_text {
   width: 100%;
   font-size: 12px;
@@ -100,4 +108,5 @@ body {
   color: #121212;
   text-decoration: none;
   font-size: 14px;
+  cursor: pointer;
 }
