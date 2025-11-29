@@ -53,7 +53,7 @@ export function handleLogin(e) {
       localStorage.setItem("access_token", json.data.accessToken);
       localStorage.setItem("userId", json.data.user.id);
 
-      location.hash = "#/posts";
+      location.hash = "/postlist";
     })
     .finally(() => setState({ isLoading: false }));
 }
