@@ -37,4 +37,9 @@ export function setState(update) {
 
 export function subscribe(fn) {
   subscribers.push(fn);
+
+  // 반환된 함수를 호출하면 해당 구독을 해제한다.
+  return () => {
+    subscribers = subscribers.filter((sub) => sub !== fn);
+  };
 }
