@@ -9,6 +9,13 @@ body {
   align-items: center;
   justify-content: flex-start; /* 중앙 → 위쪽 배치 */
 }
+#app {
+  min-height: 100vh;
+  align-items: center; /* 수평 가운데 정렬 */
+  background: #fff;
+  margin: 0 auto; /* 수평 가운데 정렬 */
+  margin-top: 150px; /* 상단 여유 — 필요하면 값 조절 */
+}
 
 .login_vdom_wrapper {
   padding-top: 80px;

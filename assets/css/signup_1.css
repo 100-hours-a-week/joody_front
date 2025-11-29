@@ -1,3 +1,28 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Pretendard", sans-serif;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* #app은 그냥 컨텐츠를 담는 껍데기 역할만 */
+#app {
+  min-height: 100vh;
+  align-items: center; /* 수평 가운데 정렬 */
+  background: #fff;
+  margin: 0 auto; /* 수평 가운데 정렬 */
+  margin-top: 150px; /* 상단 여유 — 필요하면 값 조절 */
+}
+.signup_vdom_wrapper {
+  width: 100%;
+  max-width: 480px; /* 중앙에 고정하고 싶으면 */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 #main_header {
   position: absolute;
   top: 140px;
