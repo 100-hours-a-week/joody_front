@@ -44,7 +44,7 @@ function resetState() {
 // 게시글 리스트
 function PostListView(posts) {
   const handleCardClick = (id) => () => {
-    window.location.href = `post.html?id=${id}`;
+    location.hash = `#/postDetail?id=${id}`;
   };
 
   return h(
