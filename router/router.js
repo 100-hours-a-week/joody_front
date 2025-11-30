@@ -6,6 +6,7 @@ import PasswordEditPage from "../pages/passwordEditPage.js";
 import ProfileEditPage from "../pages/profileEditPage.js";
 import PostCreatePage from "../pages/postCreatePage.js";
 import PostEditPage from "../pages/PostEditPage.js";
+import PostDetailPage from "../pages/PostDetailPage.js";
 
 let currentPageUnmount = null; // 🔥 현재 페이지 unmount 저장
 let currentPath = null; // 🔥 동일 경로 연속 진입 방지
@@ -43,6 +44,10 @@ const routes = {
     page: PostEditPage,
     css: "./assets/css/postEdit.css",
   },
+  "/postDetail": {
+    page: PostDetailPage,
+    css: "./assets/css/post.css",
+  },
 };
 
 function loadCSS(href) {
@@ -64,6 +69,7 @@ export function router() {
   let path = location.hash.replace(/^#/, "");
   if (!path.startsWith("/")) path = "/" + path;
   if (path === "/") path = "/login";
+  if (path.includes("?")) path = path.split("?")[0]; // ⭐ 추가
 
   const isLoggedIn = !!localStorage.getItem("access_token");
 
