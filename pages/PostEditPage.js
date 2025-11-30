@@ -2,7 +2,11 @@
 import { loadUserProfile } from "../api/userService.js";
 import { h, updateElement, createDom } from "../vdom/Vdom.js";
 import { initState, getState, setState, subscribe } from "../vdom/Store.js";
-import { throttle, setupHeaderEvents, teardownHeaderEvents } from "../utils/common.js";
+import {
+  throttle,
+  setupHeaderEvents,
+  teardownHeaderEvents,
+} from "../utils/common.js";
 import { apiRequest } from "../api/authApi.js";
 import PostHeader from "../components/posts/postHeader.js";
 
@@ -25,7 +29,7 @@ export default function PostEditPage(root) {
     imageFile: null,
     currentImageName: "",
     helper: "",
-    profileImage: "./assets/img/original_profile.png",
+    profileImage: "../assets/img/default_profile.png",
   });
 
   let oldNode = null;
