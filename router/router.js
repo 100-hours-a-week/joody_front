@@ -71,7 +71,26 @@ export function router() {
   if (path === "/") path = "/login";
   if (path.includes("?")) path = path.split("?")[0]; // ⭐ 추가
 
+  // ========================
+  // 🔥 로그인 여부 검사 추가
+  // ========================
   const isLoggedIn = !!localStorage.getItem("access_token");
+
+  const publicRoutes = ["/login", "/signup", "/signup/step2"];
+  const protectedRoutes = [
+    "/postlist",
+    "/postDetail",
+    "/postEdit",
+    "/postCreate",
+    "/profileEdit",
+    "/passwordEdit",
+  ];
+
+  // 비로그인 상태에서 보호 페이지 접근 시
+  if (!isLoggedIn && protectedRoutes.includes(path)) {
+    location.hash = "#/login";
+    return; // 페이지 렌더 완전 중단
+  }
 
   if (
     !isLoggedIn &&
@@ -83,10 +102,7 @@ export function router() {
     return;
   }
 
-  if (
-    isLoggedIn &&
-    (path === "/login" || path === "/signup" || path === "/signup/step2")
-  ) {
+  if (isLoggedIn && (path === "/signup" || path === "/signup/step2")) {
     location.hash = "#/postlist";
     return;
   }
