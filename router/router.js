@@ -8,8 +8,8 @@ import PostCreatePage from "../pages/postCreatePage.js";
 import PostEditPage from "../pages/PostEditPage.js";
 import PostDetailPage from "../pages/PostDetailPage.js";
 
-let currentPageUnmount = null; // 🔥 현재 페이지 unmount 저장
-let currentPath = null; // 🔥 동일 경로 연속 진입 방지
+let currentPageUnmount = null; // 현재 페이지 unmount 저장
+let currentPath = null; // 동일 경로 연속 진입 방지
 
 const routes = {
   "/login": {
@@ -71,12 +71,9 @@ export function router() {
   if (path === "/") path = "/login";
   if (path.includes("?")) path = path.split("?")[0]; // ⭐ 추가
 
-  // ========================
-  // 🔥 로그인 여부 검사 추가
-  // ========================
+  // 로그인 여부 검사 추가
   const isLoggedIn = !!localStorage.getItem("access_token");
 
-  const publicRoutes = ["/login", "/signup", "/signup/step2"];
   const protectedRoutes = [
     "/postlist",
     "/postDetail",
@@ -113,17 +110,13 @@ export function router() {
     return;
   }
 
-  // ================================
-  // 🔥 이전 페이지 cleanup 먼저 실행
-  // ================================
+  // 이전 페이지 cleanup 먼저 실행
   if (typeof currentPageUnmount === "function") {
     currentPageUnmount();
     currentPageUnmount = null;
   }
 
-  // ================================
-  // 🔥 cleanup 후에 동일 경로 체크
-  // ================================
+  // cleanup 후에 동일 경로 체크
   if (path === currentPath) {
     return;
   }
@@ -133,9 +126,7 @@ export function router() {
 
   app.innerHTML = "";
 
-  // ================================
-  // 🔥 페이지 실행 및 unmount 저장
-  // ================================
+  // 페이지 실행 및 unmount 저장
   const unmount = route.page(app);
   if (typeof unmount === "function") {
     currentPageUnmount = unmount;
