@@ -23,10 +23,18 @@ export function handleNicknameInput(e) {
   let msg = "";
   let active = false;
 
-  if (/\s/.test(e.target.value)) msg = "* 닉네임에 공백은 사용할 수 없습니다.";
-  else if (v === "") msg = "* 닉네임을 입력해주세요.";
-  else if (v.length > 8) msg = "* 닉네임은 최대 8자까지 작성 가능합니다.";
-  else active = true;
+  if (/\s/.test(e.target.value)) {
+    msg = "* 닉네임에 공백은 사용할 수 없습니다.";
+    active = false; // 버튼 비활성화
+  } else if (v === "") {
+    msg = "* 닉네임을 입력해주세요.";
+    active = false; // 버튼 비활성화
+  } else if (v.length > 8) {
+    msg = "* 닉네임은 최대 8자까지 작성 가능합니다.";
+    active = false; // 버튼 비활성화
+  } else {
+    active = true; // 조건 통과 시 활성화
+  }
 
   setState({ nickname: v, helper: msg, editEnabled: active });
 }
