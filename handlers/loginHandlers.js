@@ -41,11 +41,15 @@ export function handleLogin(e) {
     .then((res) => res.json().then((json) => ({ ok: res.ok, json })))
     .then(({ ok, json }) => {
       if (!ok) {
+        // console.log(json?.message);
+
         setState({
           helper:
-            json?.message === "emailOrPassword_mismatch"
+            json?.message === "invalid_credentials"
               ? "* 아이디 또는 비밀번호를 확인해주세요."
-              : "로그인 실패. 다시 시도해주세요.",
+              : json?.message === "deleted_or_not_found_user"
+              ? "* 탈퇴한 계정입니다. 신규 가입 후 이용해주세요."
+              : "* 로그인 실패. 다시 시도해주세요.",
         });
         return;
       }
