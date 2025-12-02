@@ -210,11 +210,9 @@ async function loadPosts(isSearch = state.searchKeyword !== "") {
     const { ok, data } = await apiRequest(url.pathname + url.search);
     if (!ok) return;
 
-    const list = data.data;
-
-    state.posts = [...state.posts, ...list.content];
-    state.nextCursor = list.nextCursor;
-    state.hasNext = list.hasNext;
+    state.posts = [...state.posts, ...data.content];
+    state.nextCursor = data.nextCursor;
+    state.hasNext = data.hasNext;
 
     renderPosts();
   } finally {
