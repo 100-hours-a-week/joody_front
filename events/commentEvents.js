@@ -54,7 +54,7 @@ export function setupCommentEvents(postId) {
     if (!ok) return;
 
     const newC = {
-      id: data.data.comment_id,
+      id: data.comment_id,
       authorNickname: localStorage.getItem("nickname") || "익명",
       authorProfileImage:
         localStorage.getItem("profileImage") || "./img/profile.png",
