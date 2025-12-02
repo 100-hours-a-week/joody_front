@@ -134,7 +134,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: stretch; /* 인풋은 폭에 맞춤 */
-  gap: 12px;
+  gap: 20px;
   padding: 16px;
   border-radius: 6px;
   background: #fff;
@@ -211,6 +211,8 @@ body {
 
 #email_display {
   font-size: 14px;
+  margin: 0;
+  padding-left: 15px;
 }
 
 #nickname {
