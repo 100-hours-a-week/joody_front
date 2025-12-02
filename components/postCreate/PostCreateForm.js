@@ -20,8 +20,6 @@ export default function PostCreateForm({ state, handlers }) {
       oninput: handlers.handleContentInput,
     }),
 
-    HelperText({ message: state.helper }), // ⭐ 공통 헬퍼텍스트 사용 !!
-
     PostCreateImageInput({
       onSelect: handlers.handleImageSelect,
     }),
