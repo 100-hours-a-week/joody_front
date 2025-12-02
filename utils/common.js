@@ -119,3 +119,17 @@ export function canEditPost(authorId) {
 export function canEditComment(authorId) {
   return String(authorId) === String(localStorage.getItem("userId"));
 }
+
+// 토스트 메시지
+export function showToast(message) {
+  setState({ toastMsg: message, showToast: true });
+  setTimeout(() => setState({ showToast: false }), 2500);
+}
+
+// helperText
+
+export function setHelper(target, msg) {
+  target === "password"
+    ? setState({ helperPassword: msg })
+    : setState({ helperPasswordCheck: msg });
+}
