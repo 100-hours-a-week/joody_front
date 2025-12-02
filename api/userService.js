@@ -8,7 +8,7 @@ export async function loadUserProfile() {
   const { ok, data } = await apiRequest(`/users/${userId}/profile`);
   if (!ok) return;
 
-  const imgUrl = data.data.profileImage;
+  const imgUrl = data.profileImage;
 
   const finalUrl = imgUrl
     ? imgUrl.startsWith("http")
