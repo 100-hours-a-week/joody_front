@@ -197,20 +197,12 @@ async function loadPosts(isSearch = state.searchKeyword !== "") {
 
   try {
     const url = new URL("http://localhost:8080/posts");
+    url.searchParams.append("size", 5);
 
-    if (isSearch) {
-      // 검색 모드 → 모든 데이터 긁어오기
-      url.searchParams.append("size", 1000); // 💥 전체 로딩
-    } else {
-      // 전체 목록 모드: 무한스크롤 페이징
-      url.searchParams.append("size", 5);
-
-      if (state.nextCursor) {
-        url.searchParams.append("cursorCreatedAt", state.nextCursor);
-      }
+    if (state.nextCursor) {
+      url.searchParams.append("cursorCreatedAt", state.nextCursor);
     }
 
-    // 검색키워드 존재하면 keyword qs 추가
     if (state.searchKeyword) {
       url.searchParams.append("keyword", state.searchKeyword);
     }
@@ -220,16 +212,9 @@ async function loadPosts(isSearch = state.searchKeyword !== "") {
 
     const list = data.data;
 
-    // 📌 검색 모드일 때는 cursor 의미 없고 hasNext도 false로 고정
-    if (isSearch) {
-      state.posts = list.content;
-      state.hasNext = false; // 검색 중 무한스크롤 OFF
-      state.nextCursor = null;
-    } else {
-      state.posts = [...state.posts, ...list.content];
-      state.nextCursor = list.nextCursor;
-      state.hasNext = list.hasNext;
-    }
+    state.posts = [...state.posts, ...list.content];
+    state.nextCursor = list.nextCursor;
+    state.hasNext = list.hasNext;
 
     renderPosts();
   } finally {
@@ -247,9 +232,9 @@ async function runSearch() {
   state.nextCursor = null;
   state.hasNext = true;
 
-  renderPosts(); // 비워진 상태부터 UI 반영 (UX 좋음)
+  await loadPosts(); // 검색 모드에서 다시 요청
 
-  await loadPosts(true); // 검색 모드에서 다시 요청
+  renderPosts(); // 비워진 상태부터 UI 반영 (UX 좋음)
 }
 
 // =====================
