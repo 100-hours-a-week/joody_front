@@ -42,8 +42,14 @@ export async function apiRequest(url, options = {}) {
     response = await fetch(fullUrl, config);
   }
 
-  const data = await response.json().catch(() => null);
-  return { ok: response.ok, status: response.status, data };
+  const json = await response.json().catch(() => null);
+  console.log("📌 서버 응답:", json); // 확인용 로그
+  return {
+    ok: response.ok,
+    status: response.status,
+    data: json?.data ?? null, // 서버에서 내려준 data body
+    message: json?.message ?? null, // message도 같이 반환
+  };
 
   // 엑세스 토큰 만료시 리프레스 토큰 API 자동 호출
   async function refreshAccessToken() {
