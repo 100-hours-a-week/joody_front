@@ -2,6 +2,14 @@ export function h(type, props = {}, ...children) {
   return { type, props, children };
 }
 
+export function p(type, props, ...children) {
+  return {
+    type,
+    props: props || {},
+    children: children.flat(),
+  };
+}
+
 export function createDom(node) {
   if (node == null) return document.createTextNode("");
   if (typeof node === "string" || typeof node === "number") {
