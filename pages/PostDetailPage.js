@@ -33,23 +33,23 @@ export default function PostDetailPage(root) {
       return;
     }
 
-    // 1. 프로필 먼저 로드 → 헤더 렌더 시 바로 이미지 반영
+    // 프로필 먼저 로드 → 헤더 렌더 시 바로 이미지 반영
     await loadUserProfile();
 
-    // 2. 헤더 mount + 이벤트
+    // 헤더 mount + 이벤트
     const header = PostHeader({ backPath: "#/postlist" });
     document.body.prepend(createDom(header));
     setupHeaderEvents();
 
-    // 3. 게시글 상세 로드
+    // 게시글 상세 로드
     const { ok: okPost, data: post } = await fetchPostDetail(postId);
     if (okPost) renderPost(post);
 
-    // 4. 댓글 로드
+    // 댓글 로드
     const { ok: okCm, data: cm } = await fetchComments(postId);
     if (okCm) renderComments(cm.content);
 
-    // 5. 이벤트 세팅
+    // 이벤트 세팅
     setupPostEvents(postId);
     setupCommentEvents(postId);
     setupLikeEvents(postId);
