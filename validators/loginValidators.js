@@ -1,4 +1,4 @@
-import { setState, getState } from "../vdom/Store.js";
+import { setState } from "../vdom/Store.js";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const passwordRegex =
