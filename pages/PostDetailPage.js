@@ -14,7 +14,7 @@ import { loadUserProfile } from "../api/userService.js";
 
 import { createDom } from "../vdom/Vdom.js";
 import PostHeader from "../components/posts/postHeader.js";
-import { setupHeaderEvents, teardownHeaderEvents } from "../utils/common.js";
+import { setupHeaderEvents, dropdownHeaderEvents } from "../utils/common.js";
 
 export default function PostDetailPage(root) {
   let postId = null;
@@ -113,11 +113,11 @@ export default function PostDetailPage(root) {
 
     // 3. 게시글 상세 로드
     const { ok: okPost, data: post } = await fetchPostDetail(postId);
-    if (okPost) renderPost(post.data);
+    if (okPost) renderPost(post);
 
     // 4. 댓글 로드
     const { ok: okCm, data: cm } = await fetchComments(postId);
-    if (okCm) renderComments(cm.data.content);
+    if (okCm) renderComments(cm.content);
 
     // 5. 이벤트 세팅
     setupPostEvents(postId);
@@ -127,12 +127,9 @@ export default function PostDetailPage(root) {
   }
 
   function unmount() {
-    console.log("[PostDetailPage] cleanup");
-    // 필요한 이벤트 remove 로직들
+    dropdownHeaderEvents();
 
-    teardownHeaderEvents();
-
-    // ⭐ Header DOM 제거
+    // Header DOM 제거
     const header = document.getElementById("mainHeader");
     if (header) header.remove();
   }

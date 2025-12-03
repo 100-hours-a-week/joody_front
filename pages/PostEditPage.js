@@ -5,7 +5,7 @@ import { loadPostData } from "../api/postApi.js";
 import {
   throttle,
   setupHeaderEvents,
-  teardownHeaderEvents,
+  dropdownHeaderEvents,
 } from "../utils/common.js";
 import {
   handleImageChange,
@@ -73,6 +73,6 @@ export default function PostEditPage(root) {
 
   return () => {
     if (unsubscribe) unsubscribe();
-    teardownHeaderEvents();
+    dropdownHeaderEvents();
   };
 }

@@ -1,7 +1,7 @@
 import { createDom, updateElement } from "../vdom/Vdom.js";
 import { initState, getState, setState, subscribe } from "../vdom/Store.js";
 import ProfileEditView from "../components/profileEdit/profileEditView.js";
-import { setupHeaderEvents, teardownHeaderEvents } from "../utils/common.js";
+import { setupHeaderEvents, dropdownHeaderEvents } from "../utils/common.js";
 import { loadProfile, submitProfile, withdrawUser } from "../api/profileApi.js";
 import {
   handleOutsideClick,
@@ -67,6 +67,6 @@ export default function ProfileEditPage(root) {
 
   return () => {
     window.removeEventListener("click", handleOutsideClick);
-    teardownHeaderEvents();
+    dropdownHeaderEvents();
   };
 }

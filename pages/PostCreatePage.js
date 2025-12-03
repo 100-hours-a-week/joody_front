@@ -1,7 +1,7 @@
 import { loadUserProfile } from "../api/userService.js";
 import { createDom, updateElement } from "../vdom/Vdom.js";
 import { initState, getState, subscribe } from "../vdom/Store.js";
-import { setupHeaderEvents, teardownHeaderEvents } from "../utils/common.js";
+import { setupHeaderEvents, dropdownHeaderEvents } from "../utils/common.js";
 
 import {
   handleContentInput,
@@ -55,6 +55,6 @@ export default function PostCreatePage(root) {
 
   return () => {
     if (unsubscribe) unsubscribe();
-    teardownHeaderEvents();
+    dropdownHeaderEvents();
   };
 }
