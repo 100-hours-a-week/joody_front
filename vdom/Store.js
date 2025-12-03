@@ -4,6 +4,7 @@ let listeners = {}; // key: state field, value: callbacks[]
 
 export function initState(initial) {
   state = initial;
+  subscribers = [];
   listeners = {};
 }
 
