@@ -85,7 +85,7 @@ export function setupHeaderEvents() {
   };
 }
 
-export function teardownHeaderEvents() {
+export function dropdownHeaderEvents() {
   if (typeof headerCleanup === "function") {
     headerCleanup();
     headerCleanup = null;
