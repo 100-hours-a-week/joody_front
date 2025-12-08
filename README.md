@@ -63,6 +63,8 @@ Git,Github,Notion
 | Frontend (React) | Backend (Spring Boot) |
 |------------------|------------------------|
 | https://github.com/100-hours-a-week/joody_React | https://github.com/100-hours-a-week/joody_full |
+<br />
+<br />
 
 
 ## 6. Project Structure (프로젝트 구조)
