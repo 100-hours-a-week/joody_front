@@ -1,6 +1,6 @@
 <p align="center">
-  <img src="https://github.com/100-hours-a-week/joody_front/blob/feature/week_10/img/logo4.png" 
-       alt="로고" width="30%"/>
+  <img width="30%" alt="katelog" src="https://github.com/user-attachments/assets/97f1ce0e-20e4-4a16-adf5-e57d142f71f0" />
+
 </p>
 
 <br/>
@@ -8,8 +8,8 @@
 
 ## 1. Project Overview (프로젝트 개요)
 
-- 프로젝트 이름: 아무말 대잔치
-- 프로젝트 설명: 다양한 사람들이 모인 자유로운 커뮤니티
+- 프로젝트 이름: katelog
+- 프로젝트 설명: 카카오테크 부트캠프 교육생, 운영진, 강사진이 경험과 일상을 공유하는 커뮤니티 서비스
 
 <br/>
 <br/>
